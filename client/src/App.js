@@ -96,19 +96,31 @@ const App = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
+  const username = "Chaim";
+  const room = "tempRoom";
+
   const socketRef = useRef();
 
   useEffect(() => {
     socketRef.current = io.connect('/');
+    
+  }, []);
+  
+  
+  useEffect(() => {
+    if (socketRef.current) {
+      socketRef.current.emit('joinRoom', { username, room });
 
-    socketRef.current.on("your id", id => {
-      setYourID(id);
-    })
+      socketRef.current.on("your id", id => {
+        setYourID(id);
+      })
+  
+      socketRef.current.on("message", (message) => {
+        console.log("here");
+        receivedMessage(message);
+      })
+    }
 
-    socketRef.current.on("message", (message) => {
-      console.log("here");
-      receivedMessage(message);
-    })
   }, []);
 
   function receivedMessage(message) {
