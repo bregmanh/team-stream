@@ -1,0 +1,7 @@
+.chat-container{
+  display: flex;
+  flex-direction: row;
+}
+.youtube-player{
+  width: 70vw;
+}

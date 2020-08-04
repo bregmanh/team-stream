@@ -9,15 +9,23 @@ const PORT = 8080;
 const users = [];
 const botName = "TeamStream"
 
+const hostInfo = {
+  videoId: null,
+  time: 0,
+  play: true
+}
+
 io.on("connection", socket => {
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
     socket.join(user.room);
-    socket.emit('message', { id: 1,username: `TeamStreamBot`, message: 'Welcome to TeamStream!' });
+    socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!' });
 
     socket.broadcast
       .to(user.room)
       .emit('message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has joined the chat` })
+
+
 
 
   })
@@ -37,6 +45,30 @@ io.on("connection", socket => {
     const messageObj = createMsgObj(body, user)
     io.to(user.room).emit("message", messageObj)
   })
+
+  socket.on("videoAction", action => {
+    const user = getCurrentUser(socket.id);
+    io.to(user.room).emit("videoAction", action)
+  })
+
+  socket.on("requestVideoInfo", action => {
+    //if not a host, request for video info from the host
+    if (users[0].id !== socket.id) {
+      socket.emit("provideVideoInfo", hostInfo)
+    }else{
+      setInterval(() => {
+        io.to(users[0].id).emit("pingHostForInfo", "");
+      }, 200)
+    }
+  })
+
+  socket.on("HostInfo", info => {
+    hostInfo.videoId = info.videoId
+    hostInfo.time = info.time
+    hostInfo.play = info.play
+
+  })
+
 })
 
 function userJoin(id, username, room) {
@@ -66,5 +98,7 @@ function createMsgObj(msg, user) {
     username: user.username
   }
 }
+
+
 
 server.listen(PORT, () => console.log("server is running on port 8080"));

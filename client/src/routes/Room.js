@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
-import UsernameForm from "../UsernameForm"
-import Chat from "../Chat"
+import UsernameForm from "../components/UsernameForm"
+import Chat from "../components/Chat"
 
 
 const Page = styled.div`
