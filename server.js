@@ -15,6 +15,8 @@ const hostInfo = {
   play: true
 }
 
+let pingHostInterval;
+
 io.on("connection", socket => {
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
@@ -25,14 +27,15 @@ io.on("connection", socket => {
       .to(user.room)
       .emit('message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has joined the chat` })
 
-
-
-
   })
   // Runs when client disconnects
   socket.on('disconnect', () => {
+    //if host leaves
+    if(users[0].id = socket.id){
+      clearInterval(pingHostInterval)
+    }
     const user = userLeave(socket.id);
-
+    
     if (user) {
       io.to(user.room).emit(
         'message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has left the chat` })
@@ -48,7 +51,7 @@ io.on("connection", socket => {
 
   socket.on("videoAction", action => {
     const user = getCurrentUser(socket.id);
-    io.to(user.room).emit("videoAction", action)
+    io.to(user.room).emit("videoAction", {action, hostInfo})
   })
 
   socket.on("requestVideoInfo", action => {
@@ -56,7 +59,7 @@ io.on("connection", socket => {
     if (users[0].id !== socket.id) {
       socket.emit("provideVideoInfo", hostInfo)
     }else{
-      setInterval(() => {
+      pingHostInterval = setInterval(() => {
         io.to(users[0].id).emit("pingHostForInfo", "");
       }, 200)
     }

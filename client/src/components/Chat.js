@@ -98,9 +98,10 @@ export default function Chat(props) {
   const [yourID, setYourID] = useState();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+
   const youtubePlayer = useRef();
 
-
+  let onStateChangeFunc = null;
   const room = props.room;
 
   const socketRef = useRef();
@@ -120,35 +121,45 @@ export default function Chat(props) {
         receivedMessage(message);
       })
 
-      socketRef.current.on("videoAction", (action) => {
+      socketRef.current.on("videoAction", ({ action, hostInfo }) => {
         if (action.type === "play") {
           youtubePlayer.current.playVideo();
         } else if (action.type === "pause") {
-          console.log("pausing")
+
           youtubePlayer.current.pauseVideo();
+          youtubePlayer.current.seekTo(hostInfo.time, true);
         }
       })
 
       socketRef.current.on("provideVideoInfo", (videoInfo) => {
         const startTime = new Date().getTime();
-        console.log(youtubePlayer.current.getPlayerState())
-        // while(youtubePlayer.current.getPlayerState() === 5){
-        //   console.log("hello from inside the while loop")
+        // onStateChangeFunc= (e)=>{
+        //   console.log("player state", youtubePlayer.current.getPlayerState())
+        //   if(youtubePlayer.current.getPlayerState() === 1){
+
+        //     const endTime = new Date().getTime();
+        //     const bufferInterval = endTime - startTime;
+        //     console.log("video info time", videoInfo.time)
+
+        //     onStateChangeFunc=null;
+        //   }
         // }
-        const endTime = new Date().getTime();
-        const bufferInterval = endTime - startTime;
-       
-        youtubePlayer.current.seekTo(videoInfo.time + bufferInterval/1000);
-        youtubePlayer.current.playVideo();
+        youtubePlayer.current.seekTo(videoInfo.time + 4, true);
+        if (!videoInfo.play) {
+          console.log("video info play", videoInfo.play)
+          youtubePlayer.current.pauseVideo()
+        }
+
+
       })
 
       socketRef.current.on("pingHostForInfo", info => {
-
-
+        let playerState = youtubePlayer.current.getPlayerState()
+        console.log("player state", playerState)
         let videoInfo = {
           videoId: "Dm9Zf1WYQ_A",
           time: youtubePlayer.current.getCurrentTime(),
-          play: true,
+          play: playerState === 1,
         }
 
         socketRef.current.emit("HostInfo", videoInfo)
@@ -195,8 +206,10 @@ export default function Chat(props) {
       height: 'auto',
       width: '100%',
       videoId: "Dm9Zf1WYQ_A",
+      playerVars: { 'autoplay': 1, 'controls': 0 },
       events: {
-        onReady: onPlayerReady
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
       }
 
     });
@@ -205,8 +218,12 @@ export default function Chat(props) {
   }
   function onPlayerReady(event) {
     socketRef.current.emit('requestVideoInfo', "");
-
-
+  }
+  function onPlayerStateChange(event) {
+    console.log("event change", event)
+    if (onStateChangeFunc) {
+      onStateChangeFunc(event)
+    }
   }
 
 
