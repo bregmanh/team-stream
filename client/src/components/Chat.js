@@ -122,6 +122,13 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("videoAction", ({ action, hostInfo }) => {
+        if (action.type === 'mute') {
+          if (youtubePlayer.current.isMuted()) {
+            youtubePlayer.current.unMute()
+          } else {
+          youtubePlayer.current.mute()
+        }
+      }
         if (action.type === "play") {
           youtubePlayer.current.playVideo();
         } else if (action.type === "pause") {
