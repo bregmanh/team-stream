@@ -35,7 +35,6 @@ io.on("connection", socket => {
       clearInterval(pingHostInterval)
     }
     const user = userLeave(socket.id);
-    
     if (user) {
       io.to(user.room).emit(
         'message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has left the chat` })
@@ -50,7 +49,9 @@ io.on("connection", socket => {
   })
 
   socket.on("videoAction", action => {
+    console.log({users});
     const user = getCurrentUser(socket.id);
+    console.log({user});
     io.to(user.room).emit("videoAction", {action, hostInfo})
   })
 
@@ -88,6 +89,7 @@ function userLeave(id) {
 
   if (index !== -1) {
     return users.splice(index, 1)[0];
+    console.log({users});
   }
 }
 function getCurrentUser(id) {

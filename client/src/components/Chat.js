@@ -3,6 +3,7 @@ import styled from "styled-components";
 import io from "socket.io-client";
 import "./Chat.css";
 import Controls from "./Controls";
+import LeaveRoom from "./LeaveRoom";
 
 
 
@@ -178,6 +179,12 @@ export default function Chat(props) {
     setMessages(oldMsgs => [...oldMsgs, message]);
   }
 
+  function leaveRoom() {
+    // socketRef.current.disconnect();
+    console.log('I want to disconnect');
+    console.log('Now I will redirect');
+  }
+
   function sendMessage(e) {
     e.preventDefault();
     const messageObject = {
@@ -233,6 +240,7 @@ export default function Chat(props) {
         <Controls handleAction={handleAction} /></div>
 
       <div className="text-chat">
+        <LeaveRoom leaveRoom={leaveRoom} />
         <Container socket={socketRef.current}>
           {messages.map((message, index) => {
             if (message.id === yourID) {

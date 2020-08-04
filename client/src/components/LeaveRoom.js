@@ -1,14 +1,10 @@
 import React from "react";
 
 const LeaveRoom = props => {
-    function leave() {
-        const id = uuid();
-        props.history.push(`/room/${id}`);
-    }
 
     return (
-        <button onClick={create}>Create Room</button>
+        <button onClick={props.leaveRoom}>Leave Room</button>
     );
 }
 
-export default CreateRoom;
+export default LeaveRoom;
