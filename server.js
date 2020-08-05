@@ -20,6 +20,7 @@ let pingHostInterval;
 io.on("connection", socket => {
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
+    console.log({users});
     socket.join(user.room);
     socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!' });
 
@@ -30,8 +31,7 @@ io.on("connection", socket => {
   })
   // Runs when client disconnects
   socket.on('disconnect', () => {
-    //if host leaves
-    if(users[0].id = socket.id){
+    if(users[0].id === socket.id){
       clearInterval(pingHostInterval)
     }
     const user = userLeave(socket.id);
