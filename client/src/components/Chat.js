@@ -3,7 +3,7 @@ import styled from "styled-components";
 import io from "socket.io-client";
 import "./Chat.css";
 import Controls from "./Controls";
-
+import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 
 
 const Page = styled.div`
@@ -11,7 +11,7 @@ const Page = styled.div`
   height: 100vh;
   width: 100%;
   align-items: center;
-  background-color: #46516e;
+  background-color: #3F444B;
   flex-direction: column;
 `;
 
@@ -48,12 +48,12 @@ const TextArea = styled.textarea`
 `;
 
 const Button = styled.button`
-  background-color: pink;
+  background-color: #10959D;
   width: 100%;
   border: none;
   height: 50px;
   border-radius: 10px;
-  color: #46516e;
+  color: #3F444B;
   font-size: 17px;
 `;
 
@@ -70,8 +70,8 @@ const MyRow = styled.div`
 
 const MyMessage = styled.div`
   width: 45%;
-  background-color: pink;
-  color: #46516e;
+  background-color: #10959D;
+  color: #3F444B;
   padding: 10px;
   margin-right: 5px;
   text-align: center;
@@ -98,6 +98,8 @@ export default function Chat(props) {
   const [yourID, setYourID] = useState();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [chatState, setChatState] = useState("open");
+
 
   const youtubePlayer = useRef();
 
@@ -203,8 +205,7 @@ export default function Chat(props) {
 
   function loadVideoPlayer() {
     const player = new window.YT.Player('player', {
-      height: 'auto',
-      width: '100%',
+      height: '90%',
       videoId: "Dm9Zf1WYQ_A",
       playerVars: { 'autoplay': 1, 'controls': 0 },
       events: {
@@ -225,40 +226,58 @@ export default function Chat(props) {
       onStateChangeFunc(event)
     }
   }
+  function toggleChat() {
+    if (chatState === "open") {
+      setChatState("closed")
+    } else {
+      setChatState("open")
+    }
+  }
 
 
   return (
-    <div className="chat-container">
-      <div><div id="player" className="youtube-player" />
-        <Controls handleAction={handleAction} /></div>
+    
 
-      <div className="text-chat">
-        <Container socket={socketRef.current}>
-          {messages.map((message, index) => {
-            if (message.id === yourID) {
-              return (
-                <MyRow key={index}>
-                  <MyMessage>
-                    {`${message.username}: ${message.message}`}
-                  </MyMessage>
-                </MyRow>
-              )
-            }
-            return (
-              <PartnerRow key={index}>
-                <PartnerMessage>
-                  {`${message.username}: ${message.message}`}
-                </PartnerMessage>
-              </PartnerRow>
-            )
-          })}
-        </Container>
-        <Form onSubmit={sendMessage}>
-          <TextArea value={message} onChange={handleChange} placeholder="Say something..." />
-          <Button>Send</Button>
-        </Form>
+      <div className="chat-container">
+        <div ><div id="player" className={ chatState ==="open" ? 'youtube-player' : 'youtube-player-expanded' }/>
+          <Controls handleAction={handleAction} />
+        </div>
+
+        <div className="text-chat-expanded">
+          <div className="toggle-chat">
+            <PlayCircleFilledWhiteIcon onClick={toggleChat} />
+          </div>
+          {chatState === "open" &&
+            <div>
+              <Container socket={socketRef.current}>
+                {messages.map((message, index) => {
+                  if (message.id === yourID) {
+                    return (
+                      <MyRow key={index}>
+                        <MyMessage>
+                          {`${message.username}: ${message.message}`}
+                        </MyMessage>
+                      </MyRow>
+                    )
+                  }
+                  return (
+                    <PartnerRow key={index}>
+                      <PartnerMessage>
+                        {`${message.username}: ${message.message}`}
+                      </PartnerMessage>
+                    </PartnerRow>
+                  )
+                })}
+              </Container>
+              <Form onSubmit={sendMessage}>
+                <TextArea value={message} onChange={handleChange} placeholder="Say something..." />
+                <Button>Send</Button>
+              </Form>
+            </div>
+          }
+        </div>
       </div>
-
-    </div>
+      
+    
   )
 }
