@@ -21,12 +21,12 @@ const TextArea = styled.textarea`
 `;
 
 const Button = styled.button`
-  background-color: pink;
+  background-color: #10959D;
   width: 100%;
   border: none;
   height: 50px;
   border-radius: 10px;
-  color: #46516e;
+  color: #3F444B;
   font-size: 17px;
 `;
 

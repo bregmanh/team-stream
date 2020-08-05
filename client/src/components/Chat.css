@@ -1,7 +1,38 @@
 .chat-container{
   display: flex;
   flex-direction: row;
+  height:100%;
+  
 }
 .youtube-player{
-  width: 70vw;
+  width: 75vw;
+}
+
+.youtube-player-expanded{
+  width: 95vw;
+  justify-self: center;
+}
+.player-with-controls{
+  display: flex;
+  flex-direction: column;
+}
+
+.text-chat-expanded{
+  width: 25vw;
+  display: flex;
+  flex-direction: row;
+}
+.toggle-chat{
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+.toggle-button{
+  color: #10959D;
+}
+
+.leave-room {
+  position: absolute;
+  top : 2vh;
+  right: 2vw;
 }

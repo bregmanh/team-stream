@@ -10,7 +10,7 @@ const Page = styled.div`
   height: 100vh;
   width: 100%;
   align-items: center;
-  background-color: #46516e;
+  background-color: #3F444B;
   flex-direction: column;
 `;
 
@@ -52,7 +52,7 @@ const Button = styled.button`
   border: none;
   height: 50px;
   border-radius: 10px;
-  color: #46516e;
+  color: #3F444B;
   font-size: 17px;
 `;
 
@@ -70,7 +70,7 @@ const MyRow = styled.div`
 const MyMessage = styled.div`
   width: 45%;
   background-color: pink;
-  color: #46516e;
+  color: #3F444B;
   padding: 10px;
   margin-right: 5px;
   text-align: center;
