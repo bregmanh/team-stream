@@ -3,6 +3,8 @@ import styled from "styled-components";
 import io from "socket.io-client";
 import "./Chat.css";
 import Controls from "./Controls";
+import Message from "./Message";
+
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 
 
@@ -256,17 +258,15 @@ export default function Chat(props) {
                 if (message.id === yourID) {
                   return (
                     <MyRow key={index}>
-                      <MyMessage>
-                        {`${message.username}: ${message.message}`}
-                      </MyMessage>
+                    
+                       <Message message={message}/>
+      
                     </MyRow>
                   )
                 }
                 return (
                   <PartnerRow key={index}>
-                    <PartnerMessage>
-                      {`${message.username}: ${message.message}`}
-                    </PartnerMessage>
+                     <Message message={message}/>
                   </PartnerRow>
                 )
               })}
