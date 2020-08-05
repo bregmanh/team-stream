@@ -122,6 +122,13 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("videoAction", ({ action, hostInfo }) => {
+        if (action.type === 'scroll-video') {
+          const newTime = youtubePlayer.current.getDuration() * action.data.timePercentage / 100
+          const minutes = Math.floor(newTime / 60)
+          const seconds = time - minutes * 60;
+          console.log('player time:', playerTime)
+          youtubePlayer.current.seekTo(newTime)
+        }
         if (action.type === 'mute') {
           if (youtubePlayer.current.isMuted()) {
             youtubePlayer.current.unMute()
@@ -174,9 +181,10 @@ export default function Chat(props) {
     }
   }, []);
 
-  function handleAction(action) {
+  // Data gives access to the video time when clicking scroll bar
+  function handleAction(action, data) {
     if (socketRef.current) {
-      socketRef.current.emit('videoAction', { type: action })
+      socketRef.current.emit('videoAction', { type: action, data })
     }
   }
 
@@ -237,6 +245,7 @@ export default function Chat(props) {
   return (
     <div className="chat-container">
       <div><div id="player" className="youtube-player" />
+
         <Controls handleAction={handleAction} /></div>
 
       <div className="text-chat">

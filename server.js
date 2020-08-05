@@ -50,6 +50,7 @@ io.on("connection", socket => {
   })
 
   socket.on("videoAction", action => {
+    console.log("video action: ", action)
     const user = getCurrentUser(socket.id);
     io.to(user.room).emit("videoAction", {action, hostInfo})
   })
