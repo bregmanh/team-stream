@@ -258,9 +258,7 @@ export default function Chat(props) {
                 if (message.id === yourID) {
                   return (
                     <MyRow key={index}>
-                    
                        <Message message={message}/>
-      
                     </MyRow>
                   )
                 }
