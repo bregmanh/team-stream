@@ -1,9 +1,11 @@
 import React from "react";
 
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 const LeaveRoom = props => {
 
     return (
-        <button onClick={props.leaveRoom}>Leave Room</button>
+        <ArrowBackIcon onClick={props.leaveRoom}>Leave Room</ArrowBackIcon>
     );
 }
 

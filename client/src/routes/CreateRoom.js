@@ -15,11 +15,13 @@ const CreateRoom = (props) => {
         return <Redirect to={redirect} />
     }
     return (
-        <div class="home-container">
-            <h1><span class="heading-white">Watch streams together</span> <span class="heading-green">with people you care about</span></h1>
-            <div class="room-container">
-                <button onClick={create}>Create Room</button>
-                <button>Private Room</button>
+        <div className="home-container">
+            <h1><span className="heading-white">Watch streams together</span> <span className="heading-green">with people you care about</span></h1>
+            <div className="room-container">
+                <div className="room-buttons">
+                    <button onClick={create}>Create Room</button>
+                    <button>Private Room</button>
+                </div>
             </div>
         </div>
     );
