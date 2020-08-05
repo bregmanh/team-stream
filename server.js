@@ -20,7 +20,6 @@ let pingHostInterval;
 io.on("connection", socket => {
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
-    console.log({users});
     socket.join(user.room);
     socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!' });
 
@@ -31,8 +30,10 @@ io.on("connection", socket => {
   })
   // Runs when client disconnects
   socket.on('disconnect', () => {
+    const room = getCurrentUser(socket.id).room;
     if(users[0].id === socket.id){
-      clearInterval(pingHostInterval)
+      clearInterval(pingHostInterval);
+      io.to(room).emit('session closed');
     }
     const user = userLeave(socket.id);
     if (user) {
@@ -49,9 +50,7 @@ io.on("connection", socket => {
   })
 
   socket.on("videoAction", action => {
-    console.log({users});
     const user = getCurrentUser(socket.id);
-    console.log({user});
     io.to(user.room).emit("videoAction", {action, hostInfo})
   })
 

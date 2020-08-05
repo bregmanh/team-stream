@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import io from "socket.io-client";
 import "./Chat.css";
@@ -99,6 +100,7 @@ export default function Chat(props) {
   const [yourID, setYourID] = useState();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [redirect, setRedirect] = useState(null);
 
   const youtubePlayer = useRef();
 
@@ -106,6 +108,7 @@ export default function Chat(props) {
   const room = props.room;
 
   const socketRef = useRef();
+ 
 
   useEffect(() => {
 
@@ -130,6 +133,10 @@ export default function Chat(props) {
           youtubePlayer.current.pauseVideo();
           youtubePlayer.current.seekTo(hostInfo.time, true);
         }
+      })
+
+      socketRef.current.on("session closed", () => {
+        setRedirect('/room/closed');
       })
 
       socketRef.current.on("provideVideoInfo", (videoInfo) => {
@@ -180,9 +187,8 @@ export default function Chat(props) {
   }
 
   function leaveRoom() {
-    // socketRef.current.disconnect();
-    console.log('I want to disconnect');
-    console.log('Now I will redirect');
+    socketRef.current.close();
+    setRedirect('/');
   }
 
   function sendMessage(e) {
@@ -233,6 +239,9 @@ export default function Chat(props) {
     }
   }
 
+  if (redirect) {
+    return <Redirect to={redirect} />
+  }
 
   return (
     <div className="chat-container">
