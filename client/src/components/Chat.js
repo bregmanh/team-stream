@@ -275,7 +275,9 @@ export default function Chat(props) {
           <Controls handleAction={handleAction} />
         </div>
       </div>
-      <LeaveRoom className="leave-room" leaveRoom={leaveRoom} />
+      <div className="leave-room">
+        <LeaveRoom leaveRoom={leaveRoom} />
+      </div>
       <div className="toggle-chat">
         <PlayCircleFilledWhiteIcon onClick={toggleChat} fontSize="large" classes={{root: 'toggle-button'}}/>
       </div>
