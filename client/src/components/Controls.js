@@ -2,16 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import './Controls.css'
 
 export default function Controls(props) {
-  const bar = useRef()
+  const scrollBar = useRef()
 
   useEffect(() => {
-    bar.current.value = props.videoProgress
+    scrollBar.current.value = props.videoProgress
   }, [props.videoProgress])
 
   console.log("video progress: ", props.videoProgress)
   return (
     <>
-      <input type="range" id="progress-bar" class="progress-bar" ref={bar} onMouseUp={(e) => { 
+      <input type="range" id="progress-bar" class="progress-bar" ref={scrollBar} onMouseUp={(e) => { 
         props.handleAction("scroll-video", {timePercentage: e.target.value})
       }}/>
       {/* value={videoProgress} */}

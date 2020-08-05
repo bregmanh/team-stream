@@ -25,7 +25,8 @@ const CreateRoom = (props) => {
     }
     return (
         <div className="home-container">
-            <h1><span className="heading-white">Watch streams together</span> <span className="heading-green">with people you care about</span></h1>
+            <h1 className="logo">TeamStream</h1>
+            <h2><span className="heading-white">Watch streams together</span> <span className="heading-green">with people you care about</span></h2>
             <div className="room-container">
                 <div className="room-buttons">
                     <div className="create-room">
