@@ -236,48 +236,52 @@ export default function Chat(props) {
 
 
   return (
-    
 
-      <div className="chat-container">
-        <div ><div id="player" className={ chatState ==="open" ? 'youtube-player' : 'youtube-player-expanded' }/>
+
+    <div className="chat-container">
+      <div className="player-with-controls"><div id="player" className={chatState === "open" ? 'youtube-player' : 'youtube-player-expanded'} />
+        <div>
           <Controls handleAction={handleAction} />
         </div>
+      </div>
+
+      <div className="toggle-chat">
+        <PlayCircleFilledWhiteIcon onClick={toggleChat} />
+      </div>
+      {chatState === "open" &&
 
         <div className="text-chat-expanded">
-          <div className="toggle-chat">
-            <PlayCircleFilledWhiteIcon onClick={toggleChat} />
-          </div>
-          {chatState === "open" &&
-            <div>
-              <Container socket={socketRef.current}>
-                {messages.map((message, index) => {
-                  if (message.id === yourID) {
-                    return (
-                      <MyRow key={index}>
-                        <MyMessage>
-                          {`${message.username}: ${message.message}`}
-                        </MyMessage>
-                      </MyRow>
-                    )
-                  }
+          <div>
+            <Container socket={socketRef.current}>
+              {messages.map((message, index) => {
+                if (message.id === yourID) {
                   return (
-                    <PartnerRow key={index}>
-                      <PartnerMessage>
+                    <MyRow key={index}>
+                      <MyMessage>
                         {`${message.username}: ${message.message}`}
-                      </PartnerMessage>
-                    </PartnerRow>
+                      </MyMessage>
+                    </MyRow>
                   )
-                })}
-              </Container>
-              <Form onSubmit={sendMessage}>
-                <TextArea value={message} onChange={handleChange} placeholder="Say something..." />
-                <Button>Send</Button>
-              </Form>
-            </div>
-          }
+                }
+                return (
+                  <PartnerRow key={index}>
+                    <PartnerMessage>
+                      {`${message.username}: ${message.message}`}
+                    </PartnerMessage>
+                  </PartnerRow>
+                )
+              })}
+            </Container>
+            <Form onSubmit={sendMessage}>
+              <TextArea value={message} onChange={handleChange} placeholder="Say something..." />
+              <Button>Send</Button>
+            </Form>
+          </div>
         </div>
-      </div>
-      
-    
+      }
+
+    </div>
+
+
   )
 }

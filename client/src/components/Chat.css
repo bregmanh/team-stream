@@ -9,6 +9,12 @@
 
 .youtube-player-expanded{
   width: 95vw;
+  justify-self: center;
+  justify-self: center;
+}
+.player-with-controls{
+  display: flex;
+  flex-direction: column;
 }
 
 .text-chat-expanded{
