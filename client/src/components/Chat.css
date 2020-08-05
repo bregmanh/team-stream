@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: row;
   height:100%;
+  
 }
 .youtube-player{
   width: 75vw;
@@ -9,7 +10,6 @@
 
 .youtube-player-expanded{
   width: 95vw;
-  justify-self: center;
   justify-self: center;
 }
 .player-with-controls{
@@ -26,4 +26,7 @@
   display: flex;
   height: 100%;
   align-items: center;
+}
+.toggle-button{
+  color: #10959D;
 }

@@ -19,7 +19,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 500px;
-  width: 30vw;
+  width: 20vw;
   max-height: 500px;
   overflow: auto;
   border: 1px solid lightgray;
@@ -58,7 +58,7 @@ const Button = styled.button`
 `;
 
 const Form = styled.form`
-  width: 400px;
+width: 20vw;
 `;
 
 const MyRow = styled.div`
@@ -237,7 +237,6 @@ export default function Chat(props) {
 
   return (
 
-
     <div className="chat-container">
       <div className="player-with-controls"><div id="player" className={chatState === "open" ? 'youtube-player' : 'youtube-player-expanded'} />
         <div>
@@ -246,7 +245,7 @@ export default function Chat(props) {
       </div>
 
       <div className="toggle-chat">
-        <PlayCircleFilledWhiteIcon onClick={toggleChat} />
+        <PlayCircleFilledWhiteIcon onClick={toggleChat} fontSize="large" classes={{root: 'toggle-button'}}/>
       </div>
       {chatState === "open" &&
 
