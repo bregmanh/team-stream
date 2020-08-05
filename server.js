@@ -30,12 +30,12 @@ io.on("connection", socket => {
   })
   // Runs when client disconnects
   socket.on('disconnect', () => {
-    //if host leaves
-    if(users[0].id = socket.id){
-      clearInterval(pingHostInterval)
+    const room = getCurrentUser(socket.id).room;
+    if(users[0].id === socket.id){
+      clearInterval(pingHostInterval);
+      io.to(room).emit('session closed');
     }
     const user = userLeave(socket.id);
-    
     if (user) {
       io.to(user.room).emit(
         'message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has left the chat` })
@@ -88,6 +88,7 @@ function userLeave(id) {
 
   if (index !== -1) {
     return users.splice(index, 1)[0];
+    console.log({users});
   }
 }
 function getCurrentUser(id) {

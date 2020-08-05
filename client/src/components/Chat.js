@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import io from "socket.io-client";
 import "./Chat.css";
 import Controls from "./Controls";
+import LeaveRoom from "./LeaveRoom";
+import Message from "./Message";
 
+import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 
 
 const Page = styled.div`
@@ -11,7 +15,7 @@ const Page = styled.div`
   height: 100vh;
   width: 100%;
   align-items: center;
-  background-color: #46516e;
+  background-color: #3F444B;
   flex-direction: column;
 `;
 
@@ -19,7 +23,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 500px;
-  width: 30vw;
+  width: 20vw;
   max-height: 500px;
   overflow: auto;
   border: 1px solid lightgray;
@@ -48,17 +52,17 @@ const TextArea = styled.textarea`
 `;
 
 const Button = styled.button`
-  background-color: pink;
+  background-color: #10959D;
   width: 100%;
   border: none;
   height: 50px;
   border-radius: 10px;
-  color: #46516e;
+  color: #3F444B;
   font-size: 17px;
 `;
 
 const Form = styled.form`
-  width: 400px;
+width: 20vw;
 `;
 
 const MyRow = styled.div`
@@ -70,8 +74,8 @@ const MyRow = styled.div`
 
 const MyMessage = styled.div`
   width: 45%;
-  background-color: pink;
-  color: #46516e;
+  background-color: #10959D;
+  color: #3F444B;
   padding: 10px;
   margin-right: 5px;
   text-align: center;
@@ -98,6 +102,9 @@ export default function Chat(props) {
   const [yourID, setYourID] = useState();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [redirect, setRedirect] = useState(null);
+  const [chatState, setChatState] = useState("open");
+
 
   const youtubePlayer = useRef();
   let newTime = '0:00'
@@ -105,6 +112,7 @@ export default function Chat(props) {
   const room = props.room;
 
   const socketRef = useRef();
+ 
 
   useEffect(() => {
 
@@ -143,6 +151,10 @@ export default function Chat(props) {
           youtubePlayer.current.pauseVideo();
           youtubePlayer.current.seekTo(hostInfo.time, true);
         }
+      })
+
+      socketRef.current.on("session closed", () => {
+        setRedirect('/room/closed');
       })
 
       socketRef.current.on("provideVideoInfo", (videoInfo) => {
@@ -192,6 +204,11 @@ export default function Chat(props) {
     setMessages(oldMsgs => [...oldMsgs, message]);
   }
 
+  function leaveRoom() {
+    socketRef.current.close();
+    setRedirect('/');
+  }
+
   function sendMessage(e) {
     e.preventDefault();
     const messageObject = {
@@ -217,8 +234,7 @@ export default function Chat(props) {
 
   function loadVideoPlayer() {
     const player = new window.YT.Player('player', {
-      height: 'auto',
-      width: '100%',
+      height: '90%',
       videoId: "Dm9Zf1WYQ_A",
       playerVars: { 'autoplay': 1, 'controls': 0 },
       events: {
@@ -239,42 +255,59 @@ export default function Chat(props) {
       onStateChangeFunc(event)
     }
   }
+  function toggleChat() {
+    if (chatState === "open") {
+      setChatState("closed")
+    } else {
+      setChatState("open")
+    }
+  }
 
+  if (redirect) {
+    return <Redirect to={redirect} />
+  }
 
   return (
     <div className="chat-container">
-      <div>
-        <div id="player" className="youtube-player" />
-        <Controls handleAction={handleAction} />
-      </div>
 
-      <div className="text-chat">
-        <Container socket={socketRef.current}>
-          {messages.map((message, index) => {
-            if (message.id === yourID) {
-              return (
-                <MyRow key={index}>
-                  <MyMessage>
-                    {`${message.username}: ${message.message}`}
-                  </MyMessage>
-                </MyRow>
-              )
-            }
-            return (
-              <PartnerRow key={index}>
-                <PartnerMessage>
-                  {`${message.username}: ${message.message}`}
-                </PartnerMessage>
-              </PartnerRow>
-            )
-          })}
-        </Container>
-        <Form onSubmit={sendMessage}>
-          <TextArea value={message} onChange={handleChange} placeholder="Say something..." />
-          <Button>Send</Button>
-        </Form>
+      <div className="player-with-controls"><div id="player" className={chatState === "open" ? 'youtube-player' : 'youtube-player-expanded'} />
+        <div>
+          <Controls handleAction={handleAction} />
+        </div>
       </div>
+      <LeaveRoom className="leave-room" leaveRoom={leaveRoom} />
+      <div className="toggle-chat">
+        <PlayCircleFilledWhiteIcon onClick={toggleChat} fontSize="large" classes={{root: 'toggle-button'}}/>
+      </div>
+      {chatState === "open" &&
+
+        <div className="text-chat-expanded">
+          <div>
+            <Container socket={socketRef.current}>
+              {messages.map((message, index) => {
+                if (message.id === yourID) {
+                  return (
+                    <MyRow key={index}>
+                       <Message message={message}/>
+                    </MyRow>
+                  )
+                }
+                return (
+                  <PartnerRow key={index}>
+                     <Message message={message}/>
+                  </PartnerRow>
+                )
+              })}
+            </Container>
+            <Form onSubmit={sendMessage}>
+              <TextArea value={message} onChange={handleChange} placeholder="Say something..." />
+              <Button>Send</Button>
+            </Form>
+          </div>
+        </div>
+      }
 
     </div>
+  
   )
 }
