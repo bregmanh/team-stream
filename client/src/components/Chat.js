@@ -124,8 +124,9 @@ export default function Chat(props) {
       socketRef.current.on("videoAction", ({ action, hostInfo }) => {
         if (action.type === 'scroll-video') {
           const newTime = youtubePlayer.current.getDuration() * action.data.timePercentage / 100
-          const minutes = Math.floor(newTime / 60)
-          const seconds = time - minutes * 60;
+          const minutes = Math.floor(newTime / 60);
+          const seconds = Math.floor(newTime - minutes * 60);
+          let playerTime = `${minutes}:${seconds}`
           console.log('player time:', playerTime)
           youtubePlayer.current.seekTo(newTime)
         }
@@ -245,7 +246,6 @@ export default function Chat(props) {
   return (
     <div className="chat-container">
       <div><div id="player" className="youtube-player" />
-
         <Controls handleAction={handleAction} /></div>
 
       <div className="text-chat">
