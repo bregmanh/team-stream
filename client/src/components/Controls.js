@@ -2,20 +2,17 @@ import React, { useState, useEffect, useRef } from "react";
 import './Controls.css'
 
 export default function Controls(props) {
-  
-  const [videoProgress, setVideoProgress] = useState(0)
+  const bar = useRef()
 
-  // Update the value of our progress bar accordingly.
-  // function updateProgressBar(){
-  //   $('#progress-bar').val((player.getCurrentTime() / player.getDuration()) * 100);
-  // }
+  useEffect(() => {
+    bar.current.value = props.videoProgress
+  }, [props.videoProgress])
 
-
+  console.log("video progress: ", props.videoProgress)
   return (
     <>
-      <input type="range" id="progress-bar" class="progress-bar" onMouseUp={(e) => { 
-        setVideoProgress(e.target.value)
-        props.handleAction("scroll-video", {timePercentage: videoProgress})
+      <input type="range" id="progress-bar" class="progress-bar" ref={bar} onMouseUp={(e) => { 
+        props.handleAction("scroll-video", {timePercentage: e.target.value})
       }}/>
       {/* value={videoProgress} */}
       <input type="range" class="volume-bar" onMouseUp={(e) => { props.handleAction("scroll-volume", {volumePercentage: e.target.value}) }}/>
