@@ -3,7 +3,6 @@ import styled from "styled-components";
 import io from "socket.io-client";
 import "./Chat.css";
 import Controls from "./Controls";
-import VideoTIme from "./VideoTime";
 
 
 
@@ -126,7 +125,6 @@ export default function Chat(props) {
         if (action.type === 'scroll-video') {
           newTime = youtubePlayer.current.getDuration() * action.data.timePercentage / 100
           youtubePlayer.current.seekTo(newTime)
-          console.log(formatTime(newTime))
         }
         if (action.type === 'scroll-volume') {
           youtubePlayer.current.setVolume(action.data.volumePercentage)
@@ -189,14 +187,6 @@ export default function Chat(props) {
       socketRef.current.emit('videoAction', { type: action, data })
     }
   }
-  
-  function formatTime(time){
-    time = Math.round(time);
-    const minutes = Math.floor(time / 60)
-    let seconds = time - minutes * 60;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-    return `${minutes}:${seconds}`
-  }
 
   function receivedMessage(message) {
     setMessages(oldMsgs => [...oldMsgs, message]);
@@ -255,7 +245,6 @@ export default function Chat(props) {
     <div className="chat-container">
       <div>
         <div id="player" className="youtube-player" />
-        <VideoTIme formatTime={()=>formatTime(newTime)} />
         <Controls handleAction={handleAction} />
       </div>
 
