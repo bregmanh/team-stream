@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import './Controls.css'
+
+import './Controls.css';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
 export default function Controls(props) {
   const scrollBar = useRef()
@@ -17,8 +19,8 @@ export default function Controls(props) {
       {/* value={videoProgress} */}
       <input type="range" class="volume-bar" onMouseUp={(e) => { props.handleAction("scroll-volume", {volumePercentage: e.target.value}) }}/>
       <button onClick={() => { props.handleAction("mute") }}>Mute</button>
+      <PlayArrowIcon className="play" onClick={() => { props.handleAction("play") }}></PlayArrowIcon>
       <button onClick={() => { props.handleAction("pause") }}>Stop Video</button>
-      <button onClick={() => { props.handleAction("play") }}>Play Video</button>
     </>
   )
 }
