@@ -114,12 +114,12 @@ export default function Chat(props) {
   let onStateChangeFunc = null;
   const room = props.room;
 
-  const socketRef = useRef();
+  const socketRef = props.socket
 
 
   useEffect(() => {
 
-    socketRef.current = io.connect('/');
+    
 
     if (socketRef.current) {
 
