@@ -34,11 +34,16 @@
 }
 
 .room-buttons {
-  width: 50%;
+  width: 70%;
   display: flex;
   flex-direction: row;
   align-items: start;
   justify-content: space-evenly;
+}
+
+.create-room {
+  display: flex;
+  flex-direction: column;
 }
 
 button, select {

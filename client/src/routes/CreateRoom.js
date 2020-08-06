@@ -25,6 +25,11 @@ const CreateRoom = (props) => {
 
         // }
     }
+
+    function join () {
+        setRedirect('/rooms')
+    }
+
     if (redirect) {
         return <Redirect to={redirect} />
     }
@@ -36,13 +41,13 @@ const CreateRoom = (props) => {
                 <div className="room-buttons">
                     <div className="create-room">
                         <select ref={publicOrPrivate}>
-                            <option defaultValue disabled>Select a Room</option>
+                            <option selected disabled>Select a Room</option>
                             <option value="public">Public</option>
                             <option value="private">Private</option>
                         </select>
                         <button onClick={create}>Create Room</button>
                     </div>
-                    <button>Join Room</button>
+                    <button onClick={join}>Join Room</button>
                 </div>
             </div>
         </div>

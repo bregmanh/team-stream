@@ -16,7 +16,6 @@ export default function Controls(props) {
       <input type="range" id="progress-bar" class="progress-bar" ref={scrollBar} onMouseUp={(e) => { 
         props.handleAction("scroll-video", {timePercentage: e.target.value})
       }}/>
-      {/* value={videoProgress} */}
       <input type="range" class="volume-bar" onMouseUp={(e) => { props.handleAction("scroll-volume", {volumePercentage: e.target.value}) }}/>
       <button onClick={() => { props.handleAction("mute") }}>Mute</button>
       <PlayArrowIcon className="play" onClick={() => { props.handleAction("play") }}></PlayArrowIcon>
