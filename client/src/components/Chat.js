@@ -159,6 +159,14 @@ export default function Chat(props) {
         }
       })
 
+      // Listen to change in video time from server
+      socketRef.current.on("videoTime", ({ action, data }) => {
+        youtubePlayer.current.seekTo(newTime)
+        console.log('action: ', action)
+        console.log('data:', data)
+        // setVideoProgress(action.data.timePercentage)
+      })
+
       socketRef.current.on("session closed", () => {
         setRedirect('/room/closed');
       })
@@ -223,6 +231,12 @@ export default function Chat(props) {
     }
   }
 
+  function handleVideoTime(data) {
+    if (socketRef.current) {
+      socketRef.current.emit('videoTime', data)
+    }
+  }
+
   function receivedMessage(message) {
     setMessages(oldMsgs => [...oldMsgs, message]);
   }
@@ -257,7 +271,7 @@ export default function Chat(props) {
   function loadVideoPlayer() {
     const player = new window.YT.Player('player', {
       height: '90%',
-      videoId: "Dm9Zf1WYQ_A",
+      videoId: "xq0CpI-Zfeg",
       playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
       events: {
         'onReady': onPlayerReady,
@@ -312,7 +326,7 @@ export default function Chat(props) {
       <div className="player-with-controls"><div id="player" className={chatState === "open" ? 'youtube-player' : 'youtube-player-expanded'} />
         <div>
         
-          <Controls videoProgress={videoProgress} handleAction={handleAction} />
+          <Controls videoProgress={videoProgress} handleAction={handleAction} handleVideoTime={handleVideoTime}/>
           <QueueForm addVideoToQueue={addVideoToQueue} />
         </div>
       </div>

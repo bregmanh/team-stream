@@ -4,6 +4,7 @@ const app = express();
 const server = http.createServer(app);
 const socket = require("socket.io");
 const io = socket(server);
+io.origins('localhost:3002') // for development mode to whitelist this port
 const PORT = 8080;
 const knex = require('./db/knex.js');
 
@@ -61,6 +62,12 @@ io.on("connection", socket => {
   socket.on("videoAction", action => {
     const user = getCurrentUser(socket.id);
     io.to(user.room).emit("videoAction", { action, hostInfo })
+  })
+
+  // Listen for change in video time
+  socket.on("videoTime", action => {
+    const user = getCurrentUser(socket.id);
+    io.to(user.room).emit("videoTime", { action, hostInfo })
   })
 
   //if not a host, request for video info from the host

@@ -11,7 +11,7 @@ function App() {
   const socketRef = useRef();
 
   useEffect(() => {
-    socketRef.current = io.connect('/');
+    socketRef.current = io.connect('ws://localhost:8080');
   }, [])
 
   return (
