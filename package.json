@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@material-ui/icons": "^4.9.1",
+    "@tensorflow-models/toxicity": "^1.2.2",
+    "@tensorflow/tfjs": "^2.1.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.4",
     "socket.io": "^2.3.0"
