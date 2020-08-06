@@ -1,6 +1,12 @@
-
 exports.up = function(knex) {
   return Promise.all([
+    knex.schema.createTable('users', table => {
+    table.increments('id');
+    table.string('name').defaultTo('Anon');
+    table.bool('can_control').defaultTo(false);
+    table.bool('active').defaultTo(true);
+    table.integer('session_id').references('id').inTable('sessions').notNullable();
+  }),
     knex.schema.createTable('sessions', table => {
       table.increments('id');
       table.string('title');
@@ -21,6 +27,7 @@ exports.up = function(knex) {
 exports.down = function(knex) {
   return Promise.all([
     knex.schema.dropTable('videos'),
+    knex.schema.dropTable('users'),
     knex.schema.dropTable('sessions')
   ])
 };
