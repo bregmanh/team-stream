@@ -1,13 +1,14 @@
 import React from 'react';
 import RoomListItem from '../components/RoomListItem'
-import CreateRoom from './CreateRoom'
 
 export default function RoomList (props) {
-
+  console.log('props.room:',  props.room)
+  console.log('props.rooms: ', props.rooms)
   const rooms = props.rooms.map(room => (
     <RoomListItem
       key={room.id}
       id={room.id}
+      viwers={props.room.viewers}
       // selectRoom={props.onClick(room.id)}
     />
   ))

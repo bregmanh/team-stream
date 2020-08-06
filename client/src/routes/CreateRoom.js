@@ -8,7 +8,6 @@ const CreateRoom = (props) => {
 
     const [redirect, setRedirect] = useState(null);
 
-
     function create() {
         const id = uuid();
         // props.history.push(`/room/${id}`);
@@ -17,7 +16,9 @@ const CreateRoom = (props) => {
         }
         const roomObj = {thumbnail: "", id, viewers: 1}
         props.setRoom(roomObj)
+        console.log(props.room)
         props.setRooms(...props.rooms, props.room)
+        console.log(props.rooms)
         setRedirect(`/room/${id}`);
         // In the list of rooms component, I can access this value using props
         // if (publicOrPrivate.current.value === 'private') {
@@ -35,7 +36,7 @@ const CreateRoom = (props) => {
                 <div className="room-buttons">
                     <div className="create-room">
                         <select ref={publicOrPrivate}>
-                            <option selected disabled>Select a Room</option>
+                            <option defaultValue disabled>Select a Room</option>
                             <option value="public">Public</option>
                             <option value="private">Private</option>
                         </select>

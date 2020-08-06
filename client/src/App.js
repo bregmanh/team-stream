@@ -15,9 +15,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact render={(props) => <CreateRoom room={room} rooms={rooms} setRoom={setRoom} setRooms={setRooms} /> }/>
+          <Route path="/" exact render={(props) => <CreateRoom room={room} rooms={rooms} setRoom={setRoom} setRooms={setRooms} />} />
           <Route path="/room/closed" component={SessionClosed} />
-          <Route path="/rooms" render={(props) => <RoomList room={room} rooms={rooms} /> } />
+          <Route path="/rooms" render={(props) => <RoomList room={room} rooms={rooms} />} />
           <Route path="/room/:roomID" component={Room} />
         </Switch>
       </BrowserRouter>
