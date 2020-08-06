@@ -45,6 +45,12 @@ io.on("connection", socket => {
     }
   });
 
+  // Create a session when user clicks to create
+  socket.on('create-session', () => {
+    console.log('knex test')
+    knex('sessions').insert({title: 'Cute Dog Videos', active: true, public: true})
+  })
+
   socket.emit("your id", socket.id);
   socket.on("send message", body => {
     const user = getCurrentUser(socket.id);

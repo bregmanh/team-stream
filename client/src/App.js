@@ -9,20 +9,18 @@ import './App.css';
 
 function App() {
   const socketRef = useRef();
-  const [rooms, setRooms] = useState([])
-  const [room, setRoom] = useState({})
 
   useEffect(() => {
-  socketRef.current = io.connect('/');
+    socketRef.current = io.connect('/');
   }, [])
 
   return (
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact render={(props) => <CreateRoom room={room} rooms={rooms} setRoom={setRoom} setRooms={setRooms} />} />
+          <Route path="/" exact render={(props) => <CreateRoom socket={socketRef} />} />
           <Route path="/room/closed" component={SessionClosed} />
-          <Route path="/rooms" render={(props) => <RoomList room={room} rooms={rooms} />} />
+          <Route path="/rooms" render={(props) => <RoomList />} />
           <Route path="/room/:roomID" render={(props) => <Room match={props.match} socket={socketRef} />} />
         </Switch>
       </BrowserRouter>

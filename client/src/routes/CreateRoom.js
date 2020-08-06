@@ -16,7 +16,9 @@ import './CreateRoom.css';
 //             .finally(() => db.destroy());
 // }
 
+
 const CreateRoom = (props) => {
+    const socketRef = props.socket
     const publicOrPrivate = useRef()
 
     const [redirect, setRedirect] = useState(null);
@@ -27,7 +29,7 @@ const CreateRoom = (props) => {
         if (publicOrPrivate.current.value === 'Select a Room') {
             return
         }
-
+        socketRef.current.emit('create-session')
         // const roomObj = {thumbnail: "", id, viewers: 1}
         // db('sessions').insert({title: 'Cute Dog Videos', active: true, public: true}).then( function (res) {
         //     res.json({ success: true, message: 'ok' });     // respond back to request
