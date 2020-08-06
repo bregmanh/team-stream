@@ -114,7 +114,7 @@ export default function Chat(props) {
   let onStateChangeFunc = null;
   const room = props.room;
 
-  const socketRef = props.socket
+  const socketRef = props.socketRef
 
 
   useEffect(() => {

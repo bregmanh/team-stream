@@ -18,7 +18,7 @@ import './CreateRoom.css';
 
 
 const CreateRoom = (props) => {
-    const socketRef = props.socket
+    const socketRef = props.socketRef
     const publicOrPrivate = useRef()
 
     const [redirect, setRedirect] = useState(null);
