@@ -21,12 +21,13 @@ const CreateRoom = (props) => {
 
     const [redirect, setRedirect] = useState(null);
 
-    function create() {
+    function createSession() {
         const id = uuid();
         // props.history.push(`/room/${id}`);
         if (publicOrPrivate.current.value === 'Select a Room') {
             return
         }
+
         // const roomObj = {thumbnail: "", id, viewers: 1}
         // db('sessions').insert({title: 'Cute Dog Videos', active: true, public: true}).then( function (res) {
         //     res.json({ success: true, message: 'ok' });     // respond back to request
@@ -42,7 +43,7 @@ const CreateRoom = (props) => {
         // }
     }
 
-    function join () {
+    function joinSession () {
         setRedirect('/rooms')
     }
 
@@ -61,9 +62,9 @@ const CreateRoom = (props) => {
                             <option value="public">Public</option>
                             <option value="private">Private</option>
                         </select>
-                        <button onClick={create}>Create Room</button>
+                        <button onClick={createSession}>Create Room</button>
                     </div>
-                    <button onClick={join}>Join Room</button>
+                    <button onClick={joinSession}>Join Room</button>
                 </div>
             </div>
         </div>
