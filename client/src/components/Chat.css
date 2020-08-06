@@ -34,5 +34,8 @@
 .leave-room {
   position: absolute;
   top : 2vh;
-  right: 2vw;
+  right: 1vw;
+  width: 2rem;
+  color: #10959D;
+  font-weight: bold;
 }

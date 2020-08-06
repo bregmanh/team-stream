@@ -107,8 +107,7 @@ export default function Chat(props) {
   const [chatState, setChatState] = useState("open");
   let queue = [];
   const bufferTime = 4.5;
-  //let bufferTime = 0;
-  //const [bufferTime, setBufferTime] = useState(0);
+  const [videoProgress, setVideoProgress] = useState(0)
 
   const youtubePlayer = useRef();
   let newTime = '0:00'
@@ -137,6 +136,7 @@ export default function Chat(props) {
         if (action.type === 'scroll-video') {
           newTime = youtubePlayer.current.getDuration() * action.data.timePercentage / 100
           youtubePlayer.current.seekTo(newTime)
+          setVideoProgress(action.data.timePercentage)
         }
         if (action.type === 'scroll-volume') {
           youtubePlayer.current.setVolume(action.data.volumePercentage)
@@ -252,7 +252,6 @@ export default function Chat(props) {
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     window.onYouTubeIframeAPIReady = loadVideoPlayer;
-
   }, []);
 
   function loadVideoPlayer() {
@@ -312,11 +311,14 @@ export default function Chat(props) {
 
       <div className="player-with-controls"><div id="player" className={chatState === "open" ? 'youtube-player' : 'youtube-player-expanded'} />
         <div>
-          <Controls handleAction={handleAction} />
+        
+          <Controls videoProgress={videoProgress} handleAction={handleAction} />
           <QueueForm addVideoToQueue={addVideoToQueue} />
         </div>
       </div>
-      <LeaveRoom className="leave-room" leaveRoom={leaveRoom} />
+      <div className="leave-room">
+        <LeaveRoom leaveRoom={leaveRoom} />
+      </div>
       <div className="toggle-chat">
         <PlayCircleFilledWhiteIcon onClick={toggleChat} fontSize="large" classes={{ root: 'toggle-button' }} />
       </div>
