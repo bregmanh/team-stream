@@ -12,7 +12,9 @@ const botName = "TeamStream"
 const hostInfo = {
   videoId: null,
   time: 0,
-  play: true
+  play: true,
+  queue: [],
+  index: 0,
 }
 
 let pingHostInterval;
@@ -31,7 +33,7 @@ io.on("connection", socket => {
   // Runs when client disconnects
   socket.on('disconnect', () => {
     const room = getCurrentUser(socket.id).room;
-    if(users[0].id === socket.id){
+    if (users[0].id === socket.id) {
       clearInterval(pingHostInterval);
       io.to(room).emit('session closed');
     }
@@ -51,14 +53,17 @@ io.on("connection", socket => {
 
   socket.on("videoAction", action => {
     const user = getCurrentUser(socket.id);
-    io.to(user.room).emit("videoAction", {action, hostInfo})
+    io.to(user.room).emit("videoAction", { action, hostInfo })
   })
 
+  //if not a host, request for video info from the host
   socket.on("requestVideoInfo", action => {
-    //if not a host, request for video info from the host
     if (users[0].id !== socket.id) {
       socket.emit("provideVideoInfo", hostInfo)
-    }else{
+    } else {
+      // //added - even if host, we want to provide it with initial info
+      // socket.emit("provideVideoInfo", hostInfo)
+
       pingHostInterval = setInterval(() => {
         io.to(users[0].id).emit("pingHostForInfo", "");
       }, 200)
@@ -66,10 +71,18 @@ io.on("connection", socket => {
   })
 
   socket.on("HostInfo", info => {
-    hostInfo.videoId = info.videoId
     hostInfo.time = info.time
     hostInfo.play = info.play
+    hostInfo.index = info.index
 
+  })
+
+  socket.on("addVideo", videoId => {
+    hostInfo.queue.push(videoId)
+    //emits the updated queue to host
+    const user = getCurrentUser(socket.id);
+
+    io.to(user.room).emit("updatedQueue", hostInfo.queue);
   })
 
 })
@@ -88,7 +101,7 @@ function userLeave(id) {
 
   if (index !== -1) {
     return users.splice(index, 1)[0];
-    console.log({users});
+    console.log({ users });
   }
 }
 function getCurrentUser(id) {

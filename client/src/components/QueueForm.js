@@ -10,7 +10,7 @@ export default function QueueForm(props) {
   }
   function handleChange(event) {
     setVideoId(event.target.value)
-   
+
   }
   return (
 
@@ -19,9 +19,7 @@ export default function QueueForm(props) {
         Enter Youtube URL:
     <input type="text" id="videoIdInput" value={videoId} onChange={handleChange} />
       </label>
-      <button type="submit">
-        Activate Lasers
-</button>
+      <button type="submit">Add Video</button>
     </form>
 
   )

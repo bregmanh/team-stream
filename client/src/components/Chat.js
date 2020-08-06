@@ -107,8 +107,8 @@ export default function Chat(props) {
   const [chatState, setChatState] = useState("open");
   let queue = [];
   const bufferTime = 4.5;
-
-
+  //let bufferTime = 0;
+  //const [bufferTime, setBufferTime] = useState(0);
 
   const youtubePlayer = useRef();
   let newTime = '0:00'
@@ -164,15 +164,14 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("provideVideoInfo", (hostInfo) => {
-        // onStateChangeFunc= (e)=>{
+        const startTime = new Date().getTime();
+        // onStateChangeFunc = (e) => {
         //   console.log("player state", youtubePlayer.current.getPlayerState())
-        //   if(youtubePlayer.current.getPlayerState() === 1){
+        //   if (youtubePlayer.current.getPlayerState() === 1) {
 
         //     const endTime = new Date().getTime();
-        //     const bufferInterval = endTime - startTime;
-        //     console.log("video info time", videoInfo.time)
-
-        //     onStateChangeFunc=null;
+        //     setBufferTime(endTime - startTime);
+        //     onStateChangeFunc = null;
         //   }
         // }
 
@@ -191,13 +190,6 @@ export default function Chat(props) {
             startSeconds: hostInfo.time + bufferTime,
           })
         }
-        // queue = 
-        // //youtubePlayer.current.seekTo(videoInfo.time + 4, true);
-        // if (videoInfo.play) {
-        //   youtubePlayer.current.playVideo()
-        // }
-
-
       })
 
       socketRef.current.on("pingHostForInfo", info => {
@@ -213,23 +205,12 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("updatedQueue", updatedQueue => {
-        // youtubePlayer.current.cuePlaylist({
-        //   playlist: hostInfo.queue,
-        //   index: hostInfo.index,
-        //   startSeconds: hostInfo.time
-        // })
-        //youtubePlayer.current.seekTo(videoInfo.time + 4, true);
-        //youtubePlayer.current.playlistItems.insert(videoId)
-        // if (hostInfo.play) {
-        // youtubePlayer.current.playVideo()
-        // }
-
+      
         queue = updatedQueue;
-        console.log("updated queue", queue)
+        // if playlist doesnt exist - means its first video so just load it
         if (!youtubePlayer.current.getPlaylist()) {
           youtubePlayer.current.loadPlaylist(queue);
         }
-
 
       })
     }
@@ -301,14 +282,10 @@ export default function Chat(props) {
     if (event.data === 0 || event.data === -1) {
 
       let index = youtubePlayer.current.getPlaylistIndex();
-      console.log("youtube player get playlist", youtubePlayer.current.getPlaylist())
-      console.log("queue", queue)
 
       if (youtubePlayer.current.getPlaylist().length !== queue.length) {
-
         // update playlist and start playing at the proper index
         youtubePlayer.current.loadPlaylist(queue, index + 1);
-        console.log("from inside if")
       }
     }
   }
@@ -325,13 +302,9 @@ export default function Chat(props) {
   }
 
   function addVideoToQueue(videoId) {
-    // setQueue(queuedVideos => [...queuedVideos, videoId]);
-    // youtubePlayer.current.cuePlaylist({playlist: queue,
-    //   index: 0 ,
-    //   startSeconds: 30})
+  
     socketRef.current.emit('addVideo', videoId);
 
-    //emit message to everyone in the queue that a video has been added
   }
 
   return (
