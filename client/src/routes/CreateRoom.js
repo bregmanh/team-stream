@@ -3,6 +3,8 @@ import { Redirect } from "react-router-dom";
 import { v1 as uuid } from "uuid";
 import './CreateRoom.css';
 
+import VerticalNav from "../components/VerticalNav";
+
 const CreateRoom = (props) => {
     const publicOrPrivate = useRef()
 

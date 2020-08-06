@@ -7,18 +7,10 @@ import Controls from "./Controls";
 import LeaveRoom from "./LeaveRoom";
 import Message from "./Message";
 import QueueForm from "./QueueForm";
+import VerticalNav from "../components/VerticalNav";
 
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 
-
-const Page = styled.div`
-  display: flex;
-  height: 100vh;
-  width: 100%;
-  align-items: center;
-  background-color: #3F444B;
-  flex-direction: column;
-`;
 
 const Container = styled.div`
   display: flex;
@@ -308,16 +300,11 @@ export default function Chat(props) {
 
   return (
     <div className="chat-container">
-
       <div className="player-with-controls"><div id="player" className={chatState === "open" ? 'youtube-player' : 'youtube-player-expanded'} />
         <div>
-        
           <Controls videoProgress={videoProgress} handleAction={handleAction} />
           <QueueForm addVideoToQueue={addVideoToQueue} />
         </div>
-      </div>
-      <div className="leave-room">
-        <LeaveRoom leaveRoom={leaveRoom} />
       </div>
       <div className="toggle-chat">
         <PlayCircleFilledWhiteIcon onClick={toggleChat} fontSize="large" classes={{ root: 'toggle-button' }} />
@@ -349,7 +336,7 @@ export default function Chat(props) {
           </div>
         </div>
       }
-
+      <VerticalNav/>
     </div>
 
   )
