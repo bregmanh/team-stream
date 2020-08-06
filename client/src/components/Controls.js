@@ -22,6 +22,8 @@ export default function Controls(props) {
       <button onClick={() => { props.handleAction("mute") }}>Mute</button>
       <button onClick={() => { props.handleAction("pause") }}>Stop Video</button>
       <button onClick={() => { props.handleAction("play") }}>Play Video</button>
+
+      <button onClick={() => { props.handleAction("nextVideo") }}>Next Video</button>
     </>
   )
 }

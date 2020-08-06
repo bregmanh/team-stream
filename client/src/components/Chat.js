@@ -6,6 +6,7 @@ import "./Chat.css";
 import Controls from "./Controls";
 import LeaveRoom from "./LeaveRoom";
 import Message from "./Message";
+import QueueForm from "./QueueForm";
 
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 
@@ -104,6 +105,9 @@ export default function Chat(props) {
   const [message, setMessage] = useState("");
   const [redirect, setRedirect] = useState(null);
   const [chatState, setChatState] = useState("open");
+  let queue = [];
+  const bufferTime = 4.5;
+
 
 
   const youtubePlayer = useRef();
@@ -112,7 +116,7 @@ export default function Chat(props) {
   const room = props.room;
 
   const socketRef = useRef();
- 
+
 
   useEffect(() => {
 
@@ -141,15 +145,17 @@ export default function Chat(props) {
           if (youtubePlayer.current.isMuted()) {
             youtubePlayer.current.unMute()
           } else {
-          youtubePlayer.current.mute()
+            youtubePlayer.current.mute()
+          }
         }
-      }
         if (action.type === "play") {
           youtubePlayer.current.playVideo();
         } else if (action.type === "pause") {
 
           youtubePlayer.current.pauseVideo();
           youtubePlayer.current.seekTo(hostInfo.time, true);
+        } else if (action.type === "nextVideo") {
+          youtubePlayer.current.nextVideo()
         }
       })
 
@@ -157,8 +163,7 @@ export default function Chat(props) {
         setRedirect('/room/closed');
       })
 
-      socketRef.current.on("provideVideoInfo", (videoInfo) => {
-        const startTime = new Date().getTime();
+      socketRef.current.on("provideVideoInfo", (hostInfo) => {
         // onStateChangeFunc= (e)=>{
         //   console.log("player state", youtubePlayer.current.getPlayerState())
         //   if(youtubePlayer.current.getPlayerState() === 1){
@@ -170,11 +175,27 @@ export default function Chat(props) {
         //     onStateChangeFunc=null;
         //   }
         // }
-        youtubePlayer.current.seekTo(videoInfo.time + 4, true);
-        if (!videoInfo.play) {
-          console.log("video info play", videoInfo.play)
-          youtubePlayer.current.pauseVideo()
+
+        queue = hostInfo.queue;
+        //if video is paused - not playing
+        if (!(hostInfo.play)) {
+          youtubePlayer.current.cuePlaylist({
+            playlist: queue,
+            index: hostInfo.index,
+            startSeconds: hostInfo.time + bufferTime,
+          })
+        } else {
+          youtubePlayer.current.loadPlaylist({
+            playlist: queue,
+            index: hostInfo.index,
+            startSeconds: hostInfo.time + bufferTime,
+          })
         }
+        // queue = 
+        // //youtubePlayer.current.seekTo(videoInfo.time + 4, true);
+        // if (videoInfo.play) {
+        //   youtubePlayer.current.playVideo()
+        // }
 
 
       })
@@ -183,12 +204,33 @@ export default function Chat(props) {
         let playerState = youtubePlayer.current.getPlayerState()
         console.log("player state", playerState)
         let videoInfo = {
-          videoId: "Dm9Zf1WYQ_A",
           time: youtubePlayer.current.getCurrentTime(),
           play: playerState === 1,
+          index: youtubePlayer.current.getPlaylistIndex(),
         }
 
         socketRef.current.emit("HostInfo", videoInfo)
+      })
+
+      socketRef.current.on("updatedQueue", updatedQueue => {
+        // youtubePlayer.current.cuePlaylist({
+        //   playlist: hostInfo.queue,
+        //   index: hostInfo.index,
+        //   startSeconds: hostInfo.time
+        // })
+        //youtubePlayer.current.seekTo(videoInfo.time + 4, true);
+        //youtubePlayer.current.playlistItems.insert(videoId)
+        // if (hostInfo.play) {
+        // youtubePlayer.current.playVideo()
+        // }
+
+        queue = updatedQueue;
+        console.log("updated queue", queue)
+        if (!youtubePlayer.current.getPlaylist()) {
+          youtubePlayer.current.loadPlaylist(queue);
+        }
+
+
       })
     }
   }, []);
@@ -235,8 +277,8 @@ export default function Chat(props) {
   function loadVideoPlayer() {
     const player = new window.YT.Player('player', {
       height: '90%',
-      videoId: "Dm9Zf1WYQ_A",
-      playerVars: { 'autoplay': 1, 'controls': 0 },
+      //videoId: "Dm9Zf1WYQ_A",
+      playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
       events: {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
@@ -250,9 +292,24 @@ export default function Chat(props) {
     socketRef.current.emit('requestVideoInfo', "");
   }
   function onPlayerStateChange(event) {
-    console.log("event change", event)
-    if (onStateChangeFunc) {
-      onStateChangeFunc(event)
+    // console.log("event change", event)
+    // if (onStateChangeFunc) {
+    //   onStateChangeFunc(event)
+    // }
+    console.log("state change fired", event.data)
+
+    if (event.data === 0 || event.data === -1) {
+
+      let index = youtubePlayer.current.getPlaylistIndex();
+      console.log("youtube player get playlist", youtubePlayer.current.getPlaylist())
+      console.log("queue", queue)
+
+      if (youtubePlayer.current.getPlaylist().length !== queue.length) {
+
+        // update playlist and start playing at the proper index
+        youtubePlayer.current.loadPlaylist(queue, index + 1);
+        console.log("from inside if")
+      }
     }
   }
   function toggleChat() {
@@ -267,17 +324,28 @@ export default function Chat(props) {
     return <Redirect to={redirect} />
   }
 
+  function addVideoToQueue(videoId) {
+    // setQueue(queuedVideos => [...queuedVideos, videoId]);
+    // youtubePlayer.current.cuePlaylist({playlist: queue,
+    //   index: 0 ,
+    //   startSeconds: 30})
+    socketRef.current.emit('addVideo', videoId);
+
+    //emit message to everyone in the queue that a video has been added
+  }
+
   return (
     <div className="chat-container">
 
       <div className="player-with-controls"><div id="player" className={chatState === "open" ? 'youtube-player' : 'youtube-player-expanded'} />
         <div>
           <Controls handleAction={handleAction} />
+          <QueueForm addVideoToQueue={addVideoToQueue} />
         </div>
       </div>
       <LeaveRoom className="leave-room" leaveRoom={leaveRoom} />
       <div className="toggle-chat">
-        <PlayCircleFilledWhiteIcon onClick={toggleChat} fontSize="large" classes={{root: 'toggle-button'}}/>
+        <PlayCircleFilledWhiteIcon onClick={toggleChat} fontSize="large" classes={{ root: 'toggle-button' }} />
       </div>
       {chatState === "open" &&
 
@@ -288,13 +356,13 @@ export default function Chat(props) {
                 if (message.id === yourID) {
                   return (
                     <MyRow key={index}>
-                       <Message message={message}/>
+                      <Message message={message} />
                     </MyRow>
                   )
                 }
                 return (
                   <PartnerRow key={index}>
-                     <Message message={message}/>
+                    <Message message={message} />
                   </PartnerRow>
                 )
               })}
@@ -308,6 +376,6 @@ export default function Chat(props) {
       }
 
     </div>
-  
+
   )
 }
