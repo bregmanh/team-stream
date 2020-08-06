@@ -257,7 +257,7 @@ export default function Chat(props) {
   function loadVideoPlayer() {
     const player = new window.YT.Player('player', {
       height: '90%',
-      //videoId: "Dm9Zf1WYQ_A",
+      videoId: "Dm9Zf1WYQ_A",
       playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
       events: {
         'onReady': onPlayerReady,

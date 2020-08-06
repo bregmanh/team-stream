@@ -1,0 +1,26 @@
+
+exports.up = function(knex) {
+  return Promise.all([
+    knex.schema.createTable('sessions', table => {
+      table.increments('id');
+      table.string('title');
+      table.string('description');
+      table.bool('active').defaultTo(true);
+      table.bool('public').notNullable().defaultTo(true);
+    }),
+    knex.schema.createTable('videos', table => {
+      table.increments('id');
+      table.string('url').notNullable();
+      table.string('thumbnail').notNullable();
+      table.bool('playing');
+      table.integer('session_id').references('id').inTable('sessions').notNullable();
+    })
+  ])
+};
+
+exports.down = function(knex) {
+  return Promise.all([
+    knex.schema.dropTable('videos'),
+    knex.schema.dropTable('sessions')
+  ])
+};
