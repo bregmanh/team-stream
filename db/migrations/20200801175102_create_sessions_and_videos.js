@@ -10,7 +10,6 @@ exports.up = function(knex) {
     knex.schema.createTable('sessions', table => {
       table.increments('id');
       table.string('title');
-      table.string('description');
       table.bool('active').defaultTo(true);
       table.bool('public').notNullable().defaultTo(true);
     }),
