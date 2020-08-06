@@ -5,6 +5,7 @@ const server = http.createServer(app);
 const socket = require("socket.io");
 const io = socket(server);
 const PORT = 8080;
+const knex = require('./db/knex.js');
 
 const users = [];
 const botName = "TeamStream"

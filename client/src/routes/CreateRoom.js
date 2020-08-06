@@ -2,6 +2,19 @@ import React, { useState, useRef } from "react";
 import { Redirect } from "react-router-dom";
 import { v1 as uuid } from "uuid";
 import './CreateRoom.css';
+// const knex = require('knex');
+
+// const knexFile = require('../../..knexfile').development;
+
+// const db = knex(knexFile);
+
+// const insertData = (tableName, data) => {
+
+//     return db(tableName)
+//             .insert(data)
+//             .then(resp => resp)
+//             .finally(() => db.destroy());
+// }
 
 const CreateRoom = (props) => {
     const publicOrPrivate = useRef()
@@ -14,7 +27,10 @@ const CreateRoom = (props) => {
         if (publicOrPrivate.current.value === 'Select a Room') {
             return
         }
-        const roomObj = {thumbnail: "", id, viewers: 1}
+        // const roomObj = {thumbnail: "", id, viewers: 1}
+        // db('sessions').insert({title: 'Cute Dog Videos', active: true, public: true}).then( function (res) {
+        //     res.json({ success: true, message: 'ok' });     // respond back to request
+        //  })
         // props.setRoom(roomObj)
         console.log(props.room)
         // props.setRooms(...props.rooms, props.room)
