@@ -363,7 +363,6 @@ export default function Chat(props) {
         </div>
       } */}
       <ChatAside leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection}/>
-      {/* <VerticalNav toggleAside={toggleAside} selectAside={selectAside}/> */}
       <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection}/>
     </div>
 
