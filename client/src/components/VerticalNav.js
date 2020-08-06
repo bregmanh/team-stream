@@ -17,12 +17,12 @@ export default function VerticalNav(props) {
   return (
 
    <ul class="v-nav">
-     <li class="v-nav-icon"><ExitToAppIcon onClick={() => handleClick('leave')} fontSize="large"/></li>
-     <li class="v-nav-icon"><ModeCommentOutlinedIcon onClick={() => handleClick('chat')} fontSize="large"/></li>
-     <li class="v-nav-icon"><PeopleAltOutlinedIcon  onClick={() => handleClick('users')} fontSize="large"/></li>
-     <li class="v-nav-icon"><PersonAddOutlinedIcon onClick={() => handleClick('newuser')} fontSize="large"/></li>
-     <li class="v-nav-icon"><SubscriptionsOutlinedIcon onClick={() => handleClick('queue')} fontSize="large"/></li>
-     <li class="v-nav-icon"><SearchOutlinedIcon onClick={() => handleClick('addqueue')} fontSize="large"/></li>
+     <li class={`${props.selection === 'leave' ? 'v-nav-icon active' : 'v-nav-icon'}`}><ExitToAppIcon onClick={() => handleClick('leave')} fontSize="large"/></li>
+     <li class={`${props.selection === 'chat' ? 'v-nav-icon active' : 'v-nav-icon'}`}><ModeCommentOutlinedIcon onClick={() => handleClick('chat')} fontSize="large"/></li>
+     <li class={`${props.selection === 'users' ? 'v-nav-icon active' : 'v-nav-icon'}`}><PeopleAltOutlinedIcon  onClick={() => handleClick('users')} fontSize="large"/></li>
+     <li class={`${props.selection === 'newuser' ? 'v-nav-icon active' : 'v-nav-icon'}`}><PersonAddOutlinedIcon onClick={() => handleClick('newuser')} fontSize="large"/></li>
+     <li class={`${props.selection === 'queue' ? 'v-nav-icon active' : 'v-nav-icon'}`}><SubscriptionsOutlinedIcon onClick={() => handleClick('queue')} fontSize="large"/></li>
+     <li class={`${props.selection === 'addqueue' ? 'v-nav-icon active' : 'v-nav-icon'}`}><SearchOutlinedIcon onClick={() => handleClick('addqueue')} fontSize="large"/></li>
    </ul>
 
   )

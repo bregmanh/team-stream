@@ -1,6 +1,7 @@
 import React from "react";
 import "./ChatAside.css";
 import LeaveRoom from "../components/LeaveRoom";
+import TextChat from "../components/TextChat";
 import Users from "../components/Users";
 
 export default function ChatAside(props) {
@@ -12,7 +13,7 @@ export default function ChatAside(props) {
           <LeaveRoom leaveRoom={props.leaveRoom}/>
         }
         {props.selection === "chat" && 
-          <div>CHAT</div>
+          <TextChat/>
         }
          {props.selection === "users" && 
           <Users/>
