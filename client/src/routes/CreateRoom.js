@@ -15,9 +15,9 @@ const CreateRoom = (props) => {
             return
         }
         const roomObj = {thumbnail: "", id, viewers: 1}
-        props.setRoom(roomObj)
+        // props.setRoom(roomObj)
         console.log(props.room)
-        props.setRooms(...props.rooms, props.room)
+        // props.setRooms(...props.rooms, props.room)
         console.log(props.rooms)
         setRedirect(`/room/${id}`);
         // In the list of rooms component, I can access this value using props
