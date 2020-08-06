@@ -10,7 +10,7 @@ const Page = styled.div`
   height: 100vh;
   width: 100%;
   align-items: center;
-  background-color: #3F444B;
+  background-color: rgb(41, 41, 41);
   flex-direction: column;
 `;
 

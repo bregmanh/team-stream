@@ -8,6 +8,7 @@ import LeaveRoom from "./LeaveRoom";
 import Message from "./Message";
 import QueueForm from "./QueueForm";
 import VerticalNav from "../components/VerticalNav";
+import ChatAside from "../components/ChatAside";
 
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 
@@ -99,7 +100,9 @@ export default function Chat(props) {
   const [chatState, setChatState] = useState("open");
   let queue = [];
   const bufferTime = 4.5;
-  const [videoProgress, setVideoProgress] = useState(0)
+  const [videoProgress, setVideoProgress] = useState(0);
+  const [toggleState, setToggleState] = useState('');
+  const [asideSelection, setAsideSelection] = useState('chat');
 
   const youtubePlayer = useRef();
   let newTime = '0:00'
@@ -108,6 +111,7 @@ export default function Chat(props) {
 
   const socketRef = useRef();
 
+  
 
   useEffect(() => {
 
@@ -280,11 +284,31 @@ export default function Chat(props) {
       }
     }
   }
-  function toggleChat() {
-    if (chatState === "open") {
-      setChatState("closed")
+  // function toggleChat() {
+  //   if (chatState === "open") {
+  //     setChatState("closed")
+  //   } else {
+  //     setChatState("open")
+  //   }
+  // }
+
+  function toggleAside(){
+    if (toggleState === '') {
+      setToggleState('hidden');
     } else {
-      setChatState("open")
+      setToggleState('');
+    }
+  };
+
+  function selectAside(selection) {
+    if (selection === asideSelection) {
+      setAsideSelection("");
+      setToggleState('hidden');
+    } else if (!asideSelection){
+      setToggleState('')
+      setAsideSelection(selection);
+    } else {
+      setAsideSelection(selection);
     }
   }
 
@@ -306,10 +330,12 @@ export default function Chat(props) {
           <QueueForm addVideoToQueue={addVideoToQueue} />
         </div>
       </div>
-      <div className="toggle-chat">
+
+
+      {/* <div className="toggle-chat">
         <PlayCircleFilledWhiteIcon onClick={toggleChat} fontSize="large" classes={{ root: 'toggle-button' }} />
-      </div>
-      {chatState === "open" &&
+      </div> */}
+      {/* {chatState === "open" &&
 
         <div className="text-chat-expanded">
           <div>
@@ -335,8 +361,10 @@ export default function Chat(props) {
             </Form>
           </div>
         </div>
-      }
-      <VerticalNav/>
+      } */}
+      <ChatAside leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection}/>
+      {/* <VerticalNav toggleAside={toggleAside} selectAside={selectAside}/> */}
+      <VerticalNav toggleAside={toggleAside} selectAside={selectAside}/>
     </div>
 
   )

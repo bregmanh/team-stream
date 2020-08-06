@@ -1,0 +1,24 @@
+.leave-room {
+  margin-top: 10vh;
+}
+
+.leave-button {
+  width: 60%;
+  font-size: 1.5vw;
+  border-radius: 15px;
+  color: rgb(84, 238, 249);
+  border: rgb(84, 238, 249) 2px solid;
+  background:rgb(82, 82, 82);
+}
+
+.leave-button:hover {
+  cursor: pointer;
+  background: rgb(114, 114, 114);
+}
+
+.alert {
+  margin: 2vh auto;
+  width: 70%;
+  font-size: 0.7vw;
+  color: red;
+}

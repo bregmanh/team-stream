@@ -1,5 +1,5 @@
 .v-nav {
-  background: rgb(63, 63, 63);
+  background: rgb(82, 82, 82);
   display:flex;
   flex-direction: column;
   list-style: none;
@@ -7,6 +7,10 @@
   padding: 0;
   margin: 0;
   width: 3vw;
+  height: 100vh;
+  position: absolute;
+  right: 0;
+  top:0;
 }
 
 .v-nav .active {
