@@ -225,9 +225,9 @@ export default function Chat(props) {
   }, []);
 
   // Data gives access to the video time when clicking scroll bar
-  function handleAction(action, time) {
+  function handleAction(action, data) {
     if (socketRef.current) {
-      socketRef.current.emit('videoAction', { type: action, time })
+      socketRef.current.emit('videoAction', { type: action, data })
     }
   }
 
