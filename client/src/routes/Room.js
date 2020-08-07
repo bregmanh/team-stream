@@ -106,7 +106,7 @@ const Room = (props) => {
 
     <Page>
       {username &&
-        <Chat username={username} room={room}/>
+        <Chat socketRef={props.socketRef} username={username} room={room}/>
       }
       {!username &&
         <UsernameForm updateUsername={updateUsername}/>

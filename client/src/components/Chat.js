@@ -4,6 +4,8 @@ import io from "socket.io-client";
 import "./Chat.css";
 import Controls from "./Controls";
 import QueueForm from "./QueueForm";
+import CopyLink from "./CopyLink";
+import InviteFriendsModal from "./InviteFriendsModal";
 import VerticalNav from "../components/VerticalNav";
 import ChatAside from "../components/ChatAside";
 
@@ -19,19 +21,21 @@ export default function Chat(props) {
   const [videoProgress, setVideoProgress] = useState(0);
   const [toggleState, setToggleState] = useState('');
   const [asideSelection, setAsideSelection] = useState('chat');
+  const [inviteFriendsModal, setInviteFriendsModal] = useState(false);
+
 
   const youtubePlayer = useRef();
   let newTime = '0:00'
   let onStateChangeFunc = null;
   const room = props.room;
 
-  const socketRef = useRef();
+  const socketRef = props.socketRef
 
   
 
   useEffect(() => {
 
-    socketRef.current = io.connect('/');
+    
 
     if (socketRef.current) {
 
@@ -41,6 +45,8 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("message", (message) => {
+        const threshold = 0.9;
+       
         receivedMessage(message);
       })
 
@@ -71,12 +77,22 @@ export default function Chat(props) {
         }
       })
 
+      // Listen to change in video time from server
+      socketRef.current.on("videoTime", (time) => {
+        // youtubePlayer.current.seekTo(newTime)
+        console.log('what time should be as video plays', time.action.timePercentage)
+        setVideoProgress(time.action.timePercentage)
+      })
+
       socketRef.current.on("session closed", () => {
         setRedirect('/room/closed');
       })
+      socketRef.current.on("inviteFriends", () => {
+        openModal()
+      })
 
       socketRef.current.on("provideVideoInfo", (hostInfo) => {
-        const startTime = new Date().getTime();
+        // const startTime = new Date().getTime();
         // onStateChangeFunc = (e) => {
         //   console.log("player state", youtubePlayer.current.getPlayerState())
         //   if (youtubePlayer.current.getPlayerState() === 1) {
@@ -117,7 +133,7 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("updatedQueue", updatedQueue => {
-      
+
         queue = updatedQueue;
         // if playlist doesnt exist - means its first video so just load it
         if (!youtubePlayer.current.getPlaylist()) {
@@ -132,6 +148,12 @@ export default function Chat(props) {
   function handleAction(action, data) {
     if (socketRef.current) {
       socketRef.current.emit('videoAction', { type: action, data })
+    }
+  }
+
+  function handleVideoTime(data) {
+    if (socketRef.current) {
+      socketRef.current.emit('videoTime', data)
     }
   }
 
@@ -169,7 +191,6 @@ export default function Chat(props) {
   function loadVideoPlayer() {
     const player = new window.YT.Player('player', {
       height: '90%',
-      //videoId: "Dm9Zf1WYQ_A",
       playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
       events: {
         'onReady': onPlayerReady,
@@ -229,6 +250,22 @@ export default function Chat(props) {
     socketRef.current.emit('addVideo', videoId);
   }
 
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(function () {
+      console.log(`copied the following url: ${window.location.href}`);
+    }, function () {
+      console.log("clipboard copy failed")
+    });
+  }
+
+  const openModal = () => {
+    setInviteFriendsModal(true);
+  };
+
+  const closeModal = () => {
+    setInviteFriendsModal(false);
+  };
+
   return (
     <div className="chat-container">
       {/* TO DO: FIX CLASS NAME DOWN HERE*/}
@@ -240,7 +277,8 @@ export default function Chat(props) {
       </div>
       <ChatAside addVideoToQueue={addVideoToQueue} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection}/>
       <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection}/>
-    </div>
+{/* <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>     */}
+</div>
 
   )
 }

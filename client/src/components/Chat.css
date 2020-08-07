@@ -31,3 +31,9 @@
   color: #10959D;
 }
 
+.copy-link{
+  position: absolute;
+  top : 2vh;
+  right: 5vw;
+ 
+}
