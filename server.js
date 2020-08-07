@@ -3,6 +3,8 @@ const http = require("http");
 const app = express();
 const server = http.createServer(app);
 const socket = require("socket.io");
+const toxicity = require('@tensorflow-models/toxicity');
+const tfjs = require("@tensorflow/tfjs-node")
 const io = socket(server);
 io.origins('localhost:3002') // for development mode to whitelist this port
 const PORT = 8080;
@@ -20,6 +22,11 @@ const hostInfo = {
 }
 
 let pingHostInterval;
+const threshold = 0.9;
+
+toxicity.load(threshold).then(model => {
+
+
 
 io.on("connection", socket => {
   socket.on('joinRoom', ({ username, room }) => {
@@ -53,9 +60,24 @@ io.on("connection", socket => {
 
   socket.emit("your id", socket.id);
   socket.on("send message", body => {
-    const user = getCurrentUser(socket.id);
-    const messageObj = createMsgObj(body, user)
-    io.to(user.room).emit("message", messageObj)
+    
+    //const threshold = 0.9;
+
+    //toxicity.load(threshold).then(model => {
+
+      model && model.classify([body.body]).then(predictions => {
+        console.log(predictions);
+        predictions.map((item)=>{
+          if(item.results[0].match === true){
+           body.body= 'Francis'
+          }
+        })
+        
+        const user = getCurrentUser(socket.id);
+        const messageObj = createMsgObj(body, user)
+        io.to(user.room).emit("message", messageObj)
+      });
+   //});
   })
 
   socket.on("videoAction", action => {
@@ -74,9 +96,9 @@ io.on("connection", socket => {
     if (users[0].id !== socket.id) {
       socket.emit("provideVideoInfo", hostInfo)
     } else {
-      // //added - even if host, we want to provide it with initial info
-      // socket.emit("provideVideoInfo", hostInfo)
-
+      //if host joins, get a modal to invite friends
+      socket.emit("inviteFriends", "")
+      //start pinging the host for info
       pingHostInterval = setInterval(() => {
         io.to(users[0].id).emit("pingHostForInfo", "");
       }, 200)
@@ -132,3 +154,5 @@ function createMsgObj(msg, user) {
 
 
 server.listen(PORT, () => console.log("server is running on port 8080"));
+
+})

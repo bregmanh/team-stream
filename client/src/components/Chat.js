@@ -7,8 +7,12 @@ import Controls from "./Controls";
 import LeaveRoom from "./LeaveRoom";
 import Message from "./Message";
 import QueueForm from "./QueueForm";
+import CopyLink from "./CopyLink";
+import InviteFriendsModal from "./InviteFriendsModal";
 
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
+
+
 
 
 const Page = styled.div`
@@ -107,7 +111,9 @@ export default function Chat(props) {
   const [chatState, setChatState] = useState("open");
   let queue = [];
   const bufferTime = 4.5;
-  const [videoProgress, setVideoProgress] = useState(0)
+  const [videoProgress, setVideoProgress] = useState(0);
+  const [inviteFriendsModal, setInviteFriendsModal] = useState(false);
+
 
   const youtubePlayer = useRef();
   let newTime = '0:00'
@@ -129,6 +135,8 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("message", (message) => {
+        const threshold = 0.9;
+       
         receivedMessage(message);
       })
 
@@ -169,9 +177,12 @@ export default function Chat(props) {
       socketRef.current.on("session closed", () => {
         setRedirect('/room/closed');
       })
+      socketRef.current.on("inviteFriends", () => {
+        openModal()
+      })
 
       socketRef.current.on("provideVideoInfo", (hostInfo) => {
-        const startTime = new Date().getTime();
+        // const startTime = new Date().getTime();
         // onStateChangeFunc = (e) => {
         //   console.log("player state", youtubePlayer.current.getPlayerState())
         //   if (youtubePlayer.current.getPlayerState() === 1) {
@@ -212,7 +223,7 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("updatedQueue", updatedQueue => {
-      
+
         queue = updatedQueue;
         // if playlist doesnt exist - means its first video so just load it
         if (!youtubePlayer.current.getPlaylist()) {
@@ -270,7 +281,6 @@ export default function Chat(props) {
   function loadVideoPlayer() {
     const player = new window.YT.Player('player', {
       height: '90%',
-      videoId: "xq0CpI-Zfeg",
       playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
       events: {
         'onReady': onPlayerReady,
@@ -314,10 +324,26 @@ export default function Chat(props) {
   }
 
   function addVideoToQueue(videoId) {
-  
+
     socketRef.current.emit('addVideo', videoId);
 
   }
+
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(function () {
+      console.log(`copied the following url: ${window.location.href}`);
+    }, function () {
+      console.log("clipboard copy failed")
+    });
+  }
+
+  const openModal = () => {
+    setInviteFriendsModal(true);
+  };
+
+  const closeModal = () => {
+    setInviteFriendsModal(false);
+  };
 
   return (
     <div className="chat-container">
@@ -332,6 +358,10 @@ export default function Chat(props) {
       <div className="leave-room">
         <LeaveRoom leaveRoom={leaveRoom} />
       </div>
+      <div className="copy-link">
+        <CopyLink copyLink={copyLink} icon={true}/>
+      </div>
+      <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>
       <div className="toggle-chat">
         <PlayCircleFilledWhiteIcon onClick={toggleChat} fontSize="large" classes={{ root: 'toggle-button' }} />
       </div>

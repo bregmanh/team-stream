@@ -39,3 +39,10 @@
   color: #10959D;
   font-weight: bold;
 }
+
+.copy-link{
+  position: absolute;
+  top : 2vh;
+  right: 5vw;
+ 
+}
