@@ -64,11 +64,11 @@ io.on("connection", socket => {
   })
 
   // Listen for change in video time
-  socket.on("videoTime", time => {
-    console.log('2. server videoTime: ', time)
-    const user = getCurrentUser(socket.id);
-    io.to(user.room).emit("videoTime", { time, hostInfo })
-  })
+  // socket.on("videoTime", time => {
+  //   console.log('2. server videoTime: ', time)
+  //   const user = getCurrentUser(socket.id);
+  //   io.to(user.room).emit("videoTime", { time, hostInfo })
+  // })
 
   //if not a host, request for video info from the host
   socket.on("requestVideoInfo", action => {

@@ -160,12 +160,12 @@ export default function Chat(props) {
       })
 
       // Listen to change in video time from server
-      socketRef.current.on("videoTime", ({ action, time }) => {
-        // youtubePlayer.current.seekTo(newTime)
-        console.log('3. action to everyone: ', action)
-        console.log('3. time to everyone:', time)
-        // setVideoProgress(action.data.timePercentage)
-      })
+      // socketRef.current.on("videoTime", ({ action, time }) => {
+      //   // youtubePlayer.current.seekTo(newTime)
+      //   console.log('3. action to everyone: ', action)
+      //   console.log('3. time to everyone:', time)
+      //   // setVideoProgress(action.data.timePercentage)
+      // })
 
       socketRef.current.on("session closed", () => {
         setRedirect('/room/closed');
@@ -232,10 +232,10 @@ export default function Chat(props) {
   }
 
   function handleVideoTime(time) {
-    if (socketRef.current) {
-      console.log('1. handleVideoTime data: ', time)
-      socketRef.current.emit('videoTime', time)
-    }
+    // if (socketRef.current) {
+    //   console.log('1. handleVideoTime data: ', time)
+    //   socketRef.current.emit('videoTime', time)
+    // }
   }
 
   function receivedMessage(message) {
