@@ -48,8 +48,7 @@ io.on("connection", socket => {
 
   // Create a session when user clicks to create
   socket.on('create-session', () => {
-    console.log('knex test')
-    knex('sessions').insert({title: 'Cute Dog Videos', active: true, public: true})
+    knex('sessions').insert({title: 'Cute Dog Videos', active: true, public: true}).then()
   })
 
   socket.emit("your id", socket.id);
@@ -66,6 +65,7 @@ io.on("connection", socket => {
 
   // Listen for change in video time
   socket.on("videoTime", action => {
+    console.log('server videoTime: ', action)
     const user = getCurrentUser(socket.id);
     io.to(user.room).emit("videoTime", { action, hostInfo })
   })

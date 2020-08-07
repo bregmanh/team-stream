@@ -161,7 +161,7 @@ export default function Chat(props) {
 
       // Listen to change in video time from server
       socketRef.current.on("videoTime", ({ action, data }) => {
-        youtubePlayer.current.seekTo(newTime)
+        // youtubePlayer.current.seekTo(newTime)
         console.log('action: ', action)
         console.log('data:', data)
         // setVideoProgress(action.data.timePercentage)
@@ -233,6 +233,7 @@ export default function Chat(props) {
 
   function handleVideoTime(data) {
     if (socketRef.current) {
+      console.log('handleVideoTime data: ', data)
       socketRef.current.emit('videoTime', data)
     }
   }
