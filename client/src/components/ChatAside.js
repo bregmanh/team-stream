@@ -3,6 +3,7 @@ import "./ChatAside.css";
 import LeaveRoom from "../components/LeaveRoom";
 import TextChat from "../components/TextChat";
 import Users from "../components/Users";
+import Queue from "../components/Queue";
 
 export default function ChatAside(props) {
   return (
@@ -22,7 +23,7 @@ export default function ChatAside(props) {
           <div>NEW USER</div>
         }
          {props.selection === "queue" && 
-          <div>QUEUE</div>
+          <Queue />
         }
          {props.selection === "addqueue" && 
           <div>ADD TO QUEUE</div>
