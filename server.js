@@ -66,7 +66,7 @@ io.on("connection", socket => {
     //toxicity.load(threshold).then(model => {
 
       model && model.classify([body.body]).then(predictions => {
-        console.log(predictions);
+        // console.log(predictions);
         predictions.map((item)=>{
           if(item.results[0].match === true){
            body.body= 'Francis'
@@ -118,6 +118,12 @@ io.on("connection", socket => {
     const user = getCurrentUser(socket.id);
 
     io.to(user.room).emit("updatedQueue", hostInfo.queue);
+  })
+
+  socket.on("query-public-rooms", () => {
+    const publicRooms = knex.select("*").from("sessions").where("public", true).then(sessions => {
+      socket.emit("show-public-rooms", sessions)
+    })
   })
 
 })

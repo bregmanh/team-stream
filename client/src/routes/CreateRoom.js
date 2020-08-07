@@ -32,10 +32,6 @@ const CreateRoom = (props) => {
             return
         }
         socketRef.current.emit('create-session')
-        // const roomObj = {thumbnail: "", id, viewers: 1}
-        // db('sessions').insert({title: 'Cute Dog Videos', active: true, public: true}).then( function (res) {
-        //     res.json({ success: true, message: 'ok' });     // respond back to request
-        //  })
         // props.setRoom(roomObj)
         console.log(props.room)
         // props.setRooms(...props.rooms, props.room)

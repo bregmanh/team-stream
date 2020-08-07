@@ -95,6 +95,7 @@ const PartnerMessage = styled.div`
 `;
 
 const Room = (props) => {
+  const [isPublic, setIsPublic] = useState(true)
   const [username, setUsername] = useState("")
   const room = props.match.params.roomID;
 
