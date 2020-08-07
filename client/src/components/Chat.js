@@ -160,10 +160,10 @@ export default function Chat(props) {
       })
 
       // Listen to change in video time from server
-      socketRef.current.on("videoTime", ({ action, data }) => {
+      socketRef.current.on("videoTime", ({ action, time }) => {
         // youtubePlayer.current.seekTo(newTime)
-        console.log('action: ', action)
-        console.log('data:', data)
+        console.log('3. action to everyone: ', action)
+        console.log('3. time to everyone:', time)
         // setVideoProgress(action.data.timePercentage)
       })
 
@@ -225,16 +225,16 @@ export default function Chat(props) {
   }, []);
 
   // Data gives access to the video time when clicking scroll bar
-  function handleAction(action, data) {
+  function handleAction(action, time) {
     if (socketRef.current) {
-      socketRef.current.emit('videoAction', { type: action, data })
+      socketRef.current.emit('videoAction', { type: action, time })
     }
   }
 
-  function handleVideoTime(data) {
+  function handleVideoTime(time) {
     if (socketRef.current) {
-      console.log('handleVideoTime data: ', data)
-      socketRef.current.emit('videoTime', data)
+      console.log('1. handleVideoTime data: ', time)
+      socketRef.current.emit('videoTime', time)
     }
   }
 
