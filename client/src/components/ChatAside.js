@@ -13,7 +13,7 @@ export default function ChatAside(props) {
           <LeaveRoom leaveRoom={props.leaveRoom}/>
         }
         {props.selection === "chat" && 
-          <TextChat/>
+          <TextChat message={props.message} setMessage={props.setMessage} yourID={props.yourID} messages={props.messages} sendMessage={props.sendMessage}/>
         }
          {props.selection === "users" && 
           <Users/>

@@ -14,6 +14,7 @@
   font-size: 2.5vw;
   color: rgb(71, 196, 205);
   -webkit-text-stroke: 3px black;
-  padding-top: 1vh;
+  padding: 1vh;
+  background: #484848;
 
 }
