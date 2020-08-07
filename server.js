@@ -4,7 +4,8 @@ const app = express();
 const server = http.createServer(app);
 const socket = require("socket.io");
 const toxicity = require('@tensorflow-models/toxicity');
-const tfjs = require("@tensorflow/tfjs-node")
+const tfjs = require("@tensorflow/tfjs-node");
+const { kStringMaxLength } = require("buffer");
 const io = socket(server);
 const PORT = 8080;
 
@@ -53,10 +54,6 @@ io.on("connection", socket => {
 
   socket.emit("your id", socket.id);
   socket.on("send message", body => {
-    
-    //const threshold = 0.9;
-
-    //toxicity.load(threshold).then(model => {
 
       model && model.classify([body.body]).then(predictions => {
         console.log(predictions);
@@ -65,12 +62,11 @@ io.on("connection", socket => {
            body.body= 'Francis'
           }
         })
-        
         const user = getCurrentUser(socket.id);
         const messageObj = createMsgObj(body, user)
         io.to(user.room).emit("message", messageObj)
       });
-   //});
+  
   })
 
   socket.on("videoAction", action => {
@@ -80,6 +76,8 @@ io.on("connection", socket => {
 
   //if not a host, request for video info from the host
   socket.on("requestVideoInfo", action => {
+    //need to know if user in this room is host
+    const user = getCurrentUser(socket.id);
     if (users[0].id !== socket.id) {
       socket.emit("provideVideoInfo", hostInfo)
     } else {
@@ -113,21 +111,31 @@ function userJoin(id, username, room) {
   const user = { id, username, room };
 
   users.push(user);
+  //knex('users').insert({id: id}, {user_name: username}, {can_control: can_control}, {session_id: room})
 
   return user;
 }
 
 // User leaves chat
-function userLeave(id) {
-  const index = users.findIndex(user => user.id === id);
+function userLeave(socket_id) {
+    // knex('users')
+  // .where({ id: socket_id })
+  //.del()
+  //.returning('*')
+  // .then(rows => {return rows})
+  const index = users.findIndex(user => user.id === socket_id);
 
   if (index !== -1) {
     return users.splice(index, 1)[0];
-    console.log({ users });
   }
 }
-function getCurrentUser(id) {
-  return users.find(user => user.id === id);
+function getCurrentUser(socket_id) {
+  // knex('users')
+  // .where({ id: socket_id })
+  // .then(rows => {console.log("rows", rows)})
+
+  //need to return an object with the format: { id, username, room }
+  return users.find(user => user.id === socket_id);
 }
 
 function createMsgObj(msg, user) {
@@ -136,6 +144,7 @@ function createMsgObj(msg, user) {
     message: msg.body,
     username: user.username
   }
+
 }
 
 

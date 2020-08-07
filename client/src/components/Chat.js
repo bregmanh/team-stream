@@ -118,7 +118,6 @@ export default function Chat(props) {
   const youtubePlayer = useRef();
   let newTime = '0:00'
   let onStateChangeFunc = null;
-  const room = props.room;
 
   const socketRef = useRef();
 
@@ -129,7 +128,7 @@ export default function Chat(props) {
 
     if (socketRef.current) {
 
-      socketRef.current.emit('joinRoom', { username: props.username, room });
+      socketRef.current.emit('joinRoom', { username: props.username, room: props.room });
       socketRef.current.on("your id", id => {
         setYourID(id);
       })
@@ -205,7 +204,6 @@ export default function Chat(props) {
 
       socketRef.current.on("pingHostForInfo", info => {
         let playerState = youtubePlayer.current.getPlayerState()
-        console.log("player state", playerState)
         let videoInfo = {
           time: youtubePlayer.current.getCurrentTime(),
           play: playerState === 1,
