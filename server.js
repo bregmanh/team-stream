@@ -7,7 +7,9 @@ const toxicity = require('@tensorflow-models/toxicity');
 const tfjs = require("@tensorflow/tfjs-node");
 const { kStringMaxLength } = require("buffer");
 const io = socket(server);
+io.origins('localhost:3002') // for development mode to whitelist this port
 const PORT = 8080;
+const knex = require('./db/knex.js');
 
 const users = [];
 const botName = "TeamStream"
@@ -52,6 +54,11 @@ io.on("connection", socket => {
     }
   });
 
+  // Create a session when user clicks to create
+  socket.on('create-session', () => {
+    knex('sessions').insert({title: 'Cute Dog Videos', active: true, public: true}).then()
+  })
+
   socket.emit("your id", socket.id);
   socket.on("send message", body => {
 
@@ -72,6 +79,12 @@ io.on("connection", socket => {
   socket.on("videoAction", action => {
     const user = getCurrentUser(socket.id);
     io.to(user.room).emit("videoAction", { action, hostInfo })
+  })
+
+  // Listen for change in video time
+  socket.on("videoTime", action => {
+    const user = getCurrentUser(socket.id);
+    io.to(user.room).emit("videoTime", { action} )
   })
 
   //if not a host, request for video info from the host

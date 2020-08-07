@@ -1,0 +1,33 @@
+.search-list-item {
+  display: flex;
+  flex-direction: row;
+  margin: 1vh 1vw;
+  align-items: center;
+  height: 10vh;
+  background: rgb(181, 181, 181);
+}
+
+.thumbnail-img {
+  height: 10vh;
+  width: 6vw;
+}
+
+.info {
+  margin: auto;
+}
+
+
+.info p {
+  font-size: 0.7vw;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.info button {
+  background: rgb(22, 158, 182);
+  border-radius: 5px;
+  color: white;
+  width: 6vw;
+  font-size: 0.7vw;
+  margin-top: 1vh;
+}

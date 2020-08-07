@@ -2,19 +2,40 @@ import React, { useState, useRef } from "react";
 import { Redirect } from "react-router-dom";
 import { v1 as uuid } from "uuid";
 import './CreateRoom.css';
+// const knex = require('knex');
+
+// const knexFile = require('../../..knexfile').development;
+
+// const db = knex(knexFile);
+
+// const insertData = (tableName, data) => {
+
+//     return db(tableName)
+//             .insert(data)
+//             .then(resp => resp)
+//             .finally(() => db.destroy());
+// }
+
+
+import VerticalNav from "../components/VerticalNav";
 
 const CreateRoom = (props) => {
+    const socketRef = props.socketRef
     const publicOrPrivate = useRef()
 
     const [redirect, setRedirect] = useState(null);
 
-    function create() {
+    function createSession() {
         const id = uuid();
         // props.history.push(`/room/${id}`);
         if (publicOrPrivate.current.value === 'Select a Room') {
             return
         }
-        const roomObj = {thumbnail: "", id, viewers: 1}
+        socketRef.current.emit('create-session')
+        // const roomObj = {thumbnail: "", id, viewers: 1}
+        // db('sessions').insert({title: 'Cute Dog Videos', active: true, public: true}).then( function (res) {
+        //     res.json({ success: true, message: 'ok' });     // respond back to request
+        //  })
         // props.setRoom(roomObj)
         console.log(props.room)
         // props.setRooms(...props.rooms, props.room)
@@ -26,7 +47,7 @@ const CreateRoom = (props) => {
         // }
     }
 
-    function join () {
+    function joinSession () {
         setRedirect('/rooms')
     }
 
@@ -45,9 +66,9 @@ const CreateRoom = (props) => {
                             <option value="public">Public</option>
                             <option value="private">Private</option>
                         </select>
-                        <button onClick={create}>Create Room</button>
+                        <button onClick={createSession}>Create Room</button>
                     </div>
-                    <button onClick={join}>Join Room</button>
+                    <button onClick={joinSession}>Join Room</button>
                 </div>
             </div>
         </div>

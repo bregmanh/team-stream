@@ -1,0 +1,20 @@
+.chat-aside {
+  display: block;
+  width: 20vw;
+  background: rgb(63, 63, 63);
+  margin-right: 3vw;
+}
+
+.hidden {
+  display: none;
+}
+
+.logo {
+  font-family: 'Russo One', sans-serif;
+  font-size: 2.5vw;
+  color: rgb(71, 196, 205);
+  -webkit-text-stroke: 3px black;
+  padding: 1vh;
+  background: #484848;
+
+}

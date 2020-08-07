@@ -2,17 +2,23 @@ import React, { useState, useEffect, useRef } from "react";
 import "./Message.css";
 
 export default function Message(props) {
-
-let styleText={
-marginTop: "2px",
-marginBottom: "2px",
-}
-
+  
+  let position;
+  if (props.message.id === props.yourID) {
+    position = 'right';
+  } else if (props.message.username === 'TeamStreamBot') {
+    position = 'middle'
+  } else {
+    position = 'left';
+  }
 
   return (
-    <div className="message">
-      <p className="meta" style={styleText}>{props.message.username} <span>{"timeStamp"}</span></p>
-      <p className="text" style={styleText}>
+    <div className={`message ${position}`}>
+      <div className="message-header">
+        <p>{props.message.username}</p> 
+        <p>{"10:00PM"}</p>
+      </div>
+      <p className="message-text">
         {props.message.message}
       </p>
     </div>

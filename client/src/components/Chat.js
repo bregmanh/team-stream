@@ -1,117 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Redirect } from "react-router-dom";
-import styled from "styled-components";
 import io from "socket.io-client";
 import "./Chat.css";
 import Controls from "./Controls";
-import LeaveRoom from "./LeaveRoom";
-import Message from "./Message";
 import QueueForm from "./QueueForm";
 import CopyLink from "./CopyLink";
 import InviteFriendsModal from "./InviteFriendsModal";
-
-import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
-
-
+import VerticalNav from "../components/VerticalNav";
+import ChatAside from "../components/ChatAside";
 
 
-const Page = styled.div`
-  display: flex;
-  height: 100vh;
-  width: 100%;
-  align-items: center;
-  background-color: #3F444B;
-  flex-direction: column;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 500px;
-  width: 20vw;
-  max-height: 500px;
-  overflow: auto;
-  border: 1px solid lightgray;
-  border-radius: 10px;
-  padding-bottom: 10px;
-  margin-top: 25px;
-`;
-
-const TextArea = styled.textarea`
-  width: 98%;
-  height: 100px;
-  border-radius: 10px;
-  margin-top: 10px;
-  padding-left: 10px;
-  padding-top: 10px;
-  font-size: 17px;
-  background-color: transparent;
-  border: 1px solid lightgray;
-  outline: none;
-  color: lightgray;
-  letter-spacing: 1px;
-  line-height: 20px;
-  ::placeholder {
-    color: lightgray;
-  }
-`;
-
-const Button = styled.button`
-  background-color: #10959D;
-  width: 100%;
-  border: none;
-  height: 50px;
-  border-radius: 10px;
-  color: #3F444B;
-  font-size: 17px;
-`;
-
-const Form = styled.form`
-width: 20vw;
-`;
-
-const MyRow = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-`;
-
-const MyMessage = styled.div`
-  width: 45%;
-  background-color: #10959D;
-  color: #3F444B;
-  padding: 10px;
-  margin-right: 5px;
-  text-align: center;
-  border-top-right-radius: 10%;
-  border-bottom-right-radius: 10%;
-`;
-
-const PartnerRow = styled(MyRow)`
-  justify-content: flex-start;
-`;
-
-const PartnerMessage = styled.div`
-  width: 45%;
-  background-color: transparent;
-  color: lightgray;
-  border: 1px solid lightgray;
-  padding: 10px;
-  margin-left: 5px;
-  text-align: center;
-  border-top-left-radius: 10%;
-  border-bottom-left-radius: 10%;
-`;
 export default function Chat(props) {
   const [yourID, setYourID] = useState();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [redirect, setRedirect] = useState(null);
-  const [chatState, setChatState] = useState("open");
+  // const [chatState, setChatState] = useState("open");
   let queue = [];
   const bufferTime = 4.5;
   const [videoProgress, setVideoProgress] = useState(0);
+  const [toggleState, setToggleState] = useState('');
+  const [asideSelection, setAsideSelection] = useState('chat');
   const [inviteFriendsModal, setInviteFriendsModal] = useState(false);
 
 
@@ -119,12 +28,13 @@ export default function Chat(props) {
   let newTime = '0:00'
   let onStateChangeFunc = null;
 
-  const socketRef = useRef();
+  const socketRef = props.socketRef
 
+  
 
   useEffect(() => {
 
-    socketRef.current = io.connect('/');
+    
 
     if (socketRef.current) {
 
@@ -164,6 +74,13 @@ export default function Chat(props) {
         } else if (action.type === "nextVideo") {
           youtubePlayer.current.nextVideo()
         }
+      })
+
+      // Listen to change in video time from server
+      socketRef.current.on("videoTime", (time) => {
+        // youtubePlayer.current.seekTo(newTime)
+        console.log('what time should be as video plays', time.action.timePercentage)
+        setVideoProgress(time.action.timePercentage)
       })
 
       socketRef.current.on("session closed", () => {
@@ -232,6 +149,12 @@ export default function Chat(props) {
     }
   }
 
+  function handleVideoTime(data) {
+    if (socketRef.current) {
+      socketRef.current.emit('videoTime', data)
+    }
+  }
+
   function receivedMessage(message) {
     setMessages(oldMsgs => [...oldMsgs, message]);
   }
@@ -266,7 +189,6 @@ export default function Chat(props) {
   function loadVideoPlayer() {
     const player = new window.YT.Player('player', {
       height: '90%',
-      //videoId: "Dm9Zf1WYQ_A",
       playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
       events: {
         'onReady': onPlayerReady,
@@ -297,11 +219,24 @@ export default function Chat(props) {
       }
     }
   }
-  function toggleChat() {
-    if (chatState === "open") {
-      setChatState("closed")
+
+  function toggleAside(){
+    if (toggleState === '') {
+      setToggleState('hidden');
     } else {
-      setChatState("open")
+      setToggleState('');
+    }
+  };
+
+  function selectAside(selection) {
+    if (selection === asideSelection) {
+      setAsideSelection("");
+      setToggleState('hidden');
+    } else if (!asideSelection){
+      setToggleState('')
+      setAsideSelection(selection);
+    } else {
+      setAsideSelection(selection);
     }
   }
 
@@ -310,9 +245,7 @@ export default function Chat(props) {
   }
 
   function addVideoToQueue(videoId) {
-
     socketRef.current.emit('addVideo', videoId);
-
   }
 
   function copyLink() {
@@ -333,53 +266,17 @@ export default function Chat(props) {
 
   return (
     <div className="chat-container">
-
-      <div className="player-with-controls"><div id="player" className={chatState === "open" ? 'youtube-player' : 'youtube-player-expanded'} />
+      {/* TO DO: FIX CLASS NAME DOWN HERE*/}
+      <div className="player-with-controls">
+        <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />
         <div>
-
           <Controls videoProgress={videoProgress} handleAction={handleAction} />
-          <QueueForm addVideoToQueue={addVideoToQueue} />
         </div>
       </div>
-      <div className="leave-room">
-        <LeaveRoom leaveRoom={leaveRoom} />
-      </div>
-      <div className="copy-link">
-        <CopyLink copyLink={copyLink} icon={true}/>
-      </div>
-      <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>
-      <div className="toggle-chat">
-        <PlayCircleFilledWhiteIcon onClick={toggleChat} fontSize="large" classes={{ root: 'toggle-button' }} />
-      </div>
-      {chatState === "open" &&
-
-        <div className="text-chat-expanded">
-          <div>
-            <Container socket={socketRef.current}>
-              {messages.map((message, index) => {
-                if (message.id === yourID) {
-                  return (
-                    <MyRow key={index}>
-                      <Message message={message} />
-                    </MyRow>
-                  )
-                }
-                return (
-                  <PartnerRow key={index}>
-                    <Message message={message} />
-                  </PartnerRow>
-                )
-              })}
-            </Container>
-            <Form onSubmit={sendMessage}>
-              <TextArea value={message} onChange={handleChange} placeholder="Say something..." />
-              <Button>Send</Button>
-            </Form>
-          </div>
-        </div>
-      }
-
-    </div>
+      <ChatAside addVideoToQueue={addVideoToQueue} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection}/>
+      <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection}/>
+{/* <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>     */}
+</div>
 
   )
 }

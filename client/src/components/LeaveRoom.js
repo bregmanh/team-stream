@@ -1,11 +1,13 @@
 import React from "react";
+import "./LeaveRoom.css";
 
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const LeaveRoom = props => {
-
     return (
-        <ArrowBackIcon onClick={props.leaveRoom}>Leave Room</ArrowBackIcon>
+        <div className="leave-room">
+            <button className="leave-button" onClick={props.leaveRoom}>Leave Room</button>
+            <p className="alert"><b>Caution!</b> If you are the host, this action will terminate the session for all other participants.</p>
+        </div>
     );
 }
 

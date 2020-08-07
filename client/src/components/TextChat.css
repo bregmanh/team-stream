@@ -1,0 +1,50 @@
+.text-chat {
+  display: flex;
+  flex-direction: column;
+  height: 60vh;
+  width: 90%;
+  overflow: auto;
+  padding: 1vh 1vw;
+}
+
+.message-form {
+  width: 90%;
+  margin: auto;
+}
+
+.message-form textarea {
+  width: 95%;
+  height: 7vh;
+  border-radius: 10px;
+  border: 1px solid lightgrey;
+  color: lightgrey;
+  letter-spacing: 1px;
+  background: transparent;
+  resize: none;
+  margin: 2vh auto;
+  padding: 0.5vw;
+  font-size: 1vw;
+}
+
+.message-form textarea:focus {
+  outline: none;
+}
+
+.chat-button {
+  background-color: #10959D;
+  width: 100%;
+  border: none;
+  height: 4vh;
+  border-radius: 10px;
+  color: #3F444B;
+  font-size: 1vw
+}
+
+.chat-button:hover {
+  background-color: rgb(58, 186, 193);
+  cursor: pointer;
+}
+
+.chat-button:focus {
+  outline: none;
+}

@@ -1,0 +1,25 @@
+.search-form {
+  display: flex;
+  flex-direction: row;
+  background: lightgrey;
+  color: black;
+  border-radius: 15px;
+  margin: 2vh auto;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.search-input {
+  width: 60%;
+  background: lightgrey;
+  margin-left: 2vw;
+  border: none;
+  outline: none;
+}
+
+.search-button-icon {
+  background: grey;
+  border-radius: 50px;
+  margin: 0;
+}
+
