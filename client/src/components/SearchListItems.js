@@ -8,7 +8,7 @@ const SearchListItem = props => {
   const id = props.video.id.videoId;
 
   function handleClick(id) {
-    console.log(id);
+   props.queueVideo(id);
   }
 
   return (

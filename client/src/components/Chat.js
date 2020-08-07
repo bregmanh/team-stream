@@ -239,7 +239,7 @@ export default function Chat(props) {
           <QueueForm addVideoToQueue={addVideoToQueue} />
         </div>
       </div>
-      <ChatAside yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection}/>
+      <ChatAside addVideoToQueue={addVideoToQueue} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection}/>
       <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection}/>
     </div>
 

@@ -27,7 +27,7 @@ export default function ChatAside(props) {
           <Queue />
         }
          {props.selection === "addqueue" && 
-          <Search />
+          <Search addVideoToQueue={props.addVideoToQueue}/>
         }
      </div>
    </div>

@@ -4,7 +4,10 @@ import "./SearchList.css"
 
 
 const SearchList = props => {
-  const searchListItems = props.videos.map(video => <SearchListItem video={video}/>);
+  function queueVideo(videoId){
+    props.addVideoToQueue(videoId);
+  }
+  const searchListItems = props.videos.map(video => <SearchListItem queueVideo={queueVideo} video={video}/>);
   return (
     <ul className="search-list">
       {searchListItems}
