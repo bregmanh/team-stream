@@ -4,7 +4,7 @@ const app = express();
 const server = http.createServer(app);
 const socket = require("socket.io");
 const toxicity = require('@tensorflow-models/toxicity');
-const tfjs = require("@tensorflow/tfjs")
+const tfjs = require("@tensorflow/tfjs-node")
 const io = socket(server);
 const PORT = 8080;
 
@@ -20,6 +20,11 @@ const hostInfo = {
 }
 
 let pingHostInterval;
+const threshold = 0.9;
+
+toxicity.load(threshold).then(model => {
+
+
 
 io.on("connection", socket => {
   socket.on('joinRoom', ({ username, room }) => {
@@ -48,8 +53,10 @@ io.on("connection", socket => {
 
   socket.emit("your id", socket.id);
   socket.on("send message", body => {
-    const threshold = 0.9;
-    toxicity.load(threshold).then(model => {
+    
+    //const threshold = 0.9;
+
+    //toxicity.load(threshold).then(model => {
 
       model && model.classify([body.body]).then(predictions => {
         console.log(predictions);
@@ -63,7 +70,7 @@ io.on("connection", socket => {
         const messageObj = createMsgObj(body, user)
         io.to(user.room).emit("message", messageObj)
       });
-    });
+   //});
   })
 
   socket.on("videoAction", action => {
@@ -134,3 +141,5 @@ function createMsgObj(msg, user) {
 
 
 server.listen(PORT, () => console.log("server is running on port 8080"));
+
+})
