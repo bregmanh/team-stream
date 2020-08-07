@@ -236,7 +236,6 @@ export default function Chat(props) {
         <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />
         <div>
           <Controls videoProgress={videoProgress} handleAction={handleAction} />
-          <QueueForm addVideoToQueue={addVideoToQueue} />
         </div>
       </div>
       <ChatAside addVideoToQueue={addVideoToQueue} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection}/>
