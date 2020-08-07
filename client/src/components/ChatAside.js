@@ -4,6 +4,7 @@ import LeaveRoom from "../components/LeaveRoom";
 import TextChat from "../components/TextChat";
 import Users from "../components/Users";
 import Queue from "../components/Queue";
+import Search from "../components/Search";
 
 export default function ChatAside(props) {
   return (
@@ -26,7 +27,7 @@ export default function ChatAside(props) {
           <Queue />
         }
          {props.selection === "addqueue" && 
-          <div>ADD TO QUEUE</div>
+          <Search />
         }
      </div>
    </div>
