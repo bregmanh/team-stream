@@ -10,9 +10,6 @@ export default function Controls(props) {
     scrollBar.current.value = props.videoProgress
   }, [props.videoProgress])
 
-  
-
-  console.log("video progress: ", props.videoProgress)
   return (
     <>
       <input type="range" id="progress-bar" class="progress-bar" ref={scrollBar}
