@@ -20,7 +20,7 @@ export default function Controls(props) {
     <>
       <input type="range" id="progress-bar" class="progress-bar" ref={scrollBar}
         onInput={e => props.handleAction("scroll-video", {timePercentage: e.target.value})}
-        onChange={e => {props.handleVideoTime({timePercentage: e.target.value})}}
+        // onChange={e => {props.handleVideoTime({timePercentage: e.target.value})}}
       />
       <div className="controls">
         {!muted && <VolumeMuteIcon

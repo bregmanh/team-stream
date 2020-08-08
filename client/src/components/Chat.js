@@ -19,6 +19,7 @@ export default function Chat(props) {
   const [toggleState, setToggleState] = useState('');
   const [asideSelection, setAsideSelection] = useState('chat');
   const [inviteFriendsModal, setInviteFriendsModal] = useState(false);
+  const [canControl, setCanControl] = useState(true)
   const youtubePlayer = useRef();
   
   let queue = [];
@@ -141,9 +142,12 @@ export default function Chat(props) {
 
       })
 
-      // socketRef.current.on("controller", (controller) => {
-      //   console.log("controller: ", controller)
-      // })
+      // socketRef.current.emit("cannot-control")
+
+      socketRef.current.on("no-controls", (cannotControl) => {
+        console.log("controller: ", cannotControl)
+        setCanControl(cannotControl)
+      })
     }
   }, []);
 
@@ -154,11 +158,11 @@ export default function Chat(props) {
     }
   }
 
-  function handleVideoTime(data) {
-    if (socketRef.current) {
-      socketRef.current.emit('videoTime', data)
-    }
-  }
+  // function handleVideoTime(data) {
+  //   if (socketRef.current) {
+  //     socketRef.current.emit('videoTime', data)
+  //   }
+  // }
 
   function receivedMessage(message) {
     setMessages(oldMsgs => [...oldMsgs, message]);
@@ -269,19 +273,19 @@ export default function Chat(props) {
     setInviteFriendsModal(false);
   };
 
-  // function canControl () {
-  //   socketRef.current.emit('can-control')
-  // }
-
+  function cannotControl () {
+    socketRef.current.emit("cannot-control")
+  }
+  cannotControl()
   return (
     <div className="chat-container">
       <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>    
       {/* TO DO: FIX CLASS NAME DOWN HERE*/}
       <div className="player-with-controls">
         <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />
-        <div>
+        {canControl && <div>
           <Controls videoProgress={videoProgress} handleAction={handleAction} />
-        </div>
+        </div>}
       </div>
       <ChatAside copyLink={copyLink} addVideoToQueue={addVideoToQueue} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection}/>
       <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection}/>

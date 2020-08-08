@@ -108,12 +108,12 @@ toxicity.load(threshold).then(model => {
     })
 
     // Listen for change in video time
-    socket.on("videoTime", action => {
-      //const user = getCurrentUser(socket.id);
-      knex.from('users').where('id', socket.id).then(rows => {
-        io.to(rows[0].session_id).emit("videoTime", { action })
-      })
-    })
+    // socket.on("videoTime", action => {
+    //   //const user = getCurrentUser(socket.id);
+    //   knex.from('users').where('id', socket.id).then(rows => {
+    //     io.to(rows[0].session_id).emit("videoTime", { action })
+    //   })
+    // })
 
     //if not a host, request for video info from the host
     socket.on("requestVideoInfo", action => {
@@ -154,15 +154,25 @@ toxicity.load(threshold).then(model => {
 
     })
     socket.on("query-public-rooms", () => {
-      knex.select("*").from("sessions").where("public", true).then(rows => {
+      knex.from('sessions').where('public', true).then(rows => {
         socket.emit("show-public-rooms", rows)
       })
     })
 
-    // socket.on("can-control", () => {
-    //   knex.select("*").from("sessions").where("public", false).then(rows => {
-    //     socket.emit("controller", rows)
-    //   })
+    socket.on("cannot-control", () => {
+      // knex.from("users").where("isHost", false).then(users => {
+        knex.from('users').where('id', socket.id).then(rows => {
+          const user = rows[0]
+
+          // console.log('does users include user? ', users.includes(user))
+          // if (users.includes(user)) {
+          //   const cannotControl = true
+          //   io.to(user.session_id).emit("no-controls", cannotControl)
+            io.to(user.session_id).emit("no-controls", true)
+          // }
+        });
+        
+      })
     // })
   })
 
