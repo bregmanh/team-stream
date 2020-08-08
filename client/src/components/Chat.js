@@ -53,11 +53,18 @@ export default function Chat(props) {
           youtubePlayer.current.setVolume(action.data.volumePercentage)
         }
         if (action.type === 'mute') {
-          if (youtubePlayer.current.isMuted()) {
-            youtubePlayer.current.unMute()
-          } else {
+          // if (youtubePlayer.current.isMuted()) {
+          //   youtubePlayer.current.unMute()
+          // } else {
             youtubePlayer.current.mute()
-          }
+          // }
+        }
+        if (action.type === 'unmute') {
+          // if (youtubePlayer.current.isMuted()) {
+            youtubePlayer.current.unMute()
+          // } else {
+            // youtubePlayer.current.mute()
+          // }
         }
         if (action.type === "play") {
           youtubePlayer.current.playVideo();
@@ -133,6 +140,10 @@ export default function Chat(props) {
         }
 
       })
+
+      // socketRef.current.on("controller", (controller) => {
+      //   console.log("controller: ", controller)
+      // })
     }
   }, []);
 
@@ -257,6 +268,10 @@ export default function Chat(props) {
   const closeModal = () => {
     setInviteFriendsModal(false);
   };
+
+  // function canControl () {
+  //   socketRef.current.emit('can-control')
+  // }
 
   return (
     <div className="chat-container">

@@ -154,10 +154,16 @@ toxicity.load(threshold).then(model => {
 
     })
     socket.on("query-public-rooms", () => {
-      const publicRooms = knex.select("*").from("sessions").where("public", true).then(sessions => {
-        socket.emit("show-public-rooms", sessions)
+      knex.select("*").from("sessions").where("public", true).then(rows => {
+        socket.emit("show-public-rooms", rows)
       })
     })
+
+    // socket.on("can-control", () => {
+    //   knex.select("*").from("sessions").where("public", false).then(rows => {
+    //     socket.emit("controller", rows)
+    //   })
+    // })
   })
 
     // function userJoin(id, username, room) {
