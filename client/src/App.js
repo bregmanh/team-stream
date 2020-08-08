@@ -4,6 +4,7 @@ import CreateRoom from "./routes/CreateRoom";
 import SessionClosed from "./routes/SessionClosed";
 import Room from "./routes/Room";
 import RoomList from "./routes/RoomList";
+import Home from "./routes/Home";
 import io from "socket.io-client";
 import './App.css';
 
@@ -18,10 +19,10 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact render={(props) => <CreateRoom socketRef={socketRef} />} />
-          <Route path="/room/closed" component={SessionClosed} />
-          <Route path="/rooms" render={(props) => <RoomList />} />
-          <Route path="/room/:roomID" render={(props) => <Room match={props.match} socketRef={socketRef} />} />
+          <Route path="/" exact render={(props) => <Home socketRef={socketRef} />} />
+          <Route path="/rooms" exact render={(props) => <RoomList />} />
+          <Route path="/rooms/closed" component={SessionClosed} />
+          <Route path="/rooms/:roomID" render={(props) => <Room {...props} match={props.match} socketRef={socketRef} />} />
         </Switch>
       </BrowserRouter>
     </div>

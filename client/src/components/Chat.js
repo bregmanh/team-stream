@@ -15,30 +15,23 @@ export default function Chat(props) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [redirect, setRedirect] = useState(null);
-  // const [chatState, setChatState] = useState("open");
-  let queue = [];
-  const bufferTime = 4.5;
   const [videoProgress, setVideoProgress] = useState(0);
   const [toggleState, setToggleState] = useState('');
   const [asideSelection, setAsideSelection] = useState('chat');
   const [inviteFriendsModal, setInviteFriendsModal] = useState(false);
-
-
   const youtubePlayer = useRef();
+  
+  let queue = [];
+  const bufferTime = 4.5;
   let newTime = '0:00'
   let onStateChangeFunc = null;
   const room = props.room;
-
   const socketRef = props.socketRef
 
   
 
   useEffect(() => {
-
-    
-
     if (socketRef.current) {
-
       socketRef.current.emit('joinRoom', { username: props.username, room });
       socketRef.current.on("your id", id => {
         setYourID(id);
@@ -46,7 +39,6 @@ export default function Chat(props) {
 
       socketRef.current.on("message", (message) => {
         const threshold = 0.9;
-       
         receivedMessage(message);
       })
 
@@ -268,6 +260,7 @@ export default function Chat(props) {
 
   return (
     <div className="chat-container">
+      <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>    
       {/* TO DO: FIX CLASS NAME DOWN HERE*/}
       <div className="player-with-controls">
         <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />
@@ -277,7 +270,6 @@ export default function Chat(props) {
       </div>
       <ChatAside addVideoToQueue={addVideoToQueue} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection}/>
       <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection}/>
-{/* <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>     */}
 </div>
 
   )

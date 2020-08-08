@@ -1,49 +1,49 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
-const TextArea = styled.textarea`
-  width: 98%;
-  height: 100px;
-  border-radius: 10px;
-  margin-top: 10px;
-  padding-left: 10px;
-  padding-top: 10px;
-  font-size: 17px;
-  background-color: transparent;
-  border: 1px solid lightgray;
-  outline: none;
-  color: lightgray;
-  letter-spacing: 1px;
-  line-height: 20px;
-  ::placeholder {
-    color: lightgray;
-  }
-`;
-
-const Button = styled.button`
-  background-color: #10959D;
-  width: 100%;
-  border: none;
-  height: 50px;
-  border-radius: 10px;
-  color: #3F444B;
-  font-size: 17px;
-`;
-
-const Form = styled.form`
-  width: 400px;
-`;
 export default function UsernameForm(props) {
-  const [username, setUsername] = useState("");
-  const submit = function () {
-    props.updateUsername(username)
-  }
-  const handleChange = function (e) {
+  const [username, setUsername] = useState('');
+
+  function handleChange(e) {
     setUsername(e.target.value);
   }
+
+  function joinRoom() {
+    props.handleClose();
+    props.updateUsername(username);
+  }
+
   return (
-    <Form onSubmit={submit}>
-      <TextArea value={username} onChange={handleChange} placeholder="Enter Your Name" />
-      <Button>Send</Button>
-    </Form>)
+    <div>
+      <Dialog open={props.open} onClose={props.handleClose}>
+        <DialogTitle id="form-dialog-title">Join Room</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="username"
+            label="Enter Username"
+            type="text"
+            value={username}
+            onChange={handleChange}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={props.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={joinRoom} color="primary">
+            Join
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
+

@@ -1,78 +1,86 @@
-import React, { useState, useRef } from "react";
-import { Redirect } from "react-router-dom";
-import { v1 as uuid } from "uuid";
-import './CreateRoom.css';
-// const knex = require('knex');
-
-// const knexFile = require('../../..knexfile').development;
-
-// const db = knex(knexFile);
-
-// const insertData = (tableName, data) => {
-
-//     return db(tableName)
-//             .insert(data)
-//             .then(resp => resp)
-//             .finally(() => db.destroy());
-// }
+import React, { useState } from 'react';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 
-import VerticalNav from "../components/VerticalNav";
+export default function CreateRoom(props) {
+    const [username, setUsername] = useState(null);
+    const [title, setTitle] = useState(null);
+    const [publicBool, setPublicBool] = useState('true');
 
-const CreateRoom = (props) => {
-    const socketRef = props.socketRef
-    const publicOrPrivate = useRef()
+    const handleChange = (event) => {
+      setPublicBool(event.target.value);
+    };
 
-    const [redirect, setRedirect] = useState(null);
-
-    function createSession() {
-        const id = uuid();
-        // props.history.push(`/room/${id}`);
-        if (publicOrPrivate.current.value === 'Select a Room') {
-            return
-        }
-        socketRef.current.emit('create-session')
-        // const roomObj = {thumbnail: "", id, viewers: 1}
-        // db('sessions').insert({title: 'Cute Dog Videos', active: true, public: true}).then( function (res) {
-        //     res.json({ success: true, message: 'ok' });     // respond back to request
-        //  })
-        // props.setRoom(roomObj)
-        console.log(props.room)
-        // props.setRooms(...props.rooms, props.room)
-        console.log(props.rooms)
-        setRedirect(`/room/${id}`);
-        // In the list of rooms component, I can access this value using props
-        // if (publicOrPrivate.current.value === 'private') {
-
-        // }
+    function handleUsernameChange(e) {
+        setUsername(e.target.value);
     }
 
-    function joinSession () {
-        setRedirect('/rooms')
+    function handleTitleChange(e) {
+        setTitle(e.target.value);
     }
 
-    if (redirect) {
-        return <Redirect to={redirect} />
+    function handleCreate(e) {
+        props.handleClose();
+        props.createSession(title, username, publicBool);
     }
     return (
-        <div className="home-container">
-            <h1 className="logo">TeamStream</h1>
-            <h2><span className="heading-white">Watch streams together</span> <span className="heading-green">with people you care about</span></h2>
-            <div className="room-container">
-                <div className="room-buttons">
-                    <div className="create-room">
-                        <select ref={publicOrPrivate}>
-                            <option selected disabled>Select a Room</option>
-                            <option value="public">Public</option>
-                            <option value="private">Private</option>
-                        </select>
-                        <button onClick={createSession}>Create Room</button>
-                    </div>
-                    <button onClick={joinSession}>Join Room</button>
-                </div>
-            </div>
+        <div>
+        <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title">Create Room</DialogTitle>
+            <DialogContent>
+            <DialogContentText>
+                Create a room to share the youtube watching experience with others! You can choose to create a private room and invite your friends, or a public room which will be displayed on our webpage where anyone can join! 
+            </DialogContentText>
+            <TextField
+                autoFocus
+                margin="dense"
+                id="username"
+                label="Enter username"
+                type="text"
+                value={username}
+                onChange={handleUsernameChange}
+                fullWidth
+            />
+            <TextField
+                margin="dense"
+                id="room-title"
+                label="Room Title"
+                type="text"
+                value={title}
+                onChange={handleTitleChange}
+                fullWidth
+            />
+            <FormControl component="fieldset">
+                <FormLabel component="legend">Room Type</FormLabel>
+                <RadioGroup aria-label="room-type" name="gender1" value={publicBool} onChange={handleChange}>
+                    <FormControlLabel value="true" control={<Radio />} label="public" />
+                    <FormControlLabel value="false" control={<Radio />} label="private" />
+                </RadioGroup>
+                </FormControl>
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={props.handleClose} color="primary">
+                Cancel
+            </Button>
+            <Button onClick={handleCreate} color="primary">
+                Create!
+            </Button>
+            </DialogActions>
+        </Dialog>
         </div>
     );
 }
 
-export default CreateRoom;
+
+
