@@ -40,6 +40,7 @@ export default function Chat(props) {
     if (socketRef.current) {
 
       socketRef.current.emit('joinRoom', { username: props.username, room });
+      
       socketRef.current.on("your id", id => {
         setYourID(id);
       })
