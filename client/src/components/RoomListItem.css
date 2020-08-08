@@ -1,0 +1,30 @@
+.room {
+  height: 40%;
+  width: 30%;
+  color: white;
+  background-color: #0D7C83;
+}
+
+.thumbnail {
+  height: 60%;
+  width: 90%;
+  margin: 1rem;
+  background-color: black;
+}
+
+.room-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.room-info h2, h5 {
+  margin: auto;
+}
+
+.join-room {
+  font-size: 1.5rem;
+  height: 30%;
+  width: 30%;
+  background-color: #3AA6AD; 
+}
