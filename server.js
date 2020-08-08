@@ -32,6 +32,7 @@ io.on("connection", socket => {
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
     socket.join(user.room);
+    socket.emit("your id", socket.id);
     socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!' });
 
     socket.broadcast
@@ -58,7 +59,7 @@ io.on("connection", socket => {
     knex('sessions').insert({title: 'Cute Dog Videos', active: true, public: true}).then()
   })
 
-  socket.emit("your id", socket.id);
+  
   socket.on("send message", body => {
     
     //const threshold = 0.9;

@@ -5,6 +5,7 @@ import TextChat from "../components/TextChat";
 import Users from "../components/Users";
 import Queue from "../components/Queue";
 import Search from "../components/Search";
+import NewUser from "../components/NewUser";
 
 export default function ChatAside(props) {
   return (
@@ -21,7 +22,7 @@ export default function ChatAside(props) {
           <Users/>
         }
          {props.selection === "newuser" && 
-          <div>NEW USER</div>
+          <NewUser copyLink={props.copyLink} />
         }
          {props.selection === "queue" && 
           <Queue />
