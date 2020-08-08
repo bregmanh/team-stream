@@ -16,9 +16,7 @@ export default function RoomListItem (props) {
       <div className="room-info">
         <h2>{props.title}</h2>
         <h5>Viewers: 10</h5>
-        <button className="join-room" onClick={() => setRedirect(`/room/${props.id}`)}>
-          Join
-        </button>
+        <button className="join-room" onClick={() => setRedirect(`/room/${props.id}`)}>Join</button>
       </div>
     </div>
   )

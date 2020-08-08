@@ -1,8 +1,17 @@
 .room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 40%;
   width: 30%;
   color: white;
   background-color: #0D7C83;
+  border-radius: 1rem;
+}
+
+.room:hover {
+  background-color: #10959D;
+  box-shadow: 0 0 1rem rgb(35 173 255);
 }
 
 .thumbnail {
@@ -13,18 +22,26 @@
 }
 
 .room-info {
+  height: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
 }
 
 .room-info h2, h5 {
-  margin: auto;
+  margin: 0;
+  text-shadow: 2px 2px 4px #000000;
 }
 
 .join-room {
-  font-size: 1.5rem;
-  height: 30%;
+  font-size: 1.25rem;
   width: 30%;
-  background-color: #3AA6AD; 
+  background-color: #3AA6AD;
+  border-radius: 1rem;
+}
+
+.join-room:hover {
+  box-shadow: 0 0 1rem rgb(35 173 255);
 }
