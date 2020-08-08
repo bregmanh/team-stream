@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Redirect } from "react-router-dom";
+import io from "socket.io-client";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,6 +10,17 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function UsernameForm(props) {
   const [username, setUsername] = useState('');
+  const [redirect, setRedirect] = useState(null);
+
+  useEffect(() => {
+    const tempSocket = io.connect('ws://localhost:8080');
+    tempSocket.emit('is-session-active', props.room);
+    tempSocket.on('session-status', (isActive) => {
+      if (!isActive) {
+        setRedirect('/rooms/closed');
+      }
+    });
+  }, []);
 
   function handleChange(e) {
     setUsername(e.target.value);
@@ -16,6 +29,10 @@ export default function UsernameForm(props) {
   function joinRoom() {
     props.handleClose();
     props.updateUsername(username);
+  }
+
+  if (redirect) {
+    return <Redirect to={redirect} />
   }
 
   return (

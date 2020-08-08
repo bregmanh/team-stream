@@ -158,7 +158,24 @@ toxicity.load(threshold).then(model => {
         socket.emit("show-public-rooms", sessions)
       })
     })
+
+
+    socket.on('is-session-active', roomId => {
+      socket.emit('session-status', true);
+    })
+    
+    socket.on('fetch-users-from-session', roomID => {
+      const users = ['Sophie', 'Hannah', 'Aaron', 'Chaim', 'Francis'];
+      socket.emit('provide-userlist', users); 
+    }); 
+    
+
+
+
+
   })
+
+  
 
     // function userJoin(id, username, room) {
     //   // const user = { id, username, session_id };

@@ -268,7 +268,7 @@ export default function Chat(props) {
           <Controls videoProgress={videoProgress} handleAction={handleAction} />
         </div>
       </div>
-      <ChatAside copyLink={copyLink} addVideoToQueue={addVideoToQueue} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection}/>
+      <ChatAside socketRef={socketRef} copyLink={copyLink} addVideoToQueue={addVideoToQueue} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection} room={room}/>
       <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection}/>
 </div>
 
