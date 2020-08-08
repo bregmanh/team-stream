@@ -40,7 +40,7 @@ export default function CreateRoom(props) {
             <DialogTitle id="form-dialog-title">Create Room</DialogTitle>
             <DialogContent>
             <DialogContentText>
-                Create a room to share the youtube watching experience with others! You can choose to create a private room and invite your friends, or a public room which will be displayed on our webpage where anyone can join! 
+                Create a room to share your streaming experience with others! 
             </DialogContentText>
             <TextField
                 autoFocus
@@ -61,6 +61,9 @@ export default function CreateRoom(props) {
                 onChange={handleTitleChange}
                 fullWidth
             />
+            <DialogContentText>
+                Private rooms are only accessible to people you invite. Public rooms are displayed on our page and anyone can join! 
+            </DialogContentText>
             <FormControl component="fieldset">
                 <FormLabel component="legend">Room Type</FormLabel>
                 <RadioGroup aria-label="room-type" name="gender1" value={publicBool} onChange={handleChange}>

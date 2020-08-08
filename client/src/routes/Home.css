@@ -39,3 +39,7 @@
   background: #5fd4eb;
   color: black;
 }
+
+.content button:focus {
+  outline: none;
+}

@@ -7,10 +7,19 @@ const SearchList = props => {
   function queueVideo(videoId){
     props.addVideoToQueue(videoId);
   }
-  const searchListItems = props.videos.map(video => <SearchListItem queueVideo={queueVideo} video={video}/>);
+ 
+  const searchListItems = [];
+  
+  props.videos.forEach(video => {
+    if (video.id.videoId) {
+      searchListItems.push(<SearchListItem queueVideo={queueVideo} video={video}/>);
+    }
+  });
+  
+  
   return (
     <ul className="search-list">
-      {searchListItems}
+      {searchListItems.slice(0, 10)}
     </ul>
 
   );

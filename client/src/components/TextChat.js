@@ -37,20 +37,6 @@ const TextChat = props => {
       
       <div className="text-chat">
         {chatMessages}
-            {/* {props.messages.map((message, index) => {
-              if (message.id === props.yourID) {
-                return (
-                  <MyRow key={index}>
-                    <Message message={message} />
-                  </MyRow>
-                )
-              }
-              return (
-                <PartnerRow key={index}>
-                  <Message message={message} />
-                </PartnerRow>
-              )
-            })} */}
       </div>
       
       

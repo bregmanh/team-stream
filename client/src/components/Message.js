@@ -5,6 +5,10 @@ export default function Message(props) {
   
   let position;
   if (props.message.id === props.yourID) {
+    // BOTH ARE UNDEFINED
+    console.log('message going to the right');
+    console.log('props.message.id', props.message.id);
+    console.log('props.yourID', props.yourID);
     position = 'right';
   } else if (props.message.username === 'TeamStreamBot') {
     position = 'middle'
