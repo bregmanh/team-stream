@@ -25,10 +25,10 @@ export default function ChatAside(props) {
           <NewUser copyLink={props.copyLink} />
         }
          {props.selection === "queue" && 
-          <Queue />
+          <Queue room={props.room} socketRef={props.socketRef}/>
         }
          {props.selection === "addqueue" && 
-          <Search addVideoToQueue={props.addVideoToQueue}/>
+          <Search socketRef={props.socketRef} addVideoToQueue={props.addVideoToQueue}/>
         }
      </div>
    </div>

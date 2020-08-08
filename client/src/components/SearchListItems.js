@@ -7,8 +7,17 @@ const SearchListItem = props => {
   const channel = props.video.snippet.channelTitle;
   const id = props.video.id.videoId;
 
+  function addVideoToQueue(video) {
+    props.socketRef.current.emit('addVideo', video);
+  }
+
   function handleClick(id) {
-   props.queueVideo(id);
+   const video = {
+     title, 
+     id, 
+     thumbnail
+   }
+   addVideoToQueue(video);
   }
 
   return (

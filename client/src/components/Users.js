@@ -14,7 +14,7 @@ const Users = props => {
     props.socketRef.current.on('provide-userlist', users => {
       setUsers(users);
     }) 
-  })
+  }, [])
 
 
   const userComponents = users.map(user => <User user={user}/>);

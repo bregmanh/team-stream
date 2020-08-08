@@ -141,9 +141,15 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on("addVideo", videoId => {
+      // Video looks like this: 
+      // const video = {
+      //   title, 
+      //   id, 
+      //   thumbnail
+      // }
       //NOTE: add video to video table
 
-      hostInfo.queue.push(videoId)
+      hostInfo.queue.push(videoId.id)
       //emits the updated queue to host
       knex.from('users').where('id', socket.id).then(rows => {
         const user = rows[0];
@@ -168,14 +174,24 @@ toxicity.load(threshold).then(model => {
       const users = ['Sophie', 'Hannah', 'Aaron', 'Chaim', 'Francis'];
       socket.emit('provide-userlist', users); 
     }); 
-    
+  
+    socket.on('fetch-queue-from-session', roomID => {
+      // Here you will need to query the titles and thumbnails for all videos in the session ordered by id (autoincrement id, not video_id). 
+      // I only need title & thumbnail
+      const queueList = [
+        {title: 'Video1', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"},
+        {title: 'Video2', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"},
+        {title: 'Video3', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"},
+        {title: 'Video4', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"}
+      ];
+      socket.emit('provide-queuelist', queueList) 
+    });
 
-
-
-
+    socket.on('create-session', () => {
+      console.log('SESSION CRATED MY DUDEEEEEEEEEEE');
+    });
   })
 
-  
 
     // function userJoin(id, username, room) {
     //   // const user = { id, username, session_id };

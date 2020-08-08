@@ -18,7 +18,7 @@ const Home = (props) => {
       const id = uuid();
       // emit room creation to socket on server side
 
-      // socketRef.current.emit('create-session', { room: id, title: roomTitle, public: publicBool});
+      socketRef.current.emit('create-session', { room: id, title: roomTitle, public: publicBool});
 
       // Create the redirect object that will be passed in to the redirect component with the new route and username 
       const redirectObj = {
