@@ -4,18 +4,13 @@ import "./SearchList.css"
 
 
 const SearchList = props => {
-  function queueVideo(videoId){
-    props.addVideoToQueue(videoId);
-  }
- 
   const searchListItems = [];
   
   props.videos.forEach(video => {
     if (video.id.videoId) {
-      searchListItems.push(<SearchListItem queueVideo={queueVideo} video={video}/>);
+      searchListItems.push(<SearchListItem socketRef={props.socketRef} video={video}/>);
     }
   });
-  
   
   return (
     <ul className="search-list">

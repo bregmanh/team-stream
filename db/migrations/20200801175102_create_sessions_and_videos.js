@@ -5,22 +5,23 @@ exports.up = function(knex) {
       table.string('username').defaultTo('Anon');
       table.bool('active').defaultTo(true);
       table.bool('isHost').defaultTo(false);
-      table.string('session_id');
+      table.string('session_id').references('id').inTable('sessions').notNullable();
     }),
     knex.schema.createTable('sessions', table => {
       table.string('id').unique();
       table.string('title');
       table.bool('active').defaultTo(true);
       table.bool('public').notNullable().defaultTo(true);
+      table.float('time').defaultTo(0);
+      table.bool('play').defaultTo(false);
+      table.integer('index').defaultTo(0);
     }),
     knex.schema.createTable('videos', table => {
       table.increments('id');
-      table.string('videoId').unique();
-      table.string('url').notNullable();
+      table.string('videoId');
       table.string('title');
       table.string('thumbnail').notNullable();
       table.string('added_by');
-      table.bool('playing');
       table.string('session_id').references('id').inTable('sessions').notNullable();
     })
   ])

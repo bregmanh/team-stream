@@ -33,7 +33,7 @@ const Search = props => {
         <input className="search-input" type="text" value={searchTerm} onChange={handleChange}></input>
         <div className="search-button-icon" onClick={searchByKeyword}><SearchIcon/></div>
       </form>
-      <SearchList addVideoToQueue={props.addVideoToQueue} videos={videos}/>
+      <SearchList socketRef={props.socketRef} videos={videos}/>
     </div>
   );
 }
