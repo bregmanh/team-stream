@@ -16,13 +16,13 @@ const { tile } = require("@tensorflow/tfjs-node");
 const users = [];
 const botName = "TeamStream"
 
-const hostInfo = {
-  videoId: null,
-  time: 0,
-  play: true,
-  queue: [],
-  index: 0,
-}
+// const hostInfo = {
+//   videoId: null,
+//   time: 0,
+//   play: true,
+//   queue: [],
+//   index: 0,
+// }
 
 let pingHostInterval;
 const threshold = 0.9;
@@ -34,7 +34,7 @@ toxicity.load(threshold).then(model => {
     socket.on('is-session-active', roomId => {
       knex.from('sessions').where('id', roomId).then(rows => {
         console.log("sessions rows", rows)
-        if (rows[0].active === true) {
+        if (rows.length > 0 && rows[0].active === true) {
           socket.emit('session-status', true);
         } else {
           socket.emit('session-status', false);
@@ -42,6 +42,7 @@ toxicity.load(threshold).then(model => {
       })
     })
     socket.on('create-session', ({ room, title, publicBool }) => {
+      console.log("public bool", publicBool)
       knex('sessions').insert({ id: room, title: title, active: true, public: publicBool }).then(() => {
       })
     })
@@ -126,7 +127,12 @@ toxicity.load(threshold).then(model => {
     socket.on("videoAction", action => {
       //const user = getCurrentUser(socket.id);
       knex.from('users').where('id', socket.id).then(rows => {
+        knex.from('sessions').where('id', rows[0].session_id).then(rows2 => {
+          const hostInfo = {
+            time: rows2[0].time,
+          }
         io.to(rows[0].session_id).emit("videoAction", { action, hostInfo })
+        })
       })
     })
 
@@ -144,7 +150,21 @@ toxicity.load(threshold).then(model => {
       knex.from('users').where('id', socket.id).then(rows => {
         const user = rows[0];
         if (!user.isHost) {
-          socket.emit("provideVideoInfo", hostInfo)
+
+          knex.select('time', 'play', 'index').from('sessions').where('id', user.session_id).then(rows => {
+            const { time, play, index } = rows[0];
+            console.log("host info", rows[0]);
+            knex.select('videoId').from('videos').where('session_id', user.session_id).orderBy('id', 'asc').then(rows => {
+              const updatedQueue = rows.map(row => row.videoId);
+              const hostInfo = {
+                play,
+                queue: updatedQueue,
+                index,
+                time
+              }
+              socket.emit("provideVideoInfo", hostInfo)
+            })
+          })
         } else {
           //if host joins, get a modal to invite friends
           socket.emit("inviteFriends", "")
@@ -158,9 +178,6 @@ toxicity.load(threshold).then(model => {
 
     socket.on("HostInfo", info => {
 
-      // hostInfo.time = info.time
-      // hostInfo.play = info.play
-      // hostInfo.index = info.index
       knex.from('users').where('id', socket.id).then(rows => {
         const user = rows[0]
 
@@ -171,17 +188,21 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on("addVideo", videoObj => {
+      
       //NOTE: add video to video table
-      const { videoId, title, thumbnail } = videoObj;
+      const { id, title, thumbnail } = videoObj;
       //hostInfo.queue.push(videoId)
 
+      //hostInfo.queue.push(videoId.id)
       //emits the updated queue to host
       knex.from('users').where('id', socket.id).then(rows => {
         const user = rows[0];
-        knex('videos').insert({ videoId: videoId, title: title, thumbnail: thumbnail, added_by: socket.id, session_id: user.session_id }).then(() => {
+        knex('videos').insert({ videoId: id, title: title, thumbnail: thumbnail, added_by: socket.id, session_id: user.session_id }).then(() => {
           knex.select('videoId').from('videos').where('session_id', user.session_id).orderBy('id', 'asc').then(rows => {
-            const updatedQueue = rows[0]
-            console.log("updated queue", updatedQueue)
+            const updatedQueue = rows.map(row => row.videoId);
+
+            console.log("updated queue", updatedQueue);
+
             //NOTE: sending an array of vidoId for that session ordered by id
             io.to(user.session_id).emit("updatedQueue", updatedQueue);
           })
@@ -209,13 +230,6 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on('fetch-queue-from-session', roomID => {
-      // Here you will need to query the titles and thumbnails for all videos in the session ordered by id (autoincrement id, not video_id). I only need title & thumbnail
-      // const queueList = [
-      //   {title: 'Video1', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"},
-      //   {title: 'Video2', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"},
-      //   {title: 'Video3', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"},
-      //   {title: 'Video4', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"}
-      // ];
 
       //emits the updated queue to host
       knex.from('users').where('id', socket.id).then(rows => {
@@ -226,7 +240,6 @@ toxicity.load(threshold).then(model => {
           socket.emit('provide-queuelist', queueList);
         })
       })
-
     });
 
   })

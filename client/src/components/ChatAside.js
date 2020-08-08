@@ -19,16 +19,16 @@ export default function ChatAside(props) {
           <TextChat message={props.message} setMessage={props.setMessage} yourID={props.yourID} messages={props.messages} sendMessage={props.sendMessage}/>
         }
          {props.selection === "users" && 
-          <Users/>
+          <Users room={props.room} socketRef={props.socketRef}/>
         }
          {props.selection === "newuser" && 
           <NewUser copyLink={props.copyLink} />
         }
          {props.selection === "queue" && 
-          <Queue />
+          <Queue room={props.room} socketRef={props.socketRef}/>
         }
          {props.selection === "addqueue" && 
-          <Search addVideoToQueue={props.addVideoToQueue}/>
+          <Search socketRef={props.socketRef} addVideoToQueue={props.addVideoToQueue}/>
         }
      </div>
    </div>

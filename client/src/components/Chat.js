@@ -78,7 +78,7 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("session closed", () => {
-        setRedirect('/room/closed');
+        setRedirect('/rooms/closed');
       })
       socketRef.current.on("inviteFriends", () => {
         openModal()
@@ -238,9 +238,9 @@ export default function Chat(props) {
     return <Redirect to={redirect} />
   }
 
-  function addVideoToQueue(videoId) {
-    socketRef.current.emit('addVideo', videoId);
-  }
+  // function addVideoToQueue(videoId) {
+  //   socketRef.current.emit('addVideo', videoId);
+  // }
 
   function copyLink() {
     navigator.clipboard.writeText(window.location.href).then(function () {
@@ -268,7 +268,7 @@ export default function Chat(props) {
           <Controls videoProgress={videoProgress} handleAction={handleAction} />
         </div>
       </div>
-      <ChatAside copyLink={copyLink} addVideoToQueue={addVideoToQueue} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection}/>
+      <ChatAside socketRef={socketRef} copyLink={copyLink} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection} room={room}/>
       <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection}/>
 </div>
 
