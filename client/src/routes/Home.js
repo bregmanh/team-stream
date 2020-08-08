@@ -3,6 +3,8 @@ import { Redirect } from "react-router-dom";
 import { v1 as uuid } from "uuid";
 import CreateRoom from "./CreateRoom";
 
+import "./Home.css";
+
 
 
 const Home = (props) => {
@@ -44,9 +46,15 @@ const Home = (props) => {
     }
 
     return (
-      <div>
-        <button onClick={showCreateRoom}>Create Room</button>
-        <button onClick={joinSession}>Browse Our Public Rooms</button>
+      <div className="home-page">
+        <div className="content">
+          <p>Watch streams together with people you care about</p>
+          <h1 className="teamstream">Team Stream</h1>
+          <p>Connected, from a distance</p>
+          <br></br>
+          <button onClick={showCreateRoom}>Create Room</button>
+          <button onClick={joinSession}>Browse Public Rooms</button>
+        </div>
         <CreateRoom open={open} handleClose={handleClose} createSession={createSession}/>
       </div>
     );

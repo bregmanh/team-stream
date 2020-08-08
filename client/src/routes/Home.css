@@ -1,0 +1,41 @@
+.home-page {
+  height: 100vh;
+  width: 100vw;
+  background: url('../images/bg-1.jpeg');
+  background-size: cover;
+  color: white;
+  padding-top: 20vh;
+}
+
+.content {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 2vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.content p {
+  margin: 0;
+}
+
+.content .teamstream {
+  font-family: 'Bad Script', cursive;
+  font-size: 5vw;
+  margin: 0;
+}
+
+.content button {
+  background: transparent;
+  border: 2px solid white;
+  border-radius: 20px;
+  color: white;
+  width: 17vw;
+  margin: 1vh auto;
+  font-size: 1.5vw;
+}
+
+.content button:hover {
+  cursor: pointer;
+  background: #5fd4eb;
+  color: black;
+}
