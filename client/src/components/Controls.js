@@ -19,7 +19,7 @@ export default function Controls(props) {
   return (
     <>
       <input type="range" id="progress-bar" class="progress-bar" ref={scrollBar}
-        onMouseUp={e => props.handleAction("scroll-video", {timePercentage: e.target.value})}
+        onInput={e => props.handleAction("scroll-video", {timePercentage: e.target.value})}
         onChange={e => {props.handleVideoTime({timePercentage: e.target.value})}}
       />
       <div className="controls">
@@ -37,7 +37,7 @@ export default function Controls(props) {
           }}
           fontSize="large">
         </VolumeOffIcon>}
-        <input type="range" class="volume-bar" onMouseUp={e => props.handleAction("scroll-volume", {volumePercentage: e.target.value})}/>
+        <input type="range" class="volume-bar" onInput={e => props.handleAction("scroll-volume", {volumePercentage: e.target.value})}/>
         <PlayArrowIcon className="play" onClick={() => { props.handleAction("play") }} fontSize="large"></PlayArrowIcon>
         <StopIcon className="stop" onClick={() => { props.handleAction("pause") }} fontSize="large"></StopIcon>
         <SkipNextIcon className="mute" onClick={() => { props.handleAction("nextVideo") }} fontSize="large"></SkipNextIcon>
