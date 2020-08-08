@@ -26,6 +26,7 @@ export default function Chat(props) {
   let newTime = '0:00'
   let onStateChangeFunc = null;
   const room = props.room;
+
   const socketRef = props.socketRef
 
   
@@ -114,7 +115,6 @@ export default function Chat(props) {
 
       socketRef.current.on("pingHostForInfo", info => {
         let playerState = youtubePlayer.current.getPlayerState()
-        console.log("player state", playerState)
         let videoInfo = {
           time: youtubePlayer.current.getCurrentTime(),
           play: playerState === 1,

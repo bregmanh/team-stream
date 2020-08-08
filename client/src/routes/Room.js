@@ -15,6 +15,7 @@ const Page = styled.div`
 const Room = (props) => {
   const [username, setUsername] = useState("");
   const [open, setOpen] = useState(true);
+  const [isPublic, setIsPublic] = useState(true)
   const room = props.match.params.roomID;
 
   const handleClose = () => {

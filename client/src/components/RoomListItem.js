@@ -1,13 +1,23 @@
-import React from 'react';
-import App from '../App';
+import React, { useState } from 'react';
+import { Redirect } from "react-router-dom";
+import './RoomListItem.css'
 
 export default function RoomListItem (props) {
+
+  const [redirect, setRedirect] = useState(null);
+
+  if (redirect) {
+    return <Redirect to={redirect} />
+  }
+
   return (
-    <li>
-      <p>Video thumbnail</p>
-      <p>Room Name</p>
-      <p>Number of viewers: {props.viewers}</p>
-      {/* <button onClick={}>Join</button> */}
-    </li>
+    <div className="room">
+      <div className="thumbnail"></div>
+      <div className="room-info">
+        <h2>{props.title}</h2>
+        <h5>Viewers: 10</h5>
+        <button className="join-room" onClick={() => setRedirect(`/room/${props.id}`)}>Join</button>
+      </div>
+    </div>
   )
 }

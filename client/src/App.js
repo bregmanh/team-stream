@@ -20,7 +20,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact render={(props) => <Home socketRef={socketRef} />} />
-          <Route path="/rooms" exact render={(props) => <RoomList />} />
+          <Route path="/rooms" exact render={(props) => <RoomList socketRef={socketRef} />} />
           <Route path="/rooms/closed" component={SessionClosed} />
           <Route path="/rooms/:roomID" render={(props) => <Room {...props} match={props.match} socketRef={socketRef} />} />
         </Switch>
