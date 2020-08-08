@@ -1,7 +1,27 @@
+.rooms-body {
+  background-color: #3F444B;
+  height: 100vh;
+}
+
 .logo {
   font-size: 5rem;
   color: #3AA6AD;
   -webkit-text-stroke: 5px black;
   margin: 0;
   padding-top: 5vh;
+}
+
+.rooms-list {
+  text-decoration: none;
+  height: 80%;
+  margin: 0 5vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.empty-room {
+  width: 30%;
+  height: 40%;
+  background-color: #0D7C83
 }

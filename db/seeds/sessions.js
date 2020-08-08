@@ -6,8 +6,7 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex('sessions').insert([
         {id: 1, title: 'Funny Cat Videos', active: true, public: true},
-        // {id: 2, colName: 'rowValue2'},
-        // {id: 3, colName: 'rowValue3'}
+        {id: 2, title: 'David Blaine Magic', active: true, public: false},
       ]);
     });
 };
