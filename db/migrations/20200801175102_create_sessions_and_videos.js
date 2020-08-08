@@ -2,7 +2,7 @@ exports.up = function(knex) {
   return Promise.all([
     knex.schema.createTable('users', table => {
       table.string('id').unique();
-      table.string('name').defaultTo('Anon');
+      table.string('username').defaultTo('Anon');
       table.bool('active').defaultTo(true);
       table.bool('isHost').defaultTo(false);
       table.string('session_id');
@@ -15,6 +15,7 @@ exports.up = function(knex) {
     }),
     knex.schema.createTable('videos', table => {
       table.increments('id');
+      table.string('videoId').unique();
       table.string('url').notNullable();
       table.string('title');
       table.string('thumbnail').notNullable();
