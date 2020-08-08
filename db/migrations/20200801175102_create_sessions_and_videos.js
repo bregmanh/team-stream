@@ -5,7 +5,7 @@ exports.up = function(knex) {
       table.string('username').defaultTo('Anon');
       table.bool('active').defaultTo(true);
       table.bool('isHost').defaultTo(false);
-      table.string('session_id');
+      table.string('session_id').references('id').inTable('sessions').notNullable();
     }),
     knex.schema.createTable('sessions', table => {
       table.string('id').unique();
@@ -19,11 +19,9 @@ exports.up = function(knex) {
     knex.schema.createTable('videos', table => {
       table.increments('id');
       table.string('videoId').unique();
-      table.string('url').notNullable();
       table.string('title');
       table.string('thumbnail').notNullable();
       table.string('added_by');
-      table.bool('playing');
       table.string('session_id').references('id').inTable('sessions').notNullable();
     })
   ])
