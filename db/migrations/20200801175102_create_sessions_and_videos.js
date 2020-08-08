@@ -12,6 +12,9 @@ exports.up = function(knex) {
       table.string('title');
       table.bool('active').defaultTo(true);
       table.bool('public').notNullable().defaultTo(true);
+      table.integer('time').defaultTo(0);
+      table.bool('play').defaultTo(false);
+      table.integer('index').defaultTo(0);
     }),
     knex.schema.createTable('videos', table => {
       table.increments('id');
