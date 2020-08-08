@@ -142,11 +142,10 @@ export default function Chat(props) {
 
       })
 
-      // socketRef.current.emit("cannot-control")
+      socketRef.current.emit("can-control")
 
-      socketRef.current.on("no-controls", (cannotControl) => {
-        console.log("controller: ", cannotControl)
-        setCanControl(cannotControl)
+      socketRef.current.on("show-controls", (canControl) => {
+        setCanControl(canControl)
       })
     }
   }, []);
@@ -273,10 +272,6 @@ export default function Chat(props) {
     setInviteFriendsModal(false);
   };
 
-  function cannotControl () {
-    socketRef.current.emit("cannot-control")
-  }
-  cannotControl()
   return (
     <div className="chat-container">
       <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>    
