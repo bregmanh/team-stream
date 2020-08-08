@@ -66,7 +66,7 @@ io.on("connection", socket => {
     //toxicity.load(threshold).then(model => {
 
       model && model.classify([body.body]).then(predictions => {
-        // console.log(predictions);
+        console.log(predictions);
         predictions.map((item)=>{
           if(item.results[0].match === true){
            body.body= 'Francis'

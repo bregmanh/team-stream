@@ -5,12 +5,11 @@
   height: 40%;
   width: 30%;
   color: white;
-  background-color: #0D7C83;
+  background-color: #10959D;
   border-radius: 1rem;
 }
 
 .room:hover {
-  background-color: #10959D;
   box-shadow: 0 0 1rem rgb(35 173 255);
 }
 
