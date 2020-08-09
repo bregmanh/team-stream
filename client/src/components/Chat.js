@@ -79,11 +79,11 @@ export default function Chat(props) {
       })
 
       // Listen to change in video time from server
-      socketRef.current.on("videoTime", (time) => {
+      // socketRef.current.on("videoTime", (time) => {
         // youtubePlayer.current.seekTo(newTime)
-        console.log('what time should be as video plays', time.action.timePercentage)
-        setVideoProgress(time.action.timePercentage)
-      })
+      //   console.log('what time should be as video plays', time.action.timePercentage)
+      //   setVideoProgress(time.action.timePercentage)
+      // })
 
       socketRef.current.on("session closed", () => {
         setRedirect('/rooms/closed');

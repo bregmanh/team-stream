@@ -221,8 +221,8 @@ toxicity.load(threshold).then(model => {
         knex.from("users").where("isHost", false).then(users => {
           knex.from('users').where('id', socket.id).then(currentUser => {
             const user = currentUser[0]
-              const canControl = user.isHost
-              io.to(user.session_id).emit("show-controls", canControl)
+            const canControl = user.isHost
+            io.to(user.session_id).emit("show-controls", canControl)
           });
         })
       })
