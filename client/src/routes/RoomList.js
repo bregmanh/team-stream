@@ -24,12 +24,13 @@ export default function RoomList (props) {
   //   }
   //   return roomsArray
   // }
-  const roomList = props.rooms.map(room => (
+  const roomList = props.rooms.map((room, index) => (
+    // [{key: session.id, title: "", thumbnail: "", viewers: 10}]
     <RoomListItem
-      key={room.id}
-      id={room.id}
+      key={room.key}
       title={room.title}
-      // thumbnail={room.thumbnail}
+      thumbnail={room.thumbnail}
+      viewers={room.viewers}
     />
   ))
 

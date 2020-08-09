@@ -135,6 +135,17 @@ toxicity.load(threshold).then(model => {
         })
       })
     })
+    socket.on("video-volume", action => {
+      //const user = getCurrentUser(socket.id);
+      knex.from('users').where('id', socket.id).then(rows => {
+        knex.from('sessions').where('id', rows[0].session_id).then(rows2 => {
+          const hostInfo = {
+            time: rows2[0].time,
+          }
+        io.to(rows[0].session_id).emit("videoAction", { action, hostInfo })
+        })
+      })
+    })
 
     // Listen for change in video time
     // socket.on("videoTime", action => {
@@ -211,9 +222,10 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on("query-public-rooms", () => {
-      knex.from('sessions').where({'public': true, 'active': true}).then(rows => {
+      // knex.from('sessions').where({'public': true, 'active': true}).then(rows => {
+        const rows = [{key: 1, title: "Chaim's Room", thumbnail: "sd", viewers: 10}, {key: 2, title: "Chaim", thumbnail: "sd", viewers: 10}]
         socket.emit("show-public-rooms", rows)
-      })
+      // })
     })
 
     socket.on("can-control", () => {
