@@ -27,9 +27,10 @@ const Search = props => {
     setSearchTerm(e.target.value)
   }
 
+
   return (
     <div>
-      <form className="search-form">
+      <form className="search-form" onSubmit={searchByKeyword}>
         <input className="search-input" type="text" value={searchTerm} onChange={handleChange}></input>
         <div className="search-button-icon" onClick={searchByKeyword}><SearchIcon/></div>
       </form>

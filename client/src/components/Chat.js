@@ -22,6 +22,7 @@ export default function Chat(props) {
   const [toggleState, setToggleState] = useState('');
   const [asideSelection, setAsideSelection] = useState('chat');
   const [inviteFriendsModal, setInviteFriendsModal] = useState(false);
+  const [canControl, setCanControl] = useState(true)
   const youtubePlayer = useRef();
 
   let queue = [];
@@ -57,11 +58,18 @@ export default function Chat(props) {
           youtubePlayer.current.setVolume(action.data.volumePercentage)
         }
         if (action.type === 'mute') {
-          if (youtubePlayer.current.isMuted()) {
-            youtubePlayer.current.unMute()
-          } else {
+          // if (youtubePlayer.current.isMuted()) {
+          //   youtubePlayer.current.unMute()
+          // } else {
             youtubePlayer.current.mute()
-          }
+          // }
+        }
+        if (action.type === 'unmute') {
+          // if (youtubePlayer.current.isMuted()) {
+            youtubePlayer.current.unMute()
+          // } else {
+            // youtubePlayer.current.mute()
+          // }
         }
         if (action.type === "play") {
           youtubePlayer.current.playVideo();
@@ -75,11 +83,11 @@ export default function Chat(props) {
       })
 
       // Listen to change in video time from server
-      socketRef.current.on("videoTime", (time) => {
+      // socketRef.current.on("videoTime", (time) => {
         // youtubePlayer.current.seekTo(newTime)
-        console.log('what time should be as video plays', time.action.timePercentage)
-        setVideoProgress(time.action.timePercentage)
-      })
+      //   console.log('what time should be as video plays', time.action.timePercentage)
+      //   setVideoProgress(time.action.timePercentage)
+      // })
 
       socketRef.current.on("session closed", () => {
        
@@ -138,6 +146,12 @@ export default function Chat(props) {
         }
 
       })
+
+      socketRef.current.emit("can-control")
+
+      socketRef.current.on("show-controls", (canControl) => {
+        setCanControl(canControl)
+      })
     }
   }, []);
 
@@ -148,11 +162,11 @@ export default function Chat(props) {
     }
   }
 
-  function handleVideoTime(data) {
-    if (socketRef.current) {
-      socketRef.current.emit('videoTime', data)
-    }
-  }
+  // function handleVideoTime(data) {
+  //   if (socketRef.current) {
+  //     socketRef.current.emit('videoTime', data)
+  //   }
+  // }
 
   function receivedMessage(message) {
     setMessages(oldMsgs => [...oldMsgs, message]);
@@ -279,7 +293,7 @@ export default function Chat(props) {
       <div className="player-with-controls">
         <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />
         <div>
-          <Controls videoProgress={videoProgress} handleAction={handleAction} />
+          <Controls canControl={canControl} videoProgress={videoProgress} handleAction={handleAction} />
         </div>
       </div>
       <ChatAside socketRef={socketRef} copyLink={copyLink} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection} room={room} />

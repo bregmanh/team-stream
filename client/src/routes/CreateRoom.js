@@ -34,33 +34,45 @@ const theme = createMuiTheme({
                 color: '#eceff1',
             },
         },
+        MuiButton: {
+            // Name of the rule
+            text: {
+                // Some CSS
+                backgroundColor: '#37474f',
+                color: '#eceff1',
+            },
+        },
         MuiTypography: {
 
-
             body2: {
-
                 fontSize: 14,
                 color: '#cfd8dc',
             },
         },
-    },
-
-
-    palette: {
-        primary: {
-            light: '#eceff1',
-            main: '#eceff1',
-            dark: '#eceff1',
-
+        MuiInput: {
+            root: {
+                background: '#37474f',
+                color: '#eceff1',
+            }
         },
-        secondary: {
-            light: '#eceff1',
-            main: '#eceff1',
-            dark: '#eceff1',
 
+        palette: {
+            primary: {
+                light: '#eceff1',
+                main: '#eceff1',
+                dark: '#eceff1',
+
+            },
+            secondary: {
+                light: '#eceff1',
+                main: '#eceff1',
+                dark: '#eceff1',
+
+            },
         },
-    },
-});
+    }
+})
+
 const useStyles = makeStyles({
     root: {
         background: '#37474f',
@@ -71,16 +83,23 @@ const useStyles = makeStyles({
         background: '#37474f',
         color: '#eceff1',
     },
+    input: {
+        background: '#37474f',
+        color: '#eceff1',
+    },
 });
+
+
+
 export default function CreateRoom(props) {
     const classes = useStyles();
 
     const [username, setUsername] = useState(null);
     const [title, setTitle] = useState(null);
-    const [publicBool, setPublicBool] = useState('true');
+    const [publicRoom, setPublicRoom] = useState("true");
 
     const handleChange = (event) => {
-        setPublicBool(event.target.value);
+        setPublicRoom(event.target.value);
     };
 
     function handleUsernameChange(e) {
@@ -93,6 +112,9 @@ export default function CreateRoom(props) {
 
     function handleCreate(e) {
         props.handleClose();
+        const publicBool = publicRoom === 'true';
+        console.log({ publicRoom });
+        console.log({ publicBool });
         props.createSession(title, username, publicBool);
     }
     return (
@@ -106,6 +128,11 @@ export default function CreateRoom(props) {
             </DialogContentText>
 
                         <TextField
+                            classes={{
+                                root: classes.root, // class name, e.g. `classes-nesting-root-x`
+                                label: classes.label, // class name, e.g. `classes-nesting-label-x`
+                                label: classes.input,
+                            }}
                             autoFocus
                             margin="dense"
                             id="username"
@@ -125,7 +152,7 @@ export default function CreateRoom(props) {
                             fullWidth
                         />
                         <DialogContentText >
-                        <Typography variant="body2" mt={3}>
+                            <Typography variant="body2" mt={3}>
                             </Typography>
                         </DialogContentText>
                         <DialogContentText >
@@ -134,10 +161,10 @@ export default function CreateRoom(props) {
                             </Typography>
                         </DialogContentText>
                         <DialogContentText >
-                        <Typography variant="body2" mt={3}>
+                            <Typography variant="body2" mt={3}>
                             </Typography>
                         </DialogContentText>
-                        <FormControl component="fieldset">
+                        {/* <FormControl component="fieldset">
                             <FormLabel component="legend" style={{ color: '#cfd8dc' }}>Room Type</FormLabel>
                             <RadioGroup aria-label="room-type" name="gender1" value={publicBool} onChange={handleChange}>
                                 <FormControlLabel value="true" control={<Radio />} label="public" />
@@ -147,9 +174,20 @@ export default function CreateRoom(props) {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={props.handleClose} color="primary">
+                            Cancel */}
+                        <FormControl component="fieldset">
+                            <FormLabel component="legend" style={{ color: '#cfd8dc' }}>Room Type</FormLabel>
+                            <RadioGroup aria-label="room-type" name="gender1" value={publicRoom} onChange={handleChange}>
+                                <FormControlLabel value='true' control={<Radio />} label="public" />
+                                <FormControlLabel value='false' control={<Radio />} label="private" />
+                            </RadioGroup>
+                        </FormControl>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={props.handleClose} >
                             Cancel
             </Button>
-                        <Button onClick={handleCreate} color="primary">
+                        <Button onClick={handleCreate}>
                             Create!
             </Button>
                     </DialogActions>

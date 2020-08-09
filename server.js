@@ -3,6 +3,7 @@ const http = require("http");
 const app = express();
 const server = http.createServer(app);
 const socket = require("socket.io");
+const moment = require('moment-timezone');
 const toxicity = require('@tensorflow-models/toxicity');
 const tfjs = require("@tensorflow/tfjs-node");
 const { kStringMaxLength } = require("buffer");
@@ -42,7 +43,6 @@ toxicity.load(threshold).then(model => {
       })
     })
     socket.on('create-session', ({ room, title, publicBool }) => {
-      console.log("public bool", publicBool)
       knex('sessions').insert({ id: room, title: title, active: true, public: publicBool }).then(() => {
       })
     })
@@ -58,11 +58,11 @@ toxicity.load(threshold).then(model => {
 
             socket.join(user.session_id);
             socket.emit("your id", socket.id);
-            socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!' });
+            socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!', time: moment().tz("America/Toronto").format('h:mm a') });
 
             socket.broadcast
               .to(user.session_id)
-              .emit('message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has joined the chat` })
+              .emit('message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has joined the chat`, time: moment().tz("America/Toronto").format('h:mm a') })
 
           })
         } else {
@@ -71,11 +71,11 @@ toxicity.load(threshold).then(model => {
             console.log("rows", user)
 
             socket.join(user.session_id);
-            socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!' });
+            socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!', time: moment().tz("America/Toronto").format('h:mm a') });
 
             socket.broadcast
               .to(user.session_id)
-              .emit('message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has joined the chat` })
+              .emit('message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has joined the chat`, time: moment().tz("America/Toronto").format('h:mm a') })
           })
         }
       })
@@ -99,7 +99,7 @@ toxicity.load(threshold).then(model => {
               })
             } else {
               io.to(user.session_id).emit(
-                'message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has left the chat` })
+                'message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has left the chat`, time: moment().tz("America/Toronto").format('h:mm a') })
             }
           });
         }
@@ -132,18 +132,18 @@ toxicity.load(threshold).then(model => {
           const hostInfo = {
             time: rows2[0].time,
           }
-        io.to(rows[0].session_id).emit("videoAction", { action, hostInfo })
+          io.to(rows[0].session_id).emit("videoAction", { action, hostInfo })
         })
       })
     })
 
     // Listen for change in video time
-    socket.on("videoTime", action => {
-      //const user = getCurrentUser(socket.id);
-      knex.from('users').where('id', socket.id).then(rows => {
-        io.to(rows[0].session_id).emit("videoTime", { action })
-      })
-    })
+    // socket.on("videoTime", action => {
+    //   //const user = getCurrentUser(socket.id);
+    //   knex.from('users').where('id', socket.id).then(rows => {
+    //     io.to(rows[0].session_id).emit("videoTime", { action })
+    //   })
+    // })
 
     //if not a host, request for video info from the host
     socket.on("requestVideoInfo", action => {
@@ -189,7 +189,7 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on("addVideo", videoObj => {
-      
+
       //NOTE: add video to video table
       const { id, title, thumbnail } = videoObj;
       //hostInfo.queue.push(videoId)
@@ -215,17 +215,46 @@ toxicity.load(threshold).then(model => {
       // const publicRooms = knex.select("*").from("sessions").where("public", true).then(sessions => {
       //   socket.emit("show-public-rooms", sessions)
       // })
-      knex.select("*").from("sessions").where({active: true, public: true}).then(sessions => {
-        const result=[];
-        sessions.map((session)=>{
-          knex.select("*").from("users").where({session_id: session.id}).then(users => {
-            knex.select("thumbnail").from("videos").where({session_id: session.id}).then(videos => {
+      let result = [];
+      knex.select("*").from("sessions").where({ active: true, public: true, play: true }).then(sessions => {
+        console.log("public sessions", sessions)
+        for(let session of sessions){
+          knex.select("*").from("users").where({ session_id: session.id, active: true }).then(users => {
+            knex.select("thumbnail").from("videos").where({ session_id: session.id }).then(videos => {
+              //check if there are any videos
+              if(videos.length >0 ){
+                //check if we looped through all the sessions to return
+                console.log("index of session", sessions.indexOf(session))
+                if(sessions.indexOf(session)=== sessions.length-1){
+                result.push({ id: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
+                  console.log("result", result)
+                  socket.emit("show-public-rooms", result)
+                }
 
-            result.push({key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail})
+                console.log("videos", videos)
+                result.push({ id: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
+              }
             })
           })
+        }
+        
+      })
+     
+    })
+
+    socket.on("can-control", () => {
+      knex.from("sessions").where("public", true).then(() => {
+        knex.from('users').where('id', socket.id).then(currentUser => {
+          const user = currentUser[0]
+          if(user.session_id){
+            knex.from("sessions").where('id', user.session_id).then(session => {
+              const currentUserSession = session[0]
+              const canControl = user.isHost || !currentUserSession.public
+              io.to(user.id).emit("show-controls", canControl)
+            
+          })
+          }
         })
-        socket.emit("show-public-rooms", result)
       })
 
     })
@@ -233,7 +262,7 @@ toxicity.load(threshold).then(model => {
     //fetching users in a room
     socket.on('fetch-users-from-session', roomID => {
       //users = ['Sophie', 'Hannah', 'Aaron', 'Chaim', 'Francis'];
-      knex.from('users').where('session_id', roomID).then(rows => {
+      knex.from('users').where({session_id: roomID, active: true}).then(rows => {
         //converting to array of names from array of user objects
         let users = [];
         rows.map(row => {
@@ -262,7 +291,8 @@ toxicity.load(threshold).then(model => {
     return {
       id: msg.id,
       message: msg.body,
-      username: user.username
+      username: user.username,
+      time: moment().tz("America/Toronto").format('h:mm a')
     }
 
   }

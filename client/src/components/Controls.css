@@ -1,8 +1,26 @@
 .progress-bar {
-  margin-left: 1.5rem;
-  width: 98%;
+  padding: 0 5px;
+  width: 99%;
 }
 
-.play {
+.MuiSvgIcon-root {
   color: #10959D;
+}
+
+.controls {
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.no-scroll-padding {
+  margin: 2px;
+  padding: 5px;
+}
+
+.global-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
