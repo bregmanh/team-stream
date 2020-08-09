@@ -10,7 +10,10 @@ import VerticalNav from "../components/VerticalNav";
 import ChatAside from "../components/ChatAside";
 
 
+
 export default function Chat(props) {
+  
+
   const [yourID, setYourID] = useState();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -41,6 +44,7 @@ export default function Chat(props) {
       socketRef.current.on("message", (message) => {
         const threshold = 0.9;
         receivedMessage(message);
+       
       })
 
       socketRef.current.on("videoAction", ({ action, hostInfo }) => {
@@ -151,6 +155,8 @@ export default function Chat(props) {
 
   function receivedMessage(message) {
     setMessages(oldMsgs => [...oldMsgs, message]);
+    document.getElementById('text-chat').scrollTop = 552;
+   
   }
 
   function leaveRoom() {
@@ -166,6 +172,9 @@ export default function Chat(props) {
     };
     setMessage("");
     socketRef.current.emit("send message", messageObject);
+    
+    document.getElementById('text-chat').scrollTop = 552;
+    
   }
 
   function handleChange(e) {
