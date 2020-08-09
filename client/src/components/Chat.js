@@ -12,7 +12,7 @@ import ChatAside from "../components/ChatAside";
 
 
 export default function Chat(props) {
-  
+
 
   const [yourID, setYourID] = useState();
   const [messages, setMessages] = useState([]);
@@ -23,7 +23,7 @@ export default function Chat(props) {
   const [asideSelection, setAsideSelection] = useState('chat');
   const [inviteFriendsModal, setInviteFriendsModal] = useState(false);
   const youtubePlayer = useRef();
-  
+
   let queue = [];
   const bufferTime = 4.5;
   let newTime = '0:00'
@@ -32,7 +32,7 @@ export default function Chat(props) {
 
   const socketRef = props.socketRef
 
-  
+
 
   useEffect(() => {
     if (socketRef.current) {
@@ -44,7 +44,7 @@ export default function Chat(props) {
       socketRef.current.on("message", (message) => {
         const threshold = 0.9;
         receivedMessage(message);
-       
+
       })
 
       socketRef.current.on("videoAction", ({ action, hostInfo }) => {
@@ -82,6 +82,7 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("session closed", () => {
+       
         setRedirect('/rooms/closed');
       })
       socketRef.current.on("inviteFriends", () => {
@@ -155,8 +156,9 @@ export default function Chat(props) {
 
   function receivedMessage(message) {
     setMessages(oldMsgs => [...oldMsgs, message]);
-    document.getElementById('text-chat').scrollTop = 552;
-   
+    if (document.getElementById('text-chat')) {
+      document.getElementById('text-chat').scrollTop = 552;
+    }
   }
 
   function leaveRoom() {
@@ -172,9 +174,11 @@ export default function Chat(props) {
     };
     setMessage("");
     socketRef.current.emit("send message", messageObject);
-    
-    document.getElementById('text-chat').scrollTop = 552;
-    
+    if (document.getElementById('text-chat')) {
+
+      document.getElementById('text-chat').scrollTop = 552;
+    }
+
   }
 
   function handleChange(e) {
@@ -183,6 +187,7 @@ export default function Chat(props) {
 
   useEffect(() => {
     const tag = document.createElement('script');
+    tag.id="iframe"
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -223,7 +228,7 @@ export default function Chat(props) {
     }
   }
 
-  function toggleAside(){
+  function toggleAside() {
     if (toggleState === '') {
       setToggleState('hidden');
     } else {
@@ -235,7 +240,7 @@ export default function Chat(props) {
     if (selection === asideSelection) {
       setAsideSelection("");
       setToggleState('hidden');
-    } else if (!asideSelection){
+    } else if (!asideSelection) {
       setToggleState('')
       setAsideSelection(selection);
     } else {
@@ -269,7 +274,7 @@ export default function Chat(props) {
 
   return (
     <div className="chat-container">
-      <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>    
+      <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink} />
       {/* TO DO: FIX CLASS NAME DOWN HERE*/}
       <div className="player-with-controls">
         <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />
@@ -277,9 +282,9 @@ export default function Chat(props) {
           <Controls videoProgress={videoProgress} handleAction={handleAction} />
         </div>
       </div>
-      <ChatAside socketRef={socketRef} copyLink={copyLink} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection} room={room}/>
-      <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection}/>
-</div>
+      <ChatAside socketRef={socketRef} copyLink={copyLink} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection} room={room} />
+      <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection} />
+    </div>
 
   )
 }

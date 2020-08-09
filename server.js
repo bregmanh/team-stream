@@ -54,6 +54,7 @@ toxicity.load(threshold).then(model => {
         if (rows.length === 0) {
           knex('users').insert({ id: socket.id, username: username, active: true, isHost: true, session_id: room }).returning('*').then((rows) => {
             const user = rows[0];
+            console.log("socket id", socket.id)
 
             socket.join(user.session_id);
             socket.emit("your id", socket.id);
@@ -211,9 +212,22 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on("query-public-rooms", () => {
-      const publicRooms = knex.select("*").from("sessions").where("public", true).then(sessions => {
-        socket.emit("show-public-rooms", sessions)
+      // const publicRooms = knex.select("*").from("sessions").where("public", true).then(sessions => {
+      //   socket.emit("show-public-rooms", sessions)
+      // })
+      knex.select("*").from("sessions").where({active: true, public: true}).then(sessions => {
+        const result=[];
+        sessions.map((session)=>{
+          knex.select("*").from("users").where({session_id: session.id}).then(users => {
+            knex.select("thumbnail").from("videos").where({session_id: session.id}).then(videos => {
+
+            result.push({key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail})
+            })
+          })
+        })
+        socket.emit("show-public-rooms", result)
       })
+
     })
 
     //fetching users in a room
