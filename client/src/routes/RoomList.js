@@ -6,17 +6,18 @@ import './RoomList.css';
 
 export default function RoomList (props) {
   const socketRef = props.socketRef
-
+  
+  const [rooms, setRooms] = useState([])
+  
   useEffect(() => {
-    // if (socketRef.current) {
+    if (socketRef.current) {
       socketRef.current.emit("query-public-rooms")
       socketRef.current.on("show-public-rooms", publicRooms => {
         setRooms(...rooms, publicRooms)
       })
-    // }
+    }
   }, [])
 
-  const [rooms, setRooms] = useState([])
   const [redirect, setRedirect] = useState(null);
 
   const roomList = (rooms) => {

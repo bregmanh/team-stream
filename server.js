@@ -210,7 +210,7 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on("query-public-rooms", () => {
-      knex.from('sessions').where('public', true).then(rows => {
+      knex.from('sessions').where({'public': true, 'active': true}).then(rows => {
         socket.emit("show-public-rooms", rows)
       })
     })
@@ -221,7 +221,7 @@ toxicity.load(threshold).then(model => {
           knex.from('users').where('id', socket.id).then(currentUser => {
             const user = currentUser[0]
             const canControl = user.isHost
-            io.to(user.session_id).emit("show-controls", canControl)
+            io.to(user.id).emit("show-controls", canControl)
           });
         })
       })
