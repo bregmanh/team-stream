@@ -19,6 +19,8 @@ export default function CreateRoom(props) {
     const [publicBool, setPublicBool] = useState('true');
 
     const handleChange = (event) => {
+        console.log('change happened in the form yo')
+        console.log(event);
       setPublicBool(event.target.value);
     };
 
@@ -32,6 +34,8 @@ export default function CreateRoom(props) {
 
     function handleCreate(e) {
         props.handleClose();
+        console.log('creating session with');
+        console.log({title, username, publicBool});
         props.createSession(title, username, publicBool);
     }
     return (
