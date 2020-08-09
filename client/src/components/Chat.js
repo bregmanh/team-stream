@@ -79,11 +79,11 @@ export default function Chat(props) {
       })
 
       // Listen to change in video time from server
-      socketRef.current.on("videoTime", (time) => {
+      // socketRef.current.on("videoTime", (time) => {
         // youtubePlayer.current.seekTo(newTime)
-        console.log('what time should be as video plays', time.action.timePercentage)
-        setVideoProgress(time.action.timePercentage)
-      })
+      //   console.log('what time should be as video plays', time.action.timePercentage)
+      //   setVideoProgress(time.action.timePercentage)
+      // })
 
       socketRef.current.on("session closed", () => {
         setRedirect('/rooms/closed');
@@ -142,11 +142,10 @@ export default function Chat(props) {
 
       })
 
-      // socketRef.current.emit("cannot-control")
+      socketRef.current.emit("can-control")
 
-      socketRef.current.on("no-controls", (cannotControl) => {
-        console.log("controller: ", cannotControl)
-        setCanControl(cannotControl)
+      socketRef.current.on("show-controls", (canControl) => {
+        setCanControl(canControl)
       })
     }
   }, []);
@@ -273,10 +272,6 @@ export default function Chat(props) {
     setInviteFriendsModal(false);
   };
 
-  function cannotControl () {
-    socketRef.current.emit("cannot-control")
-  }
-  cannotControl()
   return (
     <div className="chat-container">
       <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>    

@@ -6,15 +6,18 @@ import './RoomList.css';
 
 export default function RoomList (props) {
   const socketRef = props.socketRef
+  
+  // const [rooms, setRooms] = useState([])
+  
+  // useEffect(() => {
+  //   if (socketRef.current) {
+  //     socketRef.current.emit("query-public-rooms")
+  //     socketRef.current.on("show-public-rooms", publicRooms => {
+  //       setRooms(...rooms, publicRooms)
+  //     })
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    socketRef.current.emit("query-public-rooms")
-    socketRef.current.on("show-public-rooms", publicRooms => {
-      setRooms(...rooms, publicRooms)
-    })
-  }, [])
-
-  const [rooms, setRooms] = useState([])
   const [redirect, setRedirect] = useState(null);
 
   const roomList = (rooms) => {
@@ -47,8 +50,8 @@ export default function RoomList (props) {
   return (
     <div className="rooms-body">
       <h1 class="logo">TeamStream</h1>
-      <ul className="rooms-list">{roomList(rooms)}</ul>
-      <ArrowBackIcon onClick={() => setRedirect("/")}>Back</ArrowBackIcon>
+      <ul className="rooms-list">{roomList(props.rooms)}</ul>
+      <ArrowBackIcon size="large" onClick={() => setRedirect("/")}>Back</ArrowBackIcon>
       <p>Only public rooms are displayed here. To join a private room, please request the link from the host</p>
     </div>
   )

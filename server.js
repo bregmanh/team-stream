@@ -211,26 +211,22 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on("query-public-rooms", () => {
-      knex.from('sessions').where('public', true).then(rows => {
+      knex.from('sessions').where({'public': true, 'active': true}).then(rows => {
         socket.emit("show-public-rooms", rows)
       })
     })
 
-    socket.on("cannot-control", () => {
-      // knex.from("users").where("isHost", false).then(users => {
-        // knex.from('users').where('id', socket.id).then(rows => {
-        //   const user = rows[0]
-
-          // console.log('does users include user? ', users.includes(user))
-          // if (users.includes(user)) {
-          //   const cannotControl = true
-          //   io.to(user.session_id).emit("no-controls", cannotControl)
-            // io.to(user.session_id).emit("no-controls", true)
-          // }
-        // });
-        
+    socket.on("can-control", () => {
+      knex.from("sessions").where("public", true).then(() => {
+        knex.from("users").where("isHost", false).then(users => {
+          knex.from('users').where('id', socket.id).then(currentUser => {
+            const user = currentUser[0]
+            const canControl = user.isHost
+            io.to(user.id).emit("show-controls", canControl)
+          });
+        })
       })
-    // })
+    })
 
     //fetching users in a room
     socket.on('fetch-users-from-session', roomID => {
