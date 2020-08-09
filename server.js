@@ -42,7 +42,6 @@ toxicity.load(threshold).then(model => {
       })
     })
     socket.on('create-session', ({ room, title, publicBool }) => {
-      console.log("public bool", publicBool)
       knex('sessions').insert({ id: room, title: title, active: true, public: publicBool }).then(() => {
       })
     })

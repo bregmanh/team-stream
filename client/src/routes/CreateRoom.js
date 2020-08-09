@@ -16,12 +16,10 @@ import FormLabel from '@material-ui/core/FormLabel';
 export default function CreateRoom(props) {
     const [username, setUsername] = useState(null);
     const [title, setTitle] = useState(null);
-    const [publicBool, setPublicBool] = useState('true');
+    const [publicRoom, setPublicRoom] = useState("true");
 
     const handleChange = (event) => {
-        console.log('change happened in the form yo')
-        console.log(event);
-      setPublicBool(event.target.value);
+      setPublicRoom(event.target.value);
     };
 
     function handleUsernameChange(e) {
@@ -34,8 +32,9 @@ export default function CreateRoom(props) {
 
     function handleCreate(e) {
         props.handleClose();
-        console.log('creating session with');
-        console.log({title, username, publicBool});
+        const publicBool = publicRoom === 'true';
+        console.log({publicRoom});
+        console.log({publicBool});
         props.createSession(title, username, publicBool);
     }
     return (
@@ -70,9 +69,9 @@ export default function CreateRoom(props) {
             </DialogContentText>
             <FormControl component="fieldset">
                 <FormLabel component="legend">Room Type</FormLabel>
-                <RadioGroup aria-label="room-type" name="gender1" value={publicBool} onChange={handleChange}>
-                    <FormControlLabel value="true" control={<Radio />} label="public" />
-                    <FormControlLabel value="false" control={<Radio />} label="private" />
+                <RadioGroup aria-label="room-type" name="gender1" value={publicRoom} onChange={handleChange}>
+                    <FormControlLabel value='true' control={<Radio />} label="public"/>
+                    <FormControlLabel value='false' control={<Radio />} label="private"/>
                 </RadioGroup>
                 </FormControl>
             </DialogContent>
