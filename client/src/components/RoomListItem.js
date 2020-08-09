@@ -13,9 +13,10 @@ export default function RoomListItem (props) {
   return (
     <div className="room">
       <div className="thumbnail"></div>
+      {/* <div className="thumbnail">{props.thumbnail}</div> */}
       <div className="room-info">
         <h2>{props.title}</h2>
-        <h5>Viewers: 10</h5>
+        {/* <h5>Viewers: {props.viewers}</h5> */}
         <button className="join-room" onClick={() => setRedirect(`/rooms/${props.id}`)}>Join</button>
       </div>
     </div>
