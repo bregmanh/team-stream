@@ -1,0 +1,37 @@
+.session-closed {
+  height: 100vh;
+  width: 100vw;
+  background: url('../images/bg-5.jpeg');
+  background-size: cover;
+  padding-top: 20vh;
+}
+
+.session-closed-content {
+  font-family: 'Source Sans Pro', sans-serif;
+  padding: 3vw;
+  background: rgba(0, 0, 0, 0.899);
+  width: 30vw;
+  color: white;
+  border-radius: 15px;
+  margin: auto;
+}
+
+.session-closed-content p, a{
+  font-size: 1.5vw;
+}
+
+.session-closed-content a {
+  color: turquoise;
+  text-decoration: none;
+}
+
+.session-closed-content a:hover {
+  text-decoration: underline;
+}
+
+.session-closed-content a:focus {
+  color: turquoise;
+}
+
+
+
