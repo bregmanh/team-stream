@@ -3,6 +3,7 @@ const http = require("http");
 const app = express();
 const server = http.createServer(app);
 const socket = require("socket.io");
+const moment = require('moment-timezone');
 const toxicity = require('@tensorflow-models/toxicity');
 const tfjs = require("@tensorflow/tfjs-node");
 const { kStringMaxLength } = require("buffer");
@@ -56,11 +57,11 @@ toxicity.load(threshold).then(model => {
 
             socket.join(user.session_id);
             socket.emit("your id", socket.id);
-            socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!' });
+            socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!', time: moment().tz("America/Toronto").format('h:mm a') });
 
             socket.broadcast
               .to(user.session_id)
-              .emit('message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has joined the chat` })
+              .emit('message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has joined the chat`, time: moment().tz("America/Toronto").format('h:mm a') })
 
           })
         } else {
@@ -69,11 +70,11 @@ toxicity.load(threshold).then(model => {
             console.log("rows", user)
 
             socket.join(user.session_id);
-            socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!' });
+            socket.emit('message', { id: 1, username: `TeamStreamBot`, message: 'Welcome to TeamStream!', time: moment().tz("America/Toronto").format('h:mm a') });
 
             socket.broadcast
               .to(user.session_id)
-              .emit('message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has joined the chat` })
+              .emit('message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has joined the chat`, time: moment().tz("America/Toronto").format('h:mm a') })
           })
         }
       })
@@ -97,7 +98,7 @@ toxicity.load(threshold).then(model => {
               })
             } else {
               io.to(user.session_id).emit(
-                'message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has left the chat` })
+                'message', { id: 1, username: `TeamStreamBot`, message: `${user.username} has left the chat`, time: moment().tz("America/Toronto").format('h:mm a') })
             }
           });
         }
@@ -260,7 +261,8 @@ toxicity.load(threshold).then(model => {
     return {
       id: msg.id,
       message: msg.body,
-      username: user.username
+      username: user.username,
+      time: moment().tz("America/Toronto").format('h:mm a')
     }
 
   }
