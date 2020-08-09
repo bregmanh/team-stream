@@ -215,28 +215,15 @@ toxicity.load(threshold).then(model => {
       })
     })
 
-    // socket.on("can-control", () => {
-    //   knex.from('users').where('id', socket.id).then(user => {
-    //     const currentUser = user[0]
-    //     knex.from("sessions").where('id', currentUser.session_id).then(session => {
-    //       knex.from('users').then(() => {
-    //         const currentUserSession = session[0]
-    //         const canControl = currentUser.isHost || !currentUserSession.public
-    //         console.log('canControl: ', canControl)
-    //         io.to(user.id).emit("show-controls", canControl)
-    //       })
-    //     })
-    //   })
-    // })
-
     socket.on("can-control", () => {
       knex.from("sessions").where("public", true).then(() => {
-        // knex.from("users").where("isHost", false).then(users => {
-          knex.from('users').where('id', socket.id).then(currentUser => {
-            const user = currentUser[0]
-            const canControl = user.isHost
+        knex.from('users').where('id', socket.id).then(currentUser => {
+          const user = currentUser[0]
+          knex.from("sessions").where('id', user.session_id).then(session => {
+            const currentUserSession = session[0]
+            const canControl = user.isHost || !currentUserSession.public
             io.to(user.id).emit("show-controls", canControl)
-          // })
+          })
         })
       })
     })
