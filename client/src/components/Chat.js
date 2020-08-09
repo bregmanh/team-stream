@@ -278,9 +278,9 @@ export default function Chat(props) {
       {/* TO DO: FIX CLASS NAME DOWN HERE*/}
       <div className="player-with-controls">
         <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />
-        {canControl && <div>
-          <Controls videoProgress={videoProgress} handleAction={handleAction} />
-        </div>}
+        <div>
+          <Controls canControl={canControl} videoProgress={videoProgress} handleAction={handleAction} />
+        </div>
       </div>
       <ChatAside socketRef={socketRef} copyLink={copyLink} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection} room={room}/>
       <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection}/>
