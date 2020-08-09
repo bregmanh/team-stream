@@ -18,10 +18,13 @@ export default function Controls(props) {
 
   return (
     <>
-      <input type="range" id="progress-bar" class="progress-bar" ref={scrollBar}
+      {props.canControl &&
+        <input type="range" id="progress-bar" class="progress-bar" ref={scrollBar}
         onInput={e => props.handleAction("scroll-video", {timePercentage: e.target.value})}
         // onChange={e => {props.handleVideoTime({timePercentage: e.target.value})}}
-      />
+        />
+      }
+      {!props.canControl && <div className="no-scroll-padding"></div>}
       <div className="controls">
         {!muted && <VolumeMuteIcon
           onClick={() => {
@@ -39,11 +42,11 @@ export default function Controls(props) {
         </VolumeOffIcon>}
         <input type="range" class="volume-bar" onInput={e => props.handleAction("scroll-volume", {volumePercentage: e.target.value})}/>
         {props.canControl &&
-        <div className="global-controls">
-          <PlayArrowIcon className="play" onClick={() => { props.handleAction("play") }} fontSize="large"></PlayArrowIcon>
-          <StopIcon className="stop" onClick={() => { props.handleAction("pause") }} fontSize="large"></StopIcon>
-          <SkipNextIcon className="mute" onClick={() => { props.handleAction("nextVideo") }} fontSize="large"></SkipNextIcon>
-        </div>
+          <div className="global-controls">
+            <PlayArrowIcon className="play" onClick={() => { props.handleAction("play") }} fontSize="large"></PlayArrowIcon>
+            <StopIcon className="stop" onClick={() => { props.handleAction("pause") }} fontSize="large"></StopIcon>
+            <SkipNextIcon className="mute" onClick={() => { props.handleAction("nextVideo") }} fontSize="large"></SkipNextIcon>
+          </div>
         }
       </div>
     </>
