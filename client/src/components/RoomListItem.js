@@ -9,10 +9,8 @@ export default function RoomListItem (props) {
   if (redirect) {
     return <Redirect to={redirect} />
   }
-
   return (
     <div className="room">
-      {/* <div className="thumbnail"></div> */}
       <div className="thumbnail">{props.thumbnail}</div>
       <div className="room-info">
         <h2>{props.title}</h2>

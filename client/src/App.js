@@ -26,7 +26,7 @@ function App() {
     if (socketRef.current) {
       socketRef.current.emit("query-public-rooms")
       socketRef.current.on("show-public-rooms", publicRooms => {
-        setRooms(...rooms, publicRooms)
+        setRooms(publicRooms)
       })
     }
   }, [])

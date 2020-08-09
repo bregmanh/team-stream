@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Message from "./Message";
 import "./TextChat.css";
@@ -31,16 +31,16 @@ const TextChat = props => {
     props.setMessage(e.target.value);
   }
 
-  const chatMessages = props.messages.map(message => <Message message={message} yourID={props.yourID}/>)
+  const chatMessages = props.messages.map(message => <Message message={message} yourID={props.yourID} />)
+  
+
+
   return (
     <div>
-      
-      <div className="text-chat">
+
+      <div className="text-chat" id="text-chat">
         {chatMessages}
       </div>
-      
-      
-      
       
       <form class="message-form" onSubmit={props.sendMessage}>
         <textarea value={props.message} onChange={handleChange} placeholder="Say something..." />

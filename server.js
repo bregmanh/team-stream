@@ -54,6 +54,7 @@ toxicity.load(threshold).then(model => {
         if (rows.length === 0) {
           knex('users').insert({ id: socket.id, username: username, active: true, isHost: true, session_id: room }).returning('*').then((rows) => {
             const user = rows[0];
+            console.log("socket id", socket.id)
 
             socket.join(user.session_id);
             socket.emit("your id", socket.id);
@@ -131,7 +132,7 @@ toxicity.load(threshold).then(model => {
           const hostInfo = {
             time: rows2[0].time,
           }
-        io.to(rows[0].session_id).emit("videoAction", { action, hostInfo })
+          io.to(rows[0].session_id).emit("videoAction", { action, hostInfo })
         })
       })
     })
@@ -199,7 +200,7 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on("addVideo", videoObj => {
-      
+
       //NOTE: add video to video table
       const { id, title, thumbnail } = videoObj;
       //hostInfo.queue.push(videoId)
@@ -222,29 +223,57 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on("query-public-rooms", () => {
-      // knex.from('sessions').where({'public': true, 'active': true}).then(rows => {
-        const rows = [{key: 1, title: "Chaim's Room", thumbnail: "sd", viewers: 10}, {key: 2, title: "Chaim", thumbnail: "sd", viewers: 10}]
-        socket.emit("show-public-rooms", rows)
+      // const publicRooms = knex.select("*").from("sessions").where("public", true).then(sessions => {
+      //   socket.emit("show-public-rooms", sessions)
       // })
+      let result = [];
+      knex.select("*").from("sessions").where({ active: true, public: true, play: true }).then(sessions => {
+        console.log("public sessions", sessions)
+        for(let session of sessions){
+          knex.select("*").from("users").where({ session_id: session.id, active: true }).then(users => {
+            knex.select("thumbnail").from("videos").where({ session_id: session.id }).then(videos => {
+              //check if there are any videos
+              if(videos.length >0 ){
+                //check if we looped through all the sessions to return
+                console.log("index of session", sessions.indexOf(session))
+                if(sessions.indexOf(session)=== sessions.length-1){
+                result.push({ id: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
+                  console.log("result", result)
+                  socket.emit("show-public-rooms", result)
+                }
+
+                console.log("videos", videos)
+                result.push({ id: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
+              }
+            })
+          })
+        }
+        
+      })
+     
     })
 
     socket.on("can-control", () => {
       knex.from("sessions").where("public", true).then(() => {
         knex.from('users').where('id', socket.id).then(currentUser => {
           const user = currentUser[0]
-          knex.from("sessions").where('id', user.session_id).then(session => {
-            const currentUserSession = session[0]
-            const canControl = user.isHost || !currentUserSession.public
-            io.to(user.id).emit("show-controls", canControl)
+          if(user.session_id){
+            knex.from("sessions").where('id', user.session_id).then(session => {
+              const currentUserSession = session[0]
+              const canControl = user.isHost || !currentUserSession.public
+              io.to(user.id).emit("show-controls", canControl)
+            
           })
+          }
         })
       })
+
     })
 
     //fetching users in a room
     socket.on('fetch-users-from-session', roomID => {
       //users = ['Sophie', 'Hannah', 'Aaron', 'Chaim', 'Francis'];
-      knex.from('users').where('session_id', roomID).then(rows => {
+      knex.from('users').where({session_id: roomID, active: true}).then(rows => {
         //converting to array of names from array of user objects
         let users = [];
         rows.map(row => {
