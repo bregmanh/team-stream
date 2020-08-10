@@ -299,6 +299,15 @@ toxicity.load(threshold).then(model => {
       })
     });
 
+    socket.on('fetch-room-title',  roomID => {
+        knex.select('title').from('sessions').where('id', roomID).then(rows => {
+          const title = rows[0].title
+          console.log("fetch-room-title", title)
+          socket.emit('provide-room-title', title);
+        })
+      })
+    
+
   })
 
   function createMsgObj(msg, user) {
