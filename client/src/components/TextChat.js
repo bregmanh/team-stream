@@ -7,7 +7,6 @@ import "./TextChat.css";
 
 const TextChat = props => {
   const textRef = useRef();
-  const formRef = useRef();
 
   useEffect(() => {
     textRef.current.focus();
@@ -32,7 +31,7 @@ const TextChat = props => {
         {chatMessages}
       </div>
       
-      <form ref={formRef} class="message-form" onSubmit={props.sendMessage}>
+      <form class="message-form" onSubmit={props.sendMessage}>
         <textarea ref={textRef} value={props.message} onChange={handleChange} onKeyDown={handleKeyDown} placeholder="Say something..." />
         <button class="chat-button">Send</button>
       </form>
