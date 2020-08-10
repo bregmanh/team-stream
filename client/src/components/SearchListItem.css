@@ -18,16 +18,28 @@
 
 
 .search-info p {
+  font-weight: bold;
   font-size: 0.7vw;
   width: 90%;
   margin: 0 auto;
 }
 
 .search-info button {
-  background: rgb(22, 158, 182);
-  border-radius: 5px;
-  color: white;
-  width: 6vw;
+  font-weight:bold;
+  background: #10959D;
+  border-radius: 10px;
+  color: rgb(66 66 66);
+  border: 1px solid rgb(66 66 66);
+  width: 4vw;
   font-size: 0.7vw;
   margin-top: 1vh;
+}
+
+.search-info button:hover {
+  cursor:pointer;
+  background: rgb(23, 243, 255);
+}
+
+.search-info button:focus{
+  outline: none;
 }

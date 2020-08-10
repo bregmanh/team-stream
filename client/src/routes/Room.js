@@ -21,19 +21,6 @@ const Room = (props) => {
   const socketRef = props.socketRef;
   const [sessionStatus, setSessionStatus] = useState(false);
   const [redirect, setRedirect] = useState(null);
-
-
-  // useEffect(() => {
-  //   socketRef.current.emit('is-session-active', room);
-  //   socketRef.current.on('session-status', (isActive) => {
-  //     if (isActive) {
-  //       setSessionStatus(true);
-  //     } else {
-  //       setRedirect('/');
-  //     }
-  //   })
-  // }, []);
-
   
   const handleClose = () => {
     setOpen(false);

@@ -18,6 +18,7 @@
 
 .queue-info p {
   margin: 0;
+  font-size: 0.9vw;
 }
 
 .queue-info p.title {

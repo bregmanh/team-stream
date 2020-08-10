@@ -18,14 +18,16 @@
   width: 60%;
   font-size: 1.5vw;
   border-radius: 15px;
-  color: turquoise;
-  border: turquoise 2px solid;
+  color:#10959D;
+  border: #10959D 2px solid;
   background:rgb(43, 43, 43);
 }
 
 .leave-button:hover {
+  color:rgb(23, 243, 255);
+  border: rgb(23, 243, 255) 2px solid;
   cursor: pointer;
-  background:rgba(255, 255, 255, 0.208);
+  background:rgb(66 66 66);
 }
 
 .leave-room .alert {

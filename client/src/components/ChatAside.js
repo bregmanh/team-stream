@@ -13,7 +13,7 @@ export default function ChatAside(props) {
      <header class="aside-logo">TeamStream</header>
      <div className="contents">
         {props.selection === "leave" && 
-          <LeaveRoom leaveRoom={props.leaveRoom}/>
+          <LeaveRoom username={props.username} roomTitle={props.roomTitle} leaveRoom={props.leaveRoom}/>
         }
         {props.selection === "chat" && 
           <TextChat message={props.message} setMessage={props.setMessage} yourID={props.yourID} messages={props.messages} sendMessage={props.sendMessage}/>

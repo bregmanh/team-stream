@@ -23,3 +23,7 @@
   margin: 0;
 }
 
+.search-button-icon:hover {
+  cursor: pointer;
+}
+

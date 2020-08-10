@@ -23,13 +23,13 @@ export default function Chat(props) {
   const [asideSelection, setAsideSelection] = useState('chat');
   const [inviteFriendsModal, setInviteFriendsModal] = useState(false);
   const [canControl, setCanControl] = useState(true)
+  const [roomTitle, setRoomTitle] = useState("Cat Lovers Anonymous");
   const youtubePlayer = useRef();
 
   let queue = [];
   const bufferTime = 4.5;
-  let onStateChangeFunc = null;
   const room = props.room;
-
+  const username = props.username;
   const socketRef = props.socketRef
 
 
@@ -37,6 +37,13 @@ export default function Chat(props) {
   useEffect(() => {
     if (socketRef.current) {
       socketRef.current.emit('joinRoom', { username: props.username, room });
+      
+      socketRef.current.emit('fetch-room-title', props.room);
+
+      socketRef.current.on('provide-room-title', string => {
+        setRoomTitle(string);
+      })
+
       socketRef.current.on("your id", id => {
         setYourID(id);
       })
@@ -64,13 +71,6 @@ export default function Chat(props) {
         }
       })
 
-      // Listen to change in video time from server
-      // socketRef.current.on("videoTime", (time) => {
-        // youtubePlayer.current.seekTo(newTime)
-      //   console.log('what time should be as video plays', time.action.timePercentage)
-      //   setVideoProgress(time.action.timePercentage)
-      // })
-
       socketRef.current.on("session closed", () => {
        
         setRedirect('/rooms/closed');
@@ -80,17 +80,6 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("provideVideoInfo", (hostInfo) => {
-        // const startTime = new Date().getTime();
-        // onStateChangeFunc = (e) => {
-        //   console.log("player state", youtubePlayer.current.getPlayerState())
-        //   if (youtubePlayer.current.getPlayerState() === 1) {
-
-        //     const endTime = new Date().getTime();
-        //     setBufferTime(endTime - startTime);
-        //     onStateChangeFunc = null;
-        //   }
-        // }
-
         queue = hostInfo.queue;
         //if video is paused - not playing
         if (!(hostInfo.play)) {
@@ -189,10 +178,6 @@ export default function Chat(props) {
 
   }
 
-  function handleChange(e) {
-    setMessage(e.target.value);
-  }
-
   useEffect(() => {
     const tag = document.createElement('script');
     tag.id="iframe"
@@ -202,28 +187,24 @@ export default function Chat(props) {
     window.onYouTubeIframeAPIReady = loadVideoPlayer;
   }, []);
     
-    function loadVideoPlayer() {
-      const player = new window.YT.Player('player', {
-        height: '90%',
-        playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
-        }
-        
-      });
-      youtubePlayer.current = player;
-    }
+  function loadVideoPlayer() {
+    const player = new window.YT.Player('player', {
+      height: '90%',
+      playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+      
+    });
+    youtubePlayer.current = player;
+  }
+
   function onPlayerReady(event) {
     socketRef.current.emit('requestVideoInfo', "");
   }
-  function onPlayerStateChange(event) {
-    // console.log("event change", event)
-    // if (onStateChangeFunc) {
-    //   onStateChangeFunc(event)
-    // }
-    console.log("state change fired", event.data)
 
+  function onPlayerStateChange(event) {
     if (event.data === 0 || event.data === -1) {
 
       let index = youtubePlayer.current.getPlaylistIndex();
@@ -259,10 +240,6 @@ export default function Chat(props) {
     return <Redirect to={redirect} />
   }
 
-  // function addVideoToQueue(videoId) {
-  //   socketRef.current.emit('addVideo', videoId);
-  // }
-
   function copyLink() {
     navigator.clipboard.writeText(window.location.href).then(function () {
       console.log(`copied the following url: ${window.location.href}`);
@@ -282,14 +259,13 @@ export default function Chat(props) {
   return (
     <div className="chat-container">
       <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink} />
-      {/* TO DO: FIX CLASS NAME DOWN HERE*/}
       <div className="player-with-controls">
         <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />
         <div>
           <Controls canControl={canControl} videoProgress={videoProgress} handleAction={handleAction} handleVolume={handleVolume}/>
         </div>
       </div>
-      <ChatAside socketRef={socketRef} copyLink={copyLink} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection} room={room} />
+      <ChatAside roomTitle={roomTitle} username={username} socketRef={socketRef} copyLink={copyLink} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection} room={room} />
       <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection} />
     </div>
 
