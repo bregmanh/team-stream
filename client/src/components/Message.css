@@ -7,11 +7,11 @@
 
 .left {
 	margin: 1vh auto 0 0;
-	background:rgba(70, 149, 155, 0.619);
+	background:#10959D;
 }
 .right {
 	margin: 1vh 0 0 auto;
-	background:rgba(139, 246, 254, 0.536);
+	background:rgb(23, 243, 255);
 }
 .middle {
 	width: 100%;

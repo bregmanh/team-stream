@@ -36,7 +36,7 @@
 
 .content button:hover {
   cursor: pointer;
-  background: #5fd4eb;
+  background: rgb(23, 243, 255);
   color: black;
 }
 

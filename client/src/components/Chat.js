@@ -193,20 +193,19 @@ export default function Chat(props) {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     window.onYouTubeIframeAPIReady = loadVideoPlayer;
   }, []);
-
-  function loadVideoPlayer() {
-    const player = new window.YT.Player('player', {
-      height: '90%',
-      playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-
-    });
-    youtubePlayer.current = player;
-
-  }
+    
+    function loadVideoPlayer() {
+      const player = new window.YT.Player('player', {
+        height: '90%',
+        playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+        
+      });
+      youtubePlayer.current = player;
+    }
   function onPlayerReady(event) {
     socketRef.current.emit('requestVideoInfo', "");
   }
@@ -274,7 +273,7 @@ export default function Chat(props) {
 
   return (
     <div className="chat-container">
-      <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>    
+      {/* <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink}/>     */}
       {/* TO DO: FIX CLASS NAME DOWN HERE*/}
       <div className="player-with-controls">
         <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />

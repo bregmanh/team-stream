@@ -34,13 +34,9 @@ const TextChat = props => {
   const chatMessages = props.messages.map(message => <Message message={message} yourID={props.yourID}/>)
   return (
     <div>
-      
       <div className="text-chat">
         {chatMessages}
       </div>
-      
-      
-      
       
       <form class="message-form" onSubmit={props.sendMessage}>
         <textarea value={props.message} onChange={handleChange} placeholder="Say something..." />
