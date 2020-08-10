@@ -42,4 +42,16 @@
 .info {
   color: white;
   font-family: 'Source Sans Pro', sans-serif;
+  display: flex;
+  justify-content: center;;
+}
+
+.info p {
+  font-size: 1rem;
+}
+
+@media (max-width: 2000px) {
+  .info {
+    padding: 1rem;
+  }
 }
