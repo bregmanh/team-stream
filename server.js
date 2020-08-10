@@ -115,7 +115,7 @@ toxicity.load(threshold).then(model => {
       model && model.classify([body.body]).then(predictions => {
         predictions.map((item) => {
           if (item.results[0].match === true) {
-            body.body = 'Francis'
+            body.body = 'TeamStream is so awesome!'
           }
         })
         //const user = getCurrentUser(socket.id);
@@ -298,6 +298,15 @@ toxicity.load(threshold).then(model => {
         })
       })
     });
+
+    socket.on('fetch-room-title',  roomID => {
+        knex.select('title').from('sessions').where('id', roomID).then(rows => {
+          const title = rows[0].title
+          console.log("fetch-room-title", title)
+          socket.emit('provide-room-title', title);
+        })
+      })
+    
 
   })
 

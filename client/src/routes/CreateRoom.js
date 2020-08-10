@@ -13,21 +13,17 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Typography from '@material-ui/core/Typography';
 import { spacing } from '@material-ui/system';
+import './CreateRoom.css'
 
 
-import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider, makeStyles, withStyles } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
-    spacing: [0, 2, 3, 5, 8],
-    overrides: {
-        // Style sheet name ⚛️
 
+    overrides: {
+        
         MuiDialog: {
             // Name of the rule
-            text: {
-                // Some CSS
-                color: '#eceff1',
-            },
             paper: {
                 // Some CSS
                 backgroundColor: '#37474f',
@@ -40,24 +36,39 @@ const theme = createMuiTheme({
                 // Some CSS
                 backgroundColor: '#37474f',
                 color: '#eceff1',
+                '&:hover': {
+                    color: 'rgb(23, 243, 255)'
+                  }
             },
         },
-        MuiTypography: {
+        MuiSvgIcon: {
+            root: {
+                color: 'rgb(23, 243, 255)',
+            },
 
+        },
+        MuiTypography: {
             body2: {
                 fontSize: 14,
                 color: '#cfd8dc',
             },
         },
         MuiInput: {
-            root: {
-                background: '#37474f',
+            input: {
                 color: '#eceff1',
-            }
+            },
         },
-
+      
+        MuiInputLabel: {
+            animated: {
+                color: '#90a4ae',
+            },
+        },
+      
+     
         palette: {
             primary: {
+                primary: '#eceff1',
                 light: '#eceff1',
                 main: '#eceff1',
                 dark: '#eceff1',
@@ -67,7 +78,6 @@ const theme = createMuiTheme({
                 light: '#eceff1',
                 main: '#eceff1',
                 dark: '#eceff1',
-
             },
         },
     }
@@ -75,19 +85,33 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles({
     root: {
-        background: '#37474f',
-        color: '#eceff1',
-
+        color: '#eceff1'
     },
-    label: {
-        background: '#37474f',
-        color: '#eceff1',
+    textField: {
+        color: '#eceff1'
     },
     input: {
-        background: '#37474f',
-        color: '#eceff1',
-    },
+        color: '#eceff1'
+    }
 });
+
+
+const CssTextField = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: 'rgb(23, 243, 255)',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'rgb(23, 243, 255)',
+    },
+    '& .MuiOutlinedInput-root': {
+      '&.Mui-focused fieldset': {
+        borderColor: 'rgb(23, 243, 255)',
+      },
+    },
+  },
+})(TextField);
+
 
 
 
@@ -118,7 +142,7 @@ export default function CreateRoom(props) {
         props.createSession(title, username, publicBool);
     }
     return (
-        <div>
+        <div className="create-room-modal">
             <ThemeProvider theme={theme}>
                 <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Create Room</DialogTitle>
@@ -127,12 +151,8 @@ export default function CreateRoom(props) {
                             Create a room to share your streaming experience with others!
             </DialogContentText>
 
-                        <TextField
-                            classes={{
-                                root: classes.root, // class name, e.g. `classes-nesting-root-x`
-                                label: classes.label, // class name, e.g. `classes-nesting-label-x`
-                                label: classes.input,
-                            }}
+                        <CssTextField
+
                             autoFocus
                             margin="dense"
                             id="username"
@@ -142,7 +162,8 @@ export default function CreateRoom(props) {
                             onChange={handleUsernameChange}
                             fullWidth
                         />
-                        <TextField
+
+                        <CssTextField
                             margin="dense"
                             id="room-title"
                             label="Room Title"
@@ -152,31 +173,15 @@ export default function CreateRoom(props) {
                             fullWidth
                         />
                         <DialogContentText >
-                            <Typography variant="body2" mt={3}>
-                            </Typography>
-                        </DialogContentText>
-                        <DialogContentText >
-                            <Typography variant="body2" mt={3}>
+
+                            <Typography variant="body2" style={{paddingTop: '20px' }}>
                                 Private rooms are only accessible to people you invite. Public rooms are displayed on our page and anyone can join!
                             </Typography>
+
                         </DialogContentText>
-                        <DialogContentText >
-                            <Typography variant="body2" mt={3}>
-                            </Typography>
-                        </DialogContentText>
-                        {/* <FormControl component="fieldset">
-                            <FormLabel component="legend" style={{ color: '#cfd8dc' }}>Room Type</FormLabel>
-                            <RadioGroup aria-label="room-type" name="gender1" value={publicBool} onChange={handleChange}>
-                                <FormControlLabel value="true" control={<Radio />} label="public" />
-                                <FormControlLabel value="false" control={<Radio />} label="private" />
-                            </RadioGroup>
-                        </FormControl>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={props.handleClose} color="primary">
-                            Cancel */}
+                      
                         <FormControl component="fieldset">
-                            <FormLabel component="legend" style={{ color: '#cfd8dc' }}>Room Type</FormLabel>
+                            <FormLabel component="legend" style={{ color: '#cfd8dc', paddingTop: '20px' }}>Room Type</FormLabel>
                             <RadioGroup aria-label="room-type" name="gender1" value={publicRoom} onChange={handleChange}>
                                 <FormControlLabel value='true' control={<Radio />} label="public" />
                                 <FormControlLabel value='false' control={<Radio />} label="private" />

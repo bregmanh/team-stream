@@ -8,6 +8,90 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import { createMuiTheme, ThemeProvider, makeStyles, withStyles } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+
+  overrides: {
+      
+      MuiDialog: {
+          // Name of the rule
+          paper: {
+              // Some CSS
+              backgroundColor: '#37474f',
+              color: '#eceff1',
+          },
+      },
+      MuiButton: {
+          // Name of the rule
+          text: {
+              // Some CSS
+              backgroundColor: '#37474f',
+              color: '#eceff1',
+              '&:hover': {
+                color: 'rgb(23, 243, 255)'
+              }
+          },
+      },
+      MuiSvgIcon: {
+          root: {
+              color: 'rgb(23, 243, 255)',
+          },
+
+      },
+      MuiTypography: {
+          body2: {
+              fontSize: 14,
+              color: '#cfd8dc',
+          },
+      },
+      MuiInput: {
+          input: {
+              color: '#eceff1',
+          },
+      },
+    
+      MuiInputLabel: {
+          animated: {
+              color: '#90a4ae',
+          },
+      },
+    
+   
+      palette: {
+          primary: {
+              primary: '#eceff1',
+              light: '#eceff1',
+              main: '#eceff1',
+              dark: '#eceff1',
+
+          },
+          secondary: {
+              light: '#eceff1',
+              main: '#eceff1',
+              dark: '#eceff1',
+          },
+      },
+  }
+})
+
+
+const CssTextField = withStyles({
+root: {
+  '& label.Mui-focused': {
+    color: 'rgb(23, 243, 255)',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: 'rgb(23, 243, 255)',
+  },
+  '& .MuiOutlinedInput-root': {
+    '&.Mui-focused fieldset': {
+      borderColor: 'rgb(23, 243, 255)',
+    },
+  },
+},
+})(TextField);
+
 export default function UsernameForm(props) {
   const [username, setUsername] = useState('');
   const [redirect, setRedirect] = useState(null);
@@ -37,10 +121,11 @@ export default function UsernameForm(props) {
 
   return (
     <div>
+       <ThemeProvider theme={theme}>
       <Dialog open={props.open} onClose={props.handleClose}>
         <DialogTitle id="form-dialog-title">Join Room</DialogTitle>
         <DialogContent>
-          <TextField
+          <CssTextField
             autoFocus
             margin="dense"
             id="username"
@@ -52,14 +137,15 @@ export default function UsernameForm(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.handleClose} color="primary">
+          <Button onClick={props.handleClose} >
             Cancel
           </Button>
-          <Button onClick={joinRoom} color="primary">
+          <Button onClick={joinRoom} >
             Join
           </Button>
         </DialogActions>
       </Dialog>
+      </ThemeProvider>
     </div>
   );
 }

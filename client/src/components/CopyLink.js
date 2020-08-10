@@ -4,7 +4,31 @@ import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import { green } from '@material-ui/core/colors';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiSvgIcon: {
+      root: {
+        color: '#10959D',
+        '&:hover': {
+          color: 'rgb(23, 243, 255)'
+        }
+      },
+    },
+    MuiButton: {
+      // Name of the rule
+      text: {
+        // Some CSS
+        backgroundColor: '#37474f',
+        color: '#eceff1',
+        '&:hover': {
+          color: 'rgb(23, 243, 255)'
+        }
+      },
+    }
+  }
+})
 
 const useStyles = makeStyles((theme) => ({
   typography: {
@@ -30,13 +54,15 @@ export default function CopyLink(props) {
 
   return (
     <div>
-      {props.icon && 
-     <PersonAddIcon aria-describedby={id} onClick={handleClick} fontSize="large"/>
-      }{props.button &&
-        <Button onClick={handleClick} color="primary">
-        Copy Link
+      <ThemeProvider theme={theme}>
+        {props.icon &&
+          <PersonAddIcon aria-describedby={id} onClick={handleClick} fontSize="large" />
+        }{props.button &&
+          <Button onClick={handleClick} >
+            Copy Link
       </Button>
-      }
+        }
+      </ThemeProvider>
       <Popover
         id={id}
         open={open}

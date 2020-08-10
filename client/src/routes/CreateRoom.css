@@ -63,3 +63,13 @@ button, select {
   background-color: '#37474f';
   color: '#eceff1';
 }
+.text-field{
+  background-color: '#37474f';
+  color: '#eceff1';
+}
+.create-room-modal{
+color: white;
+}
+.create-room-modal .MuiInputLabel-animated{
+  color: white;
+}
