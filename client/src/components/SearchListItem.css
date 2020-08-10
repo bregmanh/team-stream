@@ -43,3 +43,7 @@
 .search-info button:focus{
   outline: none;
 }
+
+.search-info button:active{
+  transform: scale(0.9);
+}
