@@ -112,7 +112,7 @@ toxicity.load(threshold).then(model => {
       model && model.classify([body.body]).then(predictions => {
         predictions.map((item) => {
           if (item.results[0].match === true) {
-            body.body = 'Francis'
+            body.body = 'TeamStream is so awesome!'
           }
         })
         //const user = getCurrentUser(socket.id);
