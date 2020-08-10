@@ -10,8 +10,15 @@
 
 .back-icon {
   position: absolute;
-  top: 3rem;
-  right: 8rem;
+  top: 3vh;
+  right: 8vw;
+  color: white;
+}
+
+.teamstream {
+  font-family: 'Bad Script', cursive;
+  font-size: 5rem;
+  margin: 0;
   color: white;
 }
 
@@ -25,13 +32,6 @@
   flex-wrap: wrap;
 }
 
-.teamstream {
-  font-family: 'Bad Script', cursive;
-  font-size: 5vw;
-  margin: 0;
-  color: white;
-}
-
 .empty-room {
   width: 30%;
   height: 40%;
@@ -43,15 +43,6 @@
   color: white;
   font-family: 'Source Sans Pro', sans-serif;
   display: flex;
-  justify-content: center;;
-}
-
-.info p {
-  font-size: 1rem;
-}
-
-@media (max-width: 2000px) {
-  .info {
-    padding: 1rem;
-  }
+  justify-content: center;
+  padding: 1.5rem;
 }

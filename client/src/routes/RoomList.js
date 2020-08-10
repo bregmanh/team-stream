@@ -62,9 +62,7 @@ export default function RoomList (props) {
       <h1 class="teamstream">TeamStream</h1>
       <ul className="rooms-list">{roomList}</ul>
       <ExitToAppIcon className="back-icon" style={{fontSize: '6rem'}} onClick={() => setRedirect("/")}></ExitToAppIcon>
-      <div class="info">
-        <p>Only public rooms are displayed here. To join a private room, please request the link from the host</p>
-      </div>
+      <p class="info">Only public rooms are displayed here. To join a private room, please request the link from the host</p>
     </div>
   )
 }
