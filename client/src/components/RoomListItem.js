@@ -9,13 +9,15 @@ export default function RoomListItem (props) {
   if (redirect) {
     return <Redirect to={redirect} />
   }
+  console.log(props.key);
   return (
     <div className="room">
       <img src={props.thumbnail} className="thumbnail" />
       <div className="room-info">
         <h2>{props.title}</h2>
         <h5>Viewers: {props.viewers}</h5>
-        <button className="join-room" onClick={() => setRedirect(`/rooms/${props.key}`)}>Join</button>
+        <button className="join-room" onClick={() => setRedirect(`/rooms/${props.id}`)}>Join</button>
+        
       </div>
     </div>
   )

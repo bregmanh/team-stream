@@ -27,6 +27,7 @@ export default function RoomList (props) {
 
   const roomList = props.rooms.map(room => (
     <RoomListItem
+      id={room.key}
       key={room.key}
       title={room.title}
       thumbnail={room.thumbnail}
