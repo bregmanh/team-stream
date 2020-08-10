@@ -12,99 +12,82 @@ import { createMuiTheme, ThemeProvider, makeStyles, withStyles } from '@material
 
 const theme = createMuiTheme({
 
-    overrides: {
-        // Style sheet name ⚛️
-
-        MuiDialog: {
-            // Name of the rule
-
-            paper: {
-                // Some CSS
-                backgroundColor: '#37474f',
-                color: '#eceff1',
-
-            },
-        },
-
-        MuiButton: {
-            // Name of the rule
-            text: {
-                // Some CSS
-                backgroundColor: '#37474f',
-                color: '#eceff1',
-            },
-        },
-        MuiSvgIcon: {
-            root: {
-                color: '#10959D',
-            },
-
-        },
-        MuiTypography: {
-            body2: {
-                fontSize: 14,
-                color: '#cfd8dc',
-            },
-        },
-        MuiInput: {
-            root: {
-                color: '#eceff1',
-            },
-            input: {
-                color: '#eceff1',
-            }
-        },
-        MuiFormControl: {
-            root: {
-                color: '#eceff1',
-            }
-        },
-        MuiInputLabel: {
-
-            animated: {
-                color: '#eceff1',
-            }
-
-        },
-        // MuiFormLabel:{
-        //     root:{
-        //         Mui:{
-        //             focused:{
-        //                 color: '#eceff1',
-        //             }
-        //         }
-        //     }
-        // },
-        // "& .MuiFormLabel-root.Mui-focused":{
-            
-        //     color: '#eceff1',
-            
-        // },
-        '& label.Mui-focused': {
-            color: '#eceff1',
+  overrides: {
+      
+      MuiDialog: {
+          // Name of the rule
+          paper: {
+              // Some CSS
+              backgroundColor: '#37474f',
+              color: '#eceff1',
+          },
+      },
+      MuiButton: {
+          // Name of the rule
+          text: {
+              // Some CSS
+              backgroundColor: '#37474f',
+              color: '#eceff1',
+          },
+      },
+      MuiSvgIcon: {
+          root: {
+              color: 'rgb(23, 243, 255)',
           },
 
-        palette: {
-            primary: {
-                primary: '#eceff1',
-                light: '#eceff1',
-                main: '#eceff1',
-                dark: '#eceff1',
+      },
+      MuiTypography: {
+          body2: {
+              fontSize: 14,
+              color: '#cfd8dc',
+          },
+      },
+      MuiInput: {
+          input: {
+              color: '#eceff1',
+          },
+      },
+    
+      MuiInputLabel: {
+          animated: {
+              color: '#90a4ae',
+          },
+      },
+    
+   
+      palette: {
+          primary: {
+              primary: '#eceff1',
+              light: '#eceff1',
+              main: '#eceff1',
+              dark: '#eceff1',
 
-
-            },
-            secondary: {
-                light: '#eceff1',
-                main: '#eceff1',
-                dark: '#eceff1',
-
-            },
-            textField: {
-                color: '#eceff1'
-            },
-        },
-    }
+          },
+          secondary: {
+              light: '#eceff1',
+              main: '#eceff1',
+              dark: '#eceff1',
+          },
+      },
+  }
 })
+
+
+const CssTextField = withStyles({
+root: {
+  '& label.Mui-focused': {
+    color: 'rgb(23, 243, 255)',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: 'rgb(23, 243, 255)',
+  },
+  '& .MuiOutlinedInput-root': {
+    '&.Mui-focused fieldset': {
+      borderColor: 'rgb(23, 243, 255)',
+    },
+  },
+},
+})(TextField);
 
 export default function UsernameForm(props) {
   const [username, setUsername] = useState('');
@@ -139,7 +122,7 @@ export default function UsernameForm(props) {
       <Dialog open={props.open} onClose={props.handleClose}>
         <DialogTitle id="form-dialog-title">Join Room</DialogTitle>
         <DialogContent>
-          <TextField
+          <CssTextField
             autoFocus
             margin="dense"
             id="username"

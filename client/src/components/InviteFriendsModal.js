@@ -6,12 +6,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CopyLink from './CopyLink';
-import { createMuiTheme, ThemeProvider, makeStyles, withStyles } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
 
   overrides: {
-      // Style sheet name ⚛️
 
       MuiDialog: {
           // Name of the rule
@@ -33,7 +32,11 @@ const theme = createMuiTheme({
       },
       MuiSvgIcon: {
           root: {
-              color: '#10959D',
+            color: 'rgb(29 28 28)',
+
+            '&:hover':{
+              color: 'rgb(23, 243, 255)'
+            }
           },
 
       },
@@ -74,21 +77,6 @@ const theme = createMuiTheme({
             },
           }
         },
-      // MuiFormLabel:{
-      //     root:{
-      //         Mui:{
-      //             focused:{
-      //                 color: '#eceff1',
-      //             }
-      //         }
-      //     }
-      // },
-      // "& .MuiFormLabel-root.Mui-focused":{
-          
-      //     color: '#eceff1',
-          
-      // },
-     
 
       palette: {
           primary: {
