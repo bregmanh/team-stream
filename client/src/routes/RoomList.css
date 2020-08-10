@@ -1,8 +1,7 @@
 .rooms-body {
   background-color: #3F444B;
   height: 100vh;
-  /* background: url('https://i.ytimg.com/vi/tn0ZuPJqmjg/maxresdefault.jpg'); */
-  background: url('https://img.freepik.com/free-photo/dark-blue-glow-dust-particle-abstract-background_35672-1414.jpg?size=626&ext=jpg');
+  background: url('../images/bg-2.jpeg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover; 
