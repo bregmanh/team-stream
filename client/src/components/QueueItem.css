@@ -7,21 +7,20 @@
   background: rgb(181, 181, 181);
 }
 
-.thumbnail-img {
+.queue-thumbnail-img {
   height: 10vh;
   width: 6vw;
 }
 
-.info {
+.queue-info {
   margin: auto;
 }
 
-
-.info p {
+.queue-info p {
   margin: 0;
 }
 
-p.title {
+.queue-info p.title {
   font-weight: bold;
   margin-bottom: 1vh;
 }

@@ -22,8 +22,8 @@ const SearchListItem = props => {
 
   return (
     <li className="search-list-item">
-      <img className="thumbnail-img" src={thumbnail}></img>
-      <div className="info">
+      <img className="search-thumbnail-img" src={thumbnail}></img>
+      <div className="search-info">
         <p className="title">{title}</p>
         <button className="add-to-playlist-btn" onClick={()=>handleClick(id)}>Add To Playlist</button>
       </div>

@@ -7,23 +7,23 @@
   background: rgb(181, 181, 181);
 }
 
-.thumbnail-img {
+.search-thumbnail-img {
   height: 10vh;
   width: 6vw;
 }
 
-.info {
+.search-info {
   margin: auto;
 }
 
 
-.info p {
+.search-info p {
   font-size: 0.7vw;
   width: 90%;
   margin: 0 auto;
 }
 
-.info button {
+.search-info button {
   background: rgb(22, 158, 182);
   border-radius: 5px;
   color: white;

@@ -4,8 +4,8 @@ import "./QueueItem.css";
 const QueueItem = props => {
   return (
     <li className="queue-li">
-      <img className="thumbnail-img" src={props.item.thumbnail}></img>
-      <div className="info">
+      <img className="queue-thumbnail-img" src={props.item.thumbnail}></img>
+      <div className="queue-info">
         <p className="title">{props.item.title}</p>
       </div>
     </li>
