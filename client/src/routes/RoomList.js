@@ -40,6 +40,8 @@ export default function RoomList (props) {
       {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
       {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
       {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
+      {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
+      {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
     ]
   const roomList = list.map((room) => (
 

@@ -1,7 +1,8 @@
 .rooms-body {
   background-color: #3F444B;
   height: 100vh;
-  background: url('https://i.ytimg.com/vi/tn0ZuPJqmjg/maxresdefault.jpg');
+  /* background: url('https://i.ytimg.com/vi/tn0ZuPJqmjg/maxresdefault.jpg'); */
+  background: url('https://img.freepik.com/free-photo/dark-blue-glow-dust-particle-abstract-background_35672-1414.jpg?size=626&ext=jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover; 
@@ -18,7 +19,8 @@
   font-family: 'Source Sans Pro', sans-serif;
   text-decoration: none;
   height: 75%;
-  margin: 0 5vw;
+  overflow: auto;
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
 }
