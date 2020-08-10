@@ -16,12 +16,13 @@ export default function Controls(props) {
     scrollBar.current.value = props.videoProgress
   }, [props.videoProgress])
 
+
+
   return (
     <div className="all-controls">
       {props.canControl &&
         <input type="range" id="progress-bar" class="progress-bar" ref={scrollBar}
         onInput={e => props.handleAction("scroll-video", {timePercentage: e.target.value})}
-        // onChange={e => {props.handleVideoTime({timePercentage: e.target.value})}}
         />
       }
       {!props.canControl && <div className="no-scroll-padding"></div>}
