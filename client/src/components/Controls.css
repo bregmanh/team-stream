@@ -22,9 +22,9 @@ input[type="range"]::-webkit-slider-thumb {
   background-color: black;
 }
 
-.MuiSvgIcon-root {
+/* .MuiSvgIcon-root {
   color: #10959D;
-}
+} */
 
 .controls {
   margin: 0.5rem;

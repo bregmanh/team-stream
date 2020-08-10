@@ -36,12 +36,13 @@
   border: none;
   height: 4vh;
   border-radius: 10px;
-  color: #3F444B;
+  color:rgb(43, 43, 43);
+  /* color: #3F444B; */
   font-size: 1vw
 }
 
 .chat-button:hover {
-  background-color: rgb(58, 186, 193);
+  background-color: rgb(23, 243, 255);
   cursor: pointer;
 }
 

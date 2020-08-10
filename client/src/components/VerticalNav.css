@@ -1,9 +1,9 @@
 .v-nav {
-  background: rgb(82, 82, 82);
+  background: rgb(66 66 66);
   display:flex;
   flex-direction: column;
   list-style: none;
-  color: rgb(70, 150, 155);
+  color: #10959D;
   padding: 0;
   margin: 0;
   width: 3vw;
@@ -14,14 +14,14 @@
 }
 
 .v-nav .active {
-  color: rgb(84, 238, 249);
+  color: rgb(23, 243, 255);
 }
 
 .v-nav-icon {
   margin: 3vh auto;
 }
 .v-nav-icon:hover {
-  color: rgb(84, 238, 249);
+  color:rgb(23, 243, 255);
   cursor: pointer;
 }
 

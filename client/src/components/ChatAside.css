@@ -1,7 +1,7 @@
 .chat-aside {
   display: block;
-  width: 20vw;
-  background: rgb(63, 63, 63);
+  width: 22vw;
+  background: rgb(43, 43, 43);
   margin-right: 3vw;
 }
 
@@ -9,12 +9,13 @@
   display: none;
 }
 
-.logo {
-  font-family: 'Russo One', sans-serif;
+.aside-logo {
+  font-family: 'Bad Script', cursive;
   font-size: 2.5vw;
-  color: rgb(71, 196, 205);
-  -webkit-text-stroke: 3px black;
+  font-weight: bold;
+  color: turquoise;
+  color:rgb(23, 243, 255);
   padding: 1vh;
-  background: #484848;
-
+  outline-offset: -0.5vw;
+  border-bottom: 1px solid grey;
 }

@@ -9,7 +9,7 @@ const Page = styled.div`
   height: 100vh;
   width: 100%;
   align-items: center;
-  background-color: rgb(41, 41, 41);
+  background-color: rgb(29 28 28);
   flex-direction: column;
 `;
 

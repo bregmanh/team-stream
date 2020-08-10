@@ -1,5 +1,12 @@
+.queue-list-container {
+  height: 85vh;
+  overflow: hidden;
+}
+
 .queue-list {
   list-style: none;
   margin: 0;
   padding: 0;
+  height: 85vh;
+  overflow-y:scroll;
 }

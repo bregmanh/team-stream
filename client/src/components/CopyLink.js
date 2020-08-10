@@ -30,9 +30,9 @@ export default function CopyLink(props) {
 
   return (
     <div>
-      {true && 
-     <PersonAddIcon aria-describedby={id} onClick={handleClick} style={{ color: '#10959D' }}/>
-      }{false &&
+      {props.icon && 
+     <PersonAddIcon aria-describedby={id} onClick={handleClick} fontSize="large"/>
+      }{props.button &&
         <Button onClick={handleClick} color="primary">
         Copy Link
       </Button>

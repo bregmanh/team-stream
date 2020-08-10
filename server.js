@@ -31,6 +31,8 @@ const threshold = 0.9;
 toxicity.load(threshold).then(model => {
 
   io.on("connection", socket => {
+
+    console.log('connection event')
     // Create a session when user clicks to create
     socket.on('is-session-active', roomId => {
       knex.from('sessions').where('id', roomId).then(rows => {
@@ -43,7 +45,8 @@ toxicity.load(threshold).then(model => {
       })
     })
     socket.on('create-session', ({ room, title, publicBool }) => {
-      knex('sessions').insert({ id: room, title: title, active: true, public: publicBool }).then(() => {
+      console.log('create session event')
+      knex('sessions').insert({ id: room, title: title, active: true, public: publicBool}).then(() => {
       })
     })
 

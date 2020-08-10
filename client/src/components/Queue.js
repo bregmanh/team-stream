@@ -14,16 +14,9 @@ const Queue = props => {
     }) 
   }, []);
 
-
-  // const queueList = [
-  //   {title: 'Video1', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"},
-  //   {title: 'Video2', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"},
-  //   {title: 'Video3', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"},
-  //   {title: 'Video4', thumbnail: "https://www.kindpng.com/picc/m/236-2366288_youtube-video-thumbnail-sample-youtube-thumbnail-template-2019.png"}
-  // ];
   const queueListComponents = queueList.map(queueItem => <QueueItem item={queueItem}/>);
     return (
-        <div>
+        <div className="queue-list-container">
           <ul className="queue-list">
             {queueListComponents}
           </ul>

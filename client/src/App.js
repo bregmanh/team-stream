@@ -11,16 +11,7 @@ import './App.css';
 function App() {
   const socketRef = useRef();
   const [rooms, setRooms] = useState([])
-  
-  // useEffect(() => {
-  //   if (socketRef.current) {
-  //     socketRef.current.emit("query-public-rooms")
-  //     socketRef.current.on("show-public-rooms", publicRooms => {
-  //       setRooms(...rooms, publicRooms)
-  //     })
-  //   }
-  // }, [])
-
+ 
   useEffect(() => {
     socketRef.current = io.connect('ws://localhost:8080');
     if (socketRef.current) {

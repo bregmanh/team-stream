@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import io from "socket.io-client";
 import { Redirect } from "react-router-dom";
 import { v1 as uuid } from "uuid";
 import CreateRoom from "./CreateRoom";
@@ -11,6 +12,10 @@ const Home = (props) => {
     const socketRef = props.socketRef;
     const [redirect, setRedirect] = useState(null);
     const [open, setOpen] = React.useState(false);
+
+    // useEffect(() => {
+    //   socketRef.current = io.connect('ws://localhost:8080');
+    // }, []);
    
     // Triggered when user clicks create room in modal
     function createSession(roomTitle, userName, publicBool) {

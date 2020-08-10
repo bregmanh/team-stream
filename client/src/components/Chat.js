@@ -201,20 +201,19 @@ export default function Chat(props) {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     window.onYouTubeIframeAPIReady = loadVideoPlayer;
   }, []);
-
-  function loadVideoPlayer() {
-    const player = new window.YT.Player('player', {
-      height: '90%',
-      playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-
-    });
-    youtubePlayer.current = player;
-
-  }
+    
+    function loadVideoPlayer() {
+      const player = new window.YT.Player('player', {
+        height: '90%',
+        playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+        
+      });
+      youtubePlayer.current = player;
+    }
   function onPlayerReady(event) {
     socketRef.current.emit('requestVideoInfo', "");
   }
