@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RoomListItem from '../components/RoomListItem';
 import { Redirect } from "react-router-dom";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import './RoomList.css';
 
