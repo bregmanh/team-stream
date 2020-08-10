@@ -2,29 +2,11 @@
   color: #10959D;
 }
 
-/* input[type=range] {
-  -webkit-appearance: none;
-  background-color: silver;
-  height:20px;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-   -webkit-appearance: none;
-  background-color: #10959D;
-  opacity: 0.5;
-  width: 10px;
-  height: 26px;
-} */
-
 .progress-bar {
   padding: 0 5px;
   width: 99%;
   background-color: black;
 }
-
-/* .MuiSvgIcon-root {
-  color: #10959D;
-} */
 
 .controls {
   margin: 0.5rem;
@@ -42,4 +24,13 @@ input[type="range"]::-webkit-slider-thumb {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+.control-icons {
+  margin: 0;
+}
+
+.control-icons:hover {
+  color:rgb(23, 243, 255);
+  cursor: pointer;
 }
