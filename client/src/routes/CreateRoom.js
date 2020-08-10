@@ -41,12 +41,12 @@ const theme = createMuiTheme({
                   }
             },
         },
-        MuiSvgIcon: {
-            root: {
-                color: 'rgb(23, 243, 255)',
-            },
+        // MuiSvgIcon: {
+        //     root: {
+        //         color: 'rgb(23, 243, 255)',
+        //     },
 
-        },
+        // },
         MuiTypography: {
             body2: {
                 fontSize: 14,
@@ -182,9 +182,15 @@ export default function CreateRoom(props) {
                       
                         <FormControl component="fieldset">
                             <FormLabel component="legend" style={{ color: '#cfd8dc', paddingTop: '20px' }}>Room Type</FormLabel>
+<<<<<<< HEAD
                             <RadioGroup aria-label="room-type" name="gender1" value={publicRoom} onChange={handleChange}>
                                 <FormControlLabel value='true' control={<Radio />} label="public" />
                                 <FormControlLabel value='false' control={<Radio />} label="private" />
+=======
+                            <RadioGroup aria-label="room-type" name="gender1" value={publicRoom} onChange={handleChange} >
+                                <FormControlLabel value='true' control={<Radio style={{ color: 'rgb(23, 243, 255)' }}/>} label="public" />
+                                <FormControlLabel value='false' control={<Radio style={{ color: 'rgb(23, 243, 255)' }}/>} label="private" />
+>>>>>>> master
                             </RadioGroup>
                         </FormControl>
                     </DialogContent>
