@@ -27,7 +27,6 @@ export default function Chat(props) {
 
   let queue = [];
   const bufferTime = 4.5;
-  let newTime = '0:00'
   let onStateChangeFunc = null;
   const room = props.room;
 
@@ -50,26 +49,9 @@ export default function Chat(props) {
 
       socketRef.current.on("videoAction", ({ action, hostInfo }) => {
         if (action.type === 'scroll-video') {
-          newTime = youtubePlayer.current.getDuration() * action.data.timePercentage / 100
+          const newTime = youtubePlayer.current.getDuration() * action.data.timePercentage / 100
           youtubePlayer.current.seekTo(newTime)
           setVideoProgress(action.data.timePercentage)
-        }
-        if (action.type === 'scroll-volume') {
-          youtubePlayer.current.setVolume(action.data.volumePercentage)
-        }
-        if (action.type === 'mute') {
-          // if (youtubePlayer.current.isMuted()) {
-          //   youtubePlayer.current.unMute()
-          // } else {
-            youtubePlayer.current.mute()
-          // }
-        }
-        if (action.type === 'unmute') {
-          // if (youtubePlayer.current.isMuted()) {
-            youtubePlayer.current.unMute()
-          // } else {
-            // youtubePlayer.current.mute()
-          // }
         }
         if (action.type === "play") {
           youtubePlayer.current.playVideo();
@@ -162,6 +144,18 @@ export default function Chat(props) {
     }
   }
 
+  function handleVolume(action, data) {
+    if (action === 'scroll-volume') {
+      youtubePlayer.current.setVolume(data.volumePercentage)
+    }
+    if (action === 'mute') {
+      youtubePlayer.current.mute()
+    }
+    if (action === 'unmute') {
+      youtubePlayer.current.unMute()
+    }
+  }
+
   // function handleVideoTime(data) {
   //   if (socketRef.current) {
   //     socketRef.current.emit('videoTime', data)
@@ -207,20 +201,19 @@ export default function Chat(props) {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     window.onYouTubeIframeAPIReady = loadVideoPlayer;
   }, []);
-
-  function loadVideoPlayer() {
-    const player = new window.YT.Player('player', {
-      height: '90%',
-      playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-
-    });
-    youtubePlayer.current = player;
-
-  }
+    
+    function loadVideoPlayer() {
+      const player = new window.YT.Player('player', {
+        height: '90%',
+        playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+        
+      });
+      youtubePlayer.current = player;
+    }
   function onPlayerReady(event) {
     socketRef.current.emit('requestVideoInfo', "");
   }
@@ -293,7 +286,7 @@ export default function Chat(props) {
       <div className="player-with-controls">
         <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />
         <div>
-          <Controls canControl={canControl} videoProgress={videoProgress} handleAction={handleAction} />
+          <Controls canControl={canControl} videoProgress={videoProgress} handleAction={handleAction} handleVolume={handleVolume}/>
         </div>
       </div>
       <ChatAside socketRef={socketRef} copyLink={copyLink} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection} room={room} />

@@ -17,7 +17,7 @@ export default function Controls(props) {
   }, [props.videoProgress])
 
   return (
-    <>
+    <div className="all-controls">
       {props.canControl &&
         <input type="range" id="progress-bar" class="progress-bar" ref={scrollBar}
         onInput={e => props.handleAction("scroll-video", {timePercentage: e.target.value})}
@@ -28,19 +28,19 @@ export default function Controls(props) {
       <div className="controls">
         {!muted && <VolumeMuteIcon
           onClick={() => {
-            props.handleAction("mute")
+            props.handleVolume("mute")
             setMuted(true)
           }}
           fontSize="large">
         </VolumeMuteIcon>}
         {muted && <VolumeOffIcon
           onClick={() => {
-            props.handleAction("unmute")
+            props.handleVolume("unmute")
             setMuted(false)
           }}
           fontSize="large">
         </VolumeOffIcon>}
-        <input type="range" class="volume-bar" onInput={e => props.handleAction("scroll-volume", {volumePercentage: e.target.value})}/>
+        <input type="range" class="volume-bar" onInput={e => props.handleVolume("scroll-volume", {volumePercentage: e.target.value})}/>
         {props.canControl &&
           <div className="global-controls">
             <PlayArrowIcon className="play" onClick={() => { props.handleAction("play") }} fontSize="large"></PlayArrowIcon>
@@ -49,6 +49,6 @@ export default function Controls(props) {
           </div>
         }
       </div>
-    </>
+    </div>
   )
 }

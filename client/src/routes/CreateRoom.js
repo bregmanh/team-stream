@@ -36,6 +36,9 @@ const theme = createMuiTheme({
                 // Some CSS
                 backgroundColor: '#37474f',
                 color: '#eceff1',
+                '&:hover': {
+                    color: 'rgb(23, 243, 255)'
+                  }
             },
         },
         MuiSvgIcon: {

@@ -1,24 +1,36 @@
 .leave-room {
-  margin-top: 10vh;
+  margin-top: 5vh;
+}
+
+.leave-room h1 {
+  color: white;
+  font-family: 'Bad Script', cursive;
+}
+
+.leave-room p {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1vw;
+  color: white;
 }
 
 .leave-button {
+  margin-top: 40vh;
   width: 60%;
   font-size: 1.5vw;
   border-radius: 15px;
-  color: rgb(84, 238, 249);
-  border: rgb(84, 238, 249) 2px solid;
-  background:rgb(82, 82, 82);
+  color: turquoise;
+  border: turquoise 2px solid;
+  background:rgb(43, 43, 43);
 }
 
 .leave-button:hover {
   cursor: pointer;
-  background: rgb(114, 114, 114);
+  background:rgba(255, 255, 255, 0.208);
 }
 
-.alert {
+.leave-room .alert {
   margin: 2vh auto;
   width: 70%;
-  font-size: 0.7vw;
+  font-size: 1vw;
   color: red;
 }

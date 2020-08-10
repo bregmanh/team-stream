@@ -31,6 +31,8 @@ const threshold = 0.9;
 toxicity.load(threshold).then(model => {
 
   io.on("connection", socket => {
+
+    console.log('connection event')
     // Create a session when user clicks to create
     socket.on('is-session-active', roomId => {
       knex.from('sessions').where('id', roomId).then(rows => {
@@ -43,7 +45,8 @@ toxicity.load(threshold).then(model => {
       })
     })
     socket.on('create-session', ({ room, title, publicBool }) => {
-      knex('sessions').insert({ id: room, title: title, active: true, public: publicBool }).then(() => {
+      console.log('create session event')
+      knex('sessions').insert({ id: room, title: title, active: true, public: publicBool}).then(() => {
       })
     })
 
@@ -133,6 +136,17 @@ toxicity.load(threshold).then(model => {
             time: rows2[0].time,
           }
           io.to(rows[0].session_id).emit("videoAction", { action, hostInfo })
+        })
+      })
+    })
+    socket.on("video-volume", action => {
+      //const user = getCurrentUser(socket.id);
+      knex.from('users').where('id', socket.id).then(rows => {
+        knex.from('sessions').where('id', rows[0].session_id).then(rows2 => {
+          const hostInfo = {
+            time: rows2[0].time,
+          }
+        io.to(rows[0].session_id).emit("videoAction", { action, hostInfo })
         })
       })
     })
