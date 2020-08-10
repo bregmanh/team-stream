@@ -23,7 +23,7 @@ export default function Chat(props) {
   const [asideSelection, setAsideSelection] = useState('chat');
   const [inviteFriendsModal, setInviteFriendsModal] = useState(false);
   const [canControl, setCanControl] = useState(true)
-  const [roomTitle, setRoomTitle] = useState("Cat Lovers Anonymous");
+  const [roomTitle, setRoomTitle] = useState(null);
   const youtubePlayer = useRef();
 
   let queue = [];
