@@ -240,13 +240,13 @@ toxicity.load(threshold).then(model => {
                 //check if we looped through all the sessions to return
                 console.log("index of session", sessions.indexOf(session))
                 if(sessions.indexOf(session)=== sessions.length-1){
-                result.push({ id: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
+                result.push({ key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
                   console.log("result", result)
                   socket.emit("show-public-rooms", result)
                 }
 
                 console.log("videos", videos)
-                result.push({ id: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
+                result.push({ key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
               }
             })
           })
