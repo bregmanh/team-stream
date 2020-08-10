@@ -33,16 +33,16 @@ const theme = createMuiTheme({
               }
           },
       },
-      MuiSvgIcon: {
-          root: {
-            color: 'rgb(29 28 28)',
+      // MuiSvgIcon: {
+      //     root: {
+      //       color: 'rgb(29 28 28)',
 
-            '&:hover':{
-              color: 'rgb(23, 243, 255)'
-            }
-          },
+      //       '&:hover':{
+      //         color: 'rgb(23, 243, 255)'
+      //       }
+      //     },
 
-      },
+      // },
       MuiTypography: {
           body2: {
               fontSize: 14,

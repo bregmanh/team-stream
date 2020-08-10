@@ -33,12 +33,12 @@ const theme = createMuiTheme({
               }
           },
       },
-      MuiSvgIcon: {
-          root: {
-              color: 'rgb(23, 243, 255)',
-          },
+      // MuiSvgIcon: {
+      //     root: {
+      //         color: 'rgb(23, 243, 255)',
+      //     },
 
-      },
+      // },
       MuiTypography: {
           body2: {
               fontSize: 14,
