@@ -56,7 +56,8 @@ export default function CopyLink(props) {
     <div>
       <ThemeProvider theme={theme}>
         {props.icon &&
-          <PersonAddIcon aria-describedby={id} onClick={handleClick} fontSize="large" />
+          <PersonAddIcon aria-describedby={id} onClick={handleClick} fontSize="large" onMouseOver="color: 'rgb(23, 243, 255)'"
+          onMouseOut="color: '#10959D'"/>
         }{props.button &&
           <Button onClick={handleClick} >
             Copy Link

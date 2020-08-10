@@ -230,7 +230,7 @@ toxicity.load(threshold).then(model => {
       //   socket.emit("show-public-rooms", sessions)
       // })
       let result = [];
-      knex.select("*").from("sessions").where({ active: true, public: true, play: true }).then(sessions => {
+      knex.select("*").from("sessions").where({ active: true, public: true, play:true}).then(sessions => {
         console.log("public sessions", sessions)
         for(let session of sessions){
           knex.select("*").from("users").where({ session_id: session.id, active: true }).then(users => {

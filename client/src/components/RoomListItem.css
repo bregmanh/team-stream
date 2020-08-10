@@ -7,7 +7,7 @@
   min-width: 320px;
   max-width: 400px;
   color: white;
-  background-color: #10959D;
+  background-color: #00000080;
   border-radius: 1rem;
   box-shadow: 0 0 2rem rgb(35 173 255);
   margin: 3rem;
@@ -48,7 +48,7 @@
 .join-room {
   font-size: 1.5rem;
   width: 20%;
-  background-color: #10959D;
+  background-color: black;
   color: white;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: bold;
@@ -57,8 +57,12 @@
 }
 
 .join-room:hover {
-  background-color: #3AA6AD;
+  background-color: rgba(35, 173, 255, 0.71);
+  color: black;
+  border: 2px solid black;
+  border-radius: 1rem;
   cursor: pointer;
+
 }
 
 .join-room:focus {
