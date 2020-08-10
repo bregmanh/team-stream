@@ -1,22 +1,33 @@
 .rooms-body {
   background-color: #3F444B;
   height: 100vh;
+  background: url('https://i.ytimg.com/vi/tn0ZuPJqmjg/maxresdefault.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; 
 }
 
-.logo {
-  font-size: 5rem;
-  color: #3AA6AD;
-  -webkit-text-stroke: 5px black;
-  margin: 0;
+.back-icon {
+  position: absolute;
+  top: 3rem;
+  right: 8rem;
+  color: white;
 }
 
 .rooms-list {
+  font-family: 'Source Sans Pro', sans-serif;
   text-decoration: none;
-  height: 80%;
+  height: 75%;
   margin: 0 5vw;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+}
+
+.teamstream {
+  font-family: 'Bad Script', cursive;
+  font-size: 5vw;
+  margin: 0;
+  color: white;
 }
 
 .empty-room {
@@ -24,4 +35,9 @@
   height: 40%;
   background-color: #0D7C83;
   border-radius: 1rem;
+}
+
+.info {
+  color: white;
+  font-family: 'Source Sans Pro', sans-serif;
 }

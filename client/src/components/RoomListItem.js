@@ -11,7 +11,7 @@ export default function RoomListItem (props) {
   }
   return (
     <div className="room">
-      <div className="thumbnail">{props.thumbnail}</div>
+      <img src={props.thumbnail} className="thumbnail" />
       <div className="room-info">
         <h2>{props.title}</h2>
         <h5>Viewers: {props.viewers}</h5>

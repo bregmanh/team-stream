@@ -2,21 +2,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 40%;
+  height: 45%;
   width: 30%;
   color: white;
   background-color: #10959D;
   border-radius: 1rem;
+  box-shadow: 0 0 2rem rgb(35 173 255);
+  margin: 1rem;
 }
 
 .room:hover {
-  box-shadow: 0 0 1rem rgb(35 173 255);
+  box-shadow: 0 0 4rem rgb(35 173 255);
 }
 
 .thumbnail {
-  height: 60%;
+  height: 90%;
   width: 90%;
-  margin: 1rem;
+  margin: 1rem 1rem 0 1rem;
   background-color: black;
 }
 
@@ -35,14 +37,32 @@
   text-shadow: 2px 2px 4px #000000;
 }
 
+.room-info h5 {
+  font-size: 1rem;
+}
+
 .join-room {
   font-size: 1.25rem;
   width: 30%;
-  background-color: #3AA6AD;
+  background-color: #10959D;
+  color: white;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+  border: 2px solid white;
   border-radius: 1rem;
 }
 
 .join-room:hover {
-  box-shadow: 0 0 1rem rgb(35 173 255);
+  background-color: #3AA6AD;
   cursor: pointer;
+}
+
+.join-room:focus {
+  outline: 0;
+}
+
+.join-room:active{
+  transform: scale(0.9);
+  background-color: darken(button-bg, 5%);
+  box-shadow: 0 2px 25px #3AA6AD;
 }
