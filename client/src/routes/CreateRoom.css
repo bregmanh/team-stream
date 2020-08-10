@@ -53,3 +53,13 @@ button, select {
   background-color: #3AA6AD;
   border: 2px white solid;
 }
+
+.text-area-label{
+  background-color: '#37474f';
+  color: '#eceff1';
+}
+
+.text-area-root{
+  background-color: '#37474f';
+  color: '#eceff1';
+}
