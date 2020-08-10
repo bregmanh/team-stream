@@ -13,9 +13,11 @@ const SearchList = props => {
   });
   
   return (
-    <ul className="search-list">
-      {searchListItems.slice(0, 10)}
-    </ul>
+    <div className="list-container">
+      <ul className="search-list">
+        {searchListItems.slice(0, 10)}
+      </ul>
+    </div>
 
   );
 }
