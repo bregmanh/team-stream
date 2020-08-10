@@ -33,18 +33,6 @@ const theme = createMuiTheme({
               }
           },
       },
-<<<<<<< HEAD
-      MuiSvgIcon: {
-          root: {
-            color: 'rgb(29 28 28)',
-
-            '&:hover':{
-              color: 'rgb(23, 243, 255)'
-            }
-          },
-
-      },
-=======
       // MuiSvgIcon: {
       //     root: {
       //       color: 'rgb(29 28 28)',
@@ -55,7 +43,6 @@ const theme = createMuiTheme({
       //     },
 
       // },
->>>>>>> master
       MuiTypography: {
           body2: {
               fontSize: 14,
