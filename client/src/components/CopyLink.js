@@ -8,14 +8,14 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   overrides: {
-    MuiSvgIcon: {
-      root: {
-        color: '#10959D',
-        '&:hover': {
-          color: 'rgb(23, 243, 255)'
-        }
-      },
-    },
+    // MuiSvgIcon: {
+    //   root: {
+    //     color: '#10959D',
+    //     '&:hover': {
+    //       color: 'rgb(23, 243, 255)'
+    //     }
+    //   },
+    // },
     MuiButton: {
       // Name of the rule
       text: {
