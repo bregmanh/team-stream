@@ -36,8 +36,9 @@ export default function Chat(props) {
 
   useEffect(() => {
     if (socketRef.current) {
+
       socketRef.current.emit('joinRoom', { username: props.username, room });
-      
+
       socketRef.current.emit('fetch-room-title', props.room);
 
       socketRef.current.on('provide-room-title', string => {
@@ -72,7 +73,7 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("session closed", () => {
-       
+
         setRedirect('/rooms/closed');
       })
       socketRef.current.on("inviteFriends", () => {
@@ -124,6 +125,7 @@ export default function Chat(props) {
         setCanControl(canControl)
       })
     }
+
   }, []);
 
   // Data gives access to the video time when clicking scroll bar
@@ -179,14 +181,16 @@ export default function Chat(props) {
   }
 
   useEffect(() => {
+    
     const tag = document.createElement('script');
-    tag.id="iframe"
+    tag.className = "iframe"
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     window.onYouTubeIframeAPIReady = loadVideoPlayer;
+return clearSession()
   }, []);
-    
+
   function loadVideoPlayer() {
     const player = new window.YT.Player('player', {
       height: '90%',
@@ -195,7 +199,7 @@ export default function Chat(props) {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
       }
-      
+
     });
     youtubePlayer.current = player;
   }
@@ -255,6 +259,15 @@ export default function Chat(props) {
   const closeModal = () => {
     setInviteFriendsModal(false);
   };
+  function clearSession() {
+    if (youtubePlayer.current) {
+
+      //document.getElementsByClassName("iframe")["0"].remove()
+      youtubePlayer.current.destroy()
+    }
+
+  }
+
 
   return (
     <div className="chat-container">
@@ -262,7 +275,7 @@ export default function Chat(props) {
       <div className="player-with-controls">
         <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />
         <div>
-          <Controls canControl={canControl} videoProgress={videoProgress} handleAction={handleAction} handleVolume={handleVolume}/>
+          <Controls canControl={canControl} videoProgress={videoProgress} handleAction={handleAction} handleVolume={handleVolume} />
         </div>
       </div>
       <ChatAside roomTitle={roomTitle} username={username} socketRef={socketRef} copyLink={copyLink} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection} room={room} />
