@@ -226,32 +226,40 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on("query-public-rooms", () => {
-      let result = [];
+      // let result = [];
       // knex.select("*").from("sessions").where({ active: true, public: true, play:true}).then(sessions => {
-        knex.select("*").from("sessions").where({ active: true, public: true}).andWhere('index', '>', -1).then(sessions =>{
-        console.log("public sessions", sessions)
-        for(let session of sessions){
-          knex.select("*").from("users").where({ session_id: session.id, active: true }).then(users => {
-            knex.select("thumbnail").from("videos").where({ session_id: session.id }).then(videos => {
-              //check if there are any videos
-              if(videos.length >0 ){
-                //check if we looped through all the sessions to return
-                console.log("index of session", sessions.indexOf(session))
-                if(sessions.indexOf(session)=== sessions.length-1){
-                result.push({ key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
-                  console.log("result", result)
-                  socket.emit("show-public-rooms", result)
-                }
+        // knex.select("*").from("sessions").where({ active: true, public: true}).andWhere('index', '>', -1).then(sessions =>{
+        // console.log("public sessions", sessions)
+        // for(let session of sessions){
+        //   knex.select("*").from("users").where({ session_id: session.id, active: true }).then(users => {
+        //     knex.select("thumbnail").from("videos").where({ session_id: session.id }).then(videos => {
+        //       //check if there are any videos
+        //       if(videos.length >0 ){
+        //         //check if we looped through all the sessions to return
+        //         console.log("index of session", sessions.indexOf(session))
+        //         if(sessions.indexOf(session)=== sessions.length-1){
+        //         result.push({ key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
+        //           console.log("result", result)
+        //           socket.emit("show-public-rooms", result)
+        //         }
 
-                console.log("videos", videos)
-                result.push({ key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
-              }
-            })
+        //         console.log("videos", videos)
+        //         result.push({ key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
+        //       }
+        //     })
+        //   })
+        // }
+        knex.select("*")
+          .from("sessions")
+          .join('users', 'users.session_id', 'sessions.id')
+          .join('videos','videos.session_id', 'sessions.id')
+          .where('sessions.active', true, 'users.active', true, 'public', true)
+          .andWhere('index', '>', -1)
+          .then(sessions => {
+            console.log({sessions});
+            socket.emit("show-public-rooms", sessions)
           })
-        }
-        
-      })
-     
+      
     })
 
     socket.on("can-control", () => {
