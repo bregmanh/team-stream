@@ -1,31 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import RoomListItem from '../components/RoomListItem';
+import io from "socket.io-client";
 import { Redirect } from "react-router-dom";
+import RoomListItem from '../components/RoomListItem';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import './RoomList.css';
 
 export default function RoomList (props) {
-
   const [redirect, setRedirect] = useState(null);
+  const [currentRooms, setCurrentRooms] = useState([]);
 
-  // const roomList = (rooms) => {
-  //   const roomsArray = []
-  //   for (let i = 0; i < 6; i++) {
-  //     if (rooms[i]) {
-  //       roomsArray.push(
-  //         <RoomListItem
-  //           id={rooms[i].id}
-  //           title={rooms[i].title}
-  //         />
-  //       )
-  //     } else {
-  //       roomsArray.push(<div className="empty-room"></div>)
-  //     }
-  //   }
-  //   return roomsArray
-  // }
+  useEffect(() => {
+    const socket = io.connect('ws://localhost:8080');
+    if (socket) {
+      console.log('===========================>I am emitting')
+      socket.emit("query-public-rooms")
+      socket.on("show-public-rooms", publicRooms => {
+        console.log('I GOTS DA PUBLIC ROOMS YO');
+        setCurrentRooms(publicRooms)
+      })
+    }
+  }, [])
 
-  const roomList = props.rooms.map(room => (
+
+  const roomList = currentRooms.map(room => (
     <RoomListItem
       id={room.key}
       key={room.key}
@@ -34,24 +31,6 @@ export default function RoomList (props) {
       viewers={room.viewers}
     />
   ))
-  // const list = [
-  //     {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
-  //     {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
-  //     {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
-  //     {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
-  //     {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
-  //     {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
-  //     {key: 1, title: "Chaim", thumbnail: "", viewers: 10},
-  //   ]
-  // const roomList = list.map((room) => (
-
-  //   <RoomListItem
-  //     key={room.key}
-  //     title={room.title}
-  //     thumbnail={room.thumbnail}
-  //     viewers={room.viewers}
-  //   />
-  // ))
 
   if (redirect) {
     return <Redirect to={redirect} />

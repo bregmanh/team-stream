@@ -10,16 +10,9 @@ import './App.css';
 
 function App() {
   const socketRef = useRef();
-  const [rooms, setRooms] = useState([])
  
   useEffect(() => {
     socketRef.current = io.connect('ws://localhost:8080');
-    if (socketRef.current) {
-      socketRef.current.emit("query-public-rooms")
-      socketRef.current.on("show-public-rooms", publicRooms => {
-        setRooms(publicRooms)
-      })
-    }
   }, [])
 
   return (
@@ -27,7 +20,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact render={(props) => <Home socketRef={socketRef} />} />
-          <Route path="/rooms" exact render={(props) => <RoomList rooms={rooms} socketRef={socketRef} />} />
+          <Route path="/rooms" exact render={(props) => <RoomList/>} />
           <Route path="/rooms/closed" component={SessionClosed} />
           <Route path="/rooms/:roomID" render={(props) => <Room {...props} match={props.match} socketRef={socketRef} />} />
         </Switch>
