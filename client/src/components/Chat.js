@@ -12,8 +12,6 @@ import ChatAside from "../components/ChatAside";
 
 
 export default function Chat(props) {
-
-
   const [yourID, setYourID] = useState();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -72,9 +70,9 @@ export default function Chat(props) {
       })
 
       socketRef.current.on("session closed", () => {
-       
         setRedirect('/rooms/closed');
       })
+      
       socketRef.current.on("inviteFriends", () => {
         openModal()
       })

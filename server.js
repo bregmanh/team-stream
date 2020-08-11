@@ -46,7 +46,7 @@ toxicity.load(threshold).then(model => {
     })
     socket.on('create-session', ({ room, title, publicBool }) => {
       console.log('create session event')
-      knex('sessions').insert({ id: room, title: title, active: true, public: publicBool}).then(() => {
+      knex('sessions').insert({ id: room, title: title, active: true, public: publicBool, index: -1}).then(() => {
       })
     })
 
@@ -226,11 +226,9 @@ toxicity.load(threshold).then(model => {
     })
 
     socket.on("query-public-rooms", () => {
-      // const publicRooms = knex.select("*").from("sessions").where("public", true).then(sessions => {
-      //   socket.emit("show-public-rooms", sessions)
-      // })
       let result = [];
-      knex.select("*").from("sessions").where({ active: true, public: true, play:true}).then(sessions => {
+      // knex.select("*").from("sessions").where({ active: true, public: true, play:true}).then(sessions => {
+        knex.select("*").from("sessions").where({ active: true, public: true}).andWhere('index', '>', -1).then(sessions =>{
         console.log("public sessions", sessions)
         for(let session of sessions){
           knex.select("*").from("users").where({ session_id: session.id, active: true }).then(users => {
