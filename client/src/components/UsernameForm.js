@@ -122,7 +122,7 @@ export default function UsernameForm(props) {
   return (
     <div>
        <ThemeProvider theme={theme}>
-      <Dialog open={props.open} onClose={props.handleClose}>
+      <Dialog open={props.open}>
         <DialogTitle id="form-dialog-title">Join Room</DialogTitle>
         <DialogContent>
           <CssTextField
@@ -137,7 +137,7 @@ export default function UsernameForm(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.handleClose} >
+          <Button onClick={() => setRedirect("/")} >
             Cancel
           </Button>
           <Button onClick={joinRoom} >
