@@ -37,3 +37,9 @@
   right: 5vw;
  
 }
+
+@media only screen and (max-width: 1000px) {
+  div .youtube-player {
+    width: 60vw !important;
+  }
+}

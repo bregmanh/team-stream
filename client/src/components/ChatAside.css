@@ -19,3 +19,13 @@
   outline-offset: -0.5vw;
   border-bottom: 1px solid grey;
 }
+
+@media only screen and (max-width: 1000px) {
+  div.chat-aside {
+    width: 37vw !important;
+  }
+
+  div .aside-logo {
+    font-size: 3vw;
+  }
+}

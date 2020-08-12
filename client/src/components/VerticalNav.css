@@ -25,3 +25,7 @@
   cursor: pointer;
 }
 
+.v-nav-icon svg {
+  font-size: 2vw;
+}
+
