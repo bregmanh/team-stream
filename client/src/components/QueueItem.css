@@ -25,3 +25,12 @@
   font-weight: bold;
   margin-bottom: 1vh;
 }
+
+@media only screen and (max-width: 1000px) {
+  img.queue-thumbnail-img {
+    width: 12vw !important;
+  }
+  .queue-info .title {
+    font-size: 1.2vw;
+  }
+}
