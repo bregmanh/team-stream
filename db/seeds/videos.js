@@ -1,11 +1,11 @@
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('users').del()
+  return knex('videos').del()
     .then(function () {
       // Inserts seed entries
-      return knex('users').insert([
-        {id: 1, thumbnail: '../../../client/src/images/paint-drying-thumbnail.jpeg', session_id: 1},
-        {id: 2, thumbnail: '../../../client/src/images/water-boil-video-thumbnail.jpeg', session_id: 2},
+      return knex('videos').insert([
+        {id: 1, thumbnail: 'https://i.ytimg.com/vi/PLOPygVcaVE/default.jpg', session_id: 1},
+        {id: 2, thumbnail: 'https://i.ytimg.com/vi/cf02KSCTT9Y/default.jpg', session_id: 2},
       ]);
     });
 };
