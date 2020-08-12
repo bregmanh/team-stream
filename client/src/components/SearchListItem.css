@@ -53,6 +53,10 @@
     width: 12vw !important;
   }
   div.search-info p {
-    font-size: 1vw;
+    font-size: 1.2vw;
+  }
+
+  .search-info button {
+    font-size:1vw;
   }
 }

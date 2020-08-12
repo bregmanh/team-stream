@@ -44,8 +44,21 @@
 .chat-button:hover {
   background-color: rgb(23, 243, 255);
   cursor: pointer;
+  
 }
 
 .chat-button:focus {
   outline: none;
+}
+
+@media only screen and (max-width: 1000px) {
+  .message-form textarea {
+    font-size: 1.7vw !important;
+  }
+
+  button.chat-button {
+    font-size: 1.7vw;
+  }
+
+
 }

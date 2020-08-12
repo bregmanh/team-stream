@@ -15,3 +15,9 @@
 .user-name {
   margin-left: 1vw;
 }
+
+@media only screen and (max-width: 1000px) {
+  .user-name {
+    font-size: 1.5vw;
+  }
+}

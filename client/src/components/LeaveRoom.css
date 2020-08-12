@@ -36,3 +36,18 @@
   font-size: 1vw;
   color: red;
 }
+
+@media only screen and (max-width: 1000px) {
+  .leave-room .alert{
+    font-size: 1.5vw !important;
+  }
+
+  .leave-button {
+    font-size: 1.9vw;
+  }
+
+  .leave-room p {
+    font-size: 1.5vw;
+  }
+
+}

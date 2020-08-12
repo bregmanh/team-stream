@@ -16,3 +16,10 @@
 .new-user {
   margin-top: 8vh;
 }
+
+@media only screen and (max-width: 1000px) {
+  .new-user p {
+    font-size: 2vw;
+    margin: 1vw
+  }
+}

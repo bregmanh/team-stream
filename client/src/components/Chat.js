@@ -188,7 +188,7 @@ export default function Chat(props) {
   function loadVideoPlayer() {
     const player = new window.YT.Player('player', {
       height: '90%',
-      playerVars: { 'autoplay': 1, 'controls': 1, 'playlist': queue.join(',') },
+      playerVars: { 'autoplay': 1, 'controls': 0, 'playlist': queue.join(',') },
       events: {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
