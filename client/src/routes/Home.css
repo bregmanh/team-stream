@@ -4,7 +4,6 @@
   background: url('../images/bg-1.jpeg');
   background-size: cover;
   color: white;
-  padding-top: 20vh;
 }
 
 .content {
@@ -12,6 +11,7 @@
   font-size: 2vw;
   display: flex;
   flex-direction: column;
+  padding-top: 20vh;
 }
 
 .content p {
