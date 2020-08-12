@@ -46,7 +46,7 @@ toxicity.load(threshold).then(model => {
     })
     socket.on('create-session', ({ room, title, publicBool }) => {
       console.log('create session event')
-      knex('sessions').insert({ id: room, title: title, active: true, public: publicBool, index: -1}).then(() => {
+      knex('sessions').insert({ id: room, title: title, active: true, public: publicBool, index: -1 }).then(() => {
       })
     })
 
@@ -146,7 +146,7 @@ toxicity.load(threshold).then(model => {
           const hostInfo = {
             time: rows2[0].time,
           }
-        io.to(rows[0].session_id).emit("videoAction", { action, hostInfo })
+          io.to(rows[0].session_id).emit("videoAction", { action, hostInfo })
         })
       })
     })
@@ -228,51 +228,50 @@ toxicity.load(threshold).then(model => {
     socket.on("query-public-rooms", () => {
       // let result = [];
       // knex.select("*").from("sessions").where({ active: true, public: true, play:true}).then(sessions => {
-        // knex.select("*").from("sessions").where({ active: true, public: true}).andWhere('index', '>', -1).then(sessions =>{
-        // console.log("public sessions", sessions)
-        // for(let session of sessions){
-        //   knex.select("*").from("users").where({ session_id: session.id, active: true }).then(users => {
-        //     knex.select("thumbnail").from("videos").where({ session_id: session.id }).then(videos => {
-        //       //check if there are any videos
-        //       if(videos.length >0 ){
-        //         //check if we looped through all the sessions to return
-        //         console.log("index of session", sessions.indexOf(session))
-        //         if(sessions.indexOf(session)=== sessions.length-1){
-        //         result.push({ key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
-        //           console.log("result", result)
-        //           socket.emit("show-public-rooms", result)
-        //         }
+      // knex.select("*").from("sessions").where({ active: true, public: true}).andWhere('index', '>', -1).then(sessions =>{
+      // console.log("public sessions", sessions)
+      // for(let session of sessions){
+      //   knex.select("*").from("users").where({ session_id: session.id, active: true }).then(users => {
+      //     knex.select("thumbnail").from("videos").where({ session_id: session.id }).then(videos => {
+      //       //check if there are any videos
+      //       if(videos.length >0 ){
+      //         //check if we looped through all the sessions to return
+      //         console.log("index of session", sessions.indexOf(session))
+      //         if(sessions.indexOf(session)=== sessions.length-1){
+      //         result.push({ key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
+      //           console.log("result", result)
+      //           socket.emit("show-public-rooms", result)
+      //         }
 
-        //         console.log("videos", videos)
-        //         result.push({ key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
-        //       }
-        //     })
-        //   })
-        // }
-        knex.select("*")
-          .from("sessions")
-          .join('users', 'users.session_id', 'sessions.id')
-          .join('videos','videos.session_id', 'sessions.id')
-          .where('sessions.active', true, 'users.active', true, 'public', true)
-          .andWhere('index', '>', -1)
-          .then(sessions => {
-            console.log({sessions});
+      //         console.log("videos", videos)
+      //         result.push({ key: session.id, title: session.title, viewers: users.length, thumbnail: videos[session.index].thumbnail })
+      //       }
+      //     })
+      //   })
+      // }
+      knex.select('videos.thumbnail', 'sessions.title', 'sessions.id')
+        .from("sessions")
+        .join('videos', { 'videos.session_id': 'sessions.id' })
+        .where({ 'sessions.active': true, 'public': true})
+        .andWhere('index', '>', -1)
+        .then(sessions => {
+            console.log({ sessions });
             socket.emit("show-public-rooms", sessions)
-          })
-      
+        })
+
     })
 
     socket.on("can-control", () => {
       knex.from("sessions").where("public", true).then(() => {
         knex.from('users').where('id', socket.id).then(currentUser => {
           const user = currentUser[0]
-          if(user.session_id){
+          if (user.session_id) {
             knex.from("sessions").where('id', user.session_id).then(session => {
               const currentUserSession = session[0]
               const canControl = user.isHost || !currentUserSession.public
               io.to(user.id).emit("show-controls", canControl)
-            
-          })
+
+            })
           }
         })
       })
@@ -282,7 +281,7 @@ toxicity.load(threshold).then(model => {
     //fetching users in a room
     socket.on('fetch-users-from-session', roomID => {
       //users = ['Sophie', 'Hannah', 'Aaron', 'Chaim', 'Francis'];
-      knex.from('users').where({session_id: roomID, active: true}).then(rows => {
+      knex.from('users').where({ session_id: roomID, active: true }).then(rows => {
         //converting to array of names from array of user objects
         let users = [];
         rows.map(row => {
@@ -305,14 +304,14 @@ toxicity.load(threshold).then(model => {
       })
     });
 
-    socket.on('fetch-room-title',  roomID => {
-        knex.select('title').from('sessions').where('id', roomID).then(rows => {
-          const title = rows[0].title
-          console.log("fetch-room-title", title)
-          socket.emit('provide-room-title', title);
-        })
+    socket.on('fetch-room-title', roomID => {
+      knex.select('title').from('sessions').where('id', roomID).then(rows => {
+        const title = rows[0].title
+        console.log("fetch-room-title", title)
+        socket.emit('provide-room-title', title);
       })
-    
+    })
+
 
   })
 

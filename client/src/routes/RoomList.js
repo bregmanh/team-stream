@@ -5,7 +5,7 @@ import RoomListItem from '../components/RoomListItem';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import './RoomList.css';
 
-export default function RoomList (props) {
+export default function RoomList(props) {
   const [redirect, setRedirect] = useState(null);
   const [currentRooms, setCurrentRooms] = useState([]);
 
@@ -15,20 +15,21 @@ export default function RoomList (props) {
       console.log('===========================>I am emitting')
       socket.emit("query-public-rooms")
       socket.on("show-public-rooms", publicRooms => {
-        console.log('I GOTS DA PUBLIC ROOMS YO');
+       
         setCurrentRooms(publicRooms)
-      })
+        })
     }
   }, [])
 
 
   const roomList = currentRooms.map(room => (
     <RoomListItem
-      id={room.key}
-      key={room.key}
+      id={room.id}
+      key={room.id}
       title={room.title}
       thumbnail={room.thumbnail}
-      viewers={room.viewers}
+     
+     
     />
   ))
 
