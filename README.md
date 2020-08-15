@@ -20,7 +20,15 @@ Below is an illustration of some of the main app functionalities. The full list 
 
 ## Functionalities
 
-- A user can create a public or a private room (difference being in public room only the host can control the video, and in private room only )
+- A user should be able to create a public or a private room and become the host
+- A user should be able to select from a list of public rooms to join or by clicking the link (private rooms can only be joined using the link)
+- In a public room, only the host should be able to control the video by playing, pausing, skipping to the next video, and scrolling through the video to change the time
+- In a private room, any user can control the video
+- All users should be able to adjust the volume for themselves
+- A user should be able to add a video from the search list to the queue
+- Videos playing on all users should be in sync with the exception of buffer delay, but pausing and playing the video or scrolling to another part will resync the videos
+- A user should be able to type in the chat and interact with other users, and the chat should filter out any toxicity a message may have
+- A user who is not host should be able to leave the room and the room will still exist, while a host leaving will end the session
 
 ## Setup
 
