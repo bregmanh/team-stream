@@ -137,8 +137,6 @@ export default function CreateRoom(props) {
     function handleCreate(e) {
         props.handleClose();
         const publicBool = publicRoom === 'true';
-        console.log({ publicRoom });
-        console.log({ publicBool });
         props.createSession(title, username, publicBool);
     }
     return (

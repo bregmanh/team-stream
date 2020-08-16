@@ -14,9 +14,7 @@ export default function RoomListItem(props) {
     const socket = io.connect('ws://localhost:8080');
     socket.emit('fetch-users-from-session', props.id);
     socket.on('provide-userlist', usersPerSession => {
-      console.log("users per session", usersPerSession)
       setViewers(usersPerSession.length)
-      console.log("props.id", props.id)
     })
     
   }, [])

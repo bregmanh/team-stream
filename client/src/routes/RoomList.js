@@ -12,7 +12,6 @@ export default function RoomList(props) {
   useEffect(() => {
     const socket = io.connect('ws://localhost:8080');
     if (socket) {
-      console.log('===========================>I am emitting')
       socket.emit("query-public-rooms")
       socket.on("show-public-rooms", publicRooms => {
        

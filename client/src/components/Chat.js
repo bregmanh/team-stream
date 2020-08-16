@@ -240,9 +240,7 @@ export default function Chat(props) {
 
   function copyLink() {
     navigator.clipboard.writeText(window.location.href).then(function () {
-      console.log(`copied the following url: ${window.location.href}`);
     }, function () {
-      console.log("clipboard copy failed")
     });
   }
 
