@@ -14,21 +14,27 @@ We were inspired to build this app because as most of us are being confined to o
 
 ## Illustration
 
-Below is an illustration of some of the main app functionalities. The full list of functionaities is provided in the next section.
+Below is an illustration of of making a private room, adding a couple of videos to the playlist (a dog video and a cat video).
 
-![GIF illustration of the main functionalities](https://github.com/bregmanh/scheduler/blob/master/docs/overview.gif?raw=true)
+![GIF illustration of making a private room](https://github.com/bregmanh/team-stream/blob/master/docs/private-room-add-vids.gif?raw=true)
+
+Below is an illustration of sending a friend a link to access the provate room. The friend can also control the video and playlist. All watchers in a provate room can watch the video in sync.
+
+![GIF illustration of adding a friend to a private room](https://github.com/bregmanh/team-stream/blob/master/docs/private-add-friend.gif?raw=true)
+
+In addition to the two illustrations above
 
 ## Functionalities
 
-- A user should be able to create a public or a private room and become the host
-- A user should be able to select from a list of public rooms to join or by clicking the link (private rooms can only be joined using the link)
-- In a public room, only the host should be able to control the video by playing, pausing, skipping to the next video, and scrolling through the video to change the time
+- A user is able to create a public or a private room and become the host
+- A user is able to select from a list of public rooms to join or by clicking the link (private rooms can only be joined using the link)
+- In a public room, only the host is able to control the video by playing, pausing, skipping to the next video, and scrolling through the video to change the time
 - In a private room, any user can control the video
-- All users should be able to adjust the volume for themselves
-- A user should be able to add a video from the search list to the queue
-- Videos playing on all users should be in sync with the exception of buffer delay, but pausing and playing the video or scrolling to another part will resync the videos
-- A user should be able to type in the chat and interact with other users, and the chat should filter out any toxicity a message may have
-- A user who is not host should be able to leave the room and the room will still exist, while a host leaving will end the session
+- All users are able to adjust the volume for themselves
+- A user are able to add a video from the search list to the queue
+- Videos play in sync for all the users with the exception of unexpected buffer delays, but pausing and playing the video or scrolling to another part will resync the videos
+- A user is able to type in the chat and interact with other users, a toxicity filter replaces all potentially offensive messages with "TeamStream is so awesome!". This was accomplished with a machine learning library
+- A user who is not host is able to leave the room and the room will still exist, while a host leaving will end the session
 
 ## Setup
 
