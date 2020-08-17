@@ -29,13 +29,6 @@
   justify-content: center;
 }
 
-.empty-room {
-  width: 30%;
-  height: 40%;
-  background-color: #0D7C83;
-  border-radius: 1rem;
-}
-
 .footer-info {
   color: white;
   font-family: 'Source Sans Pro', sans-serif;
