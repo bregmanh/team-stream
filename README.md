@@ -15,7 +15,7 @@ We were inspired to build this app because as most of us are being confined to o
 
 ## Illustration
 
-Below is an illustration of of making a private room, adding a couple of videos to the playlist (a dog video and a cat video).
+Below is an illustration of making a private room, adding a couple of videos to the playlist (a dog video and a cat video).
 
 ![GIF illustration of making a private room](https://github.com/bregmanh/team-stream/blob/master/docs/private-room-add-vids.gif?raw=true)
 
