@@ -274,7 +274,6 @@ toxicity.load(threshold).then((model) => {
     });
 
     socket.on("addVideo", (videoObj) => {
-      //NOTE: add video to video table
       const { id, title, thumbnail } = videoObj;
       //emits the updated queue to host
       knex
@@ -313,7 +312,8 @@ toxicity.load(threshold).then((model) => {
         .where({ "sessions.active": true, public: true })
         .andWhere("index", ">", -1)
         .then((sessions) => {
-          socket.emit("show-public-rooms", sessions);
+          const filteredSessions = filterSessions(sessions);
+          socket.emit("show-public-rooms", filteredSessions);
         });
     });
 
@@ -398,5 +398,19 @@ toxicity.load(threshold).then((model) => {
     };
   }
 
+  function filterSessions(videos){
+    let filteredSessions = [];
+    let existing_ids=[];
+    for(video of videos){
+      if(!existing_ids.includes(video.id)){
+        filteredSessions.push(video);
+        existing_ids.push(video.id);
+      }
+    }
+    return filteredSessions;
+  }
+
   server.listen(PORT, () => console.log("server is running on port 8080"));
 });
+
+

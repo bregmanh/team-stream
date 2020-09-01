@@ -14,6 +14,7 @@ export default function RoomList(props) {
     if (socket) {
       socket.emit("query-public-rooms");
       socket.on("show-public-rooms", (publicRooms) => {
+        
         setCurrentRooms(publicRooms);
       });
     }
