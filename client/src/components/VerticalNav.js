@@ -15,44 +15,44 @@ export default function VerticalNav(props) {
     props.selectAside(selection);
   }
   return (
-    <ul class="v-nav">
+    <ul className="v-nav">
       <li
-        class={`${
+        className={`${
           props.selection === "leave" ? "v-nav-icon active" : "v-nav-icon"
         }`}
       >
         <HomeRoundedIcon onClick={() => handleClick("leave")} />
       </li>
       <li
-        class={`${
+        className={`${
           props.selection === "chat" ? "v-nav-icon active" : "v-nav-icon"
         }`}
       >
         <ModeCommentOutlinedIcon onClick={() => handleClick("chat")} />
       </li>
       <li
-        class={`${
+        className={`${
           props.selection === "users" ? "v-nav-icon active" : "v-nav-icon"
         }`}
       >
         <PeopleAltOutlinedIcon onClick={() => handleClick("users")} />
       </li>
       <li
-        class={`${
+        className={`${
           props.selection === "newuser" ? "v-nav-icon active" : "v-nav-icon"
         }`}
       >
         <PersonAddOutlinedIcon onClick={() => handleClick("newuser")} />
       </li>
       <li
-        class={`${
+        className={`${
           props.selection === "queue" ? "v-nav-icon active" : "v-nav-icon"
         }`}
       >
         <SubscriptionsOutlinedIcon onClick={() => handleClick("queue")} />
       </li>
       <li
-        class={`${
+        className={`${
           props.selection === "addqueue" ? "v-nav-icon active" : "v-nav-icon"
         }`}
       >

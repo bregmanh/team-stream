@@ -109,8 +109,8 @@ const CssTextField = withStyles({
 export default function CreateRoom(props) {
   const classes = useStyles();
 
-  const [username, setUsername] = useState(null);
-  const [title, setTitle] = useState(null);
+  const [username, setUsername] = useState("");
+  const [title, setTitle] = useState("");
   const [publicRoom, setPublicRoom] = useState("true");
 
   const handleChange = (event) => {

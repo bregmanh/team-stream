@@ -35,11 +35,11 @@ export default function RoomList(props) {
 
   return (
     <div className="rooms-body">
-      <h1 class="teamstream-back-home" onClick={() => setRedirect("/")}>
+      <h1 className="teamstream-back-home" onClick={() => setRedirect("/")}>
         TeamStream
       </h1>
       <ul className="rooms-list">{roomList}</ul>
-      <p class="footer-info">
+      <p className="footer-info">
         Only public rooms are displayed here. To join a private room, please
         request the link from the host
       </p>

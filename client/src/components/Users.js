@@ -13,7 +13,7 @@ const Users = (props) => {
     });
   }, []);
 
-  const userComponents = users.map((user) => <User user={user} />);
+  const userComponents = users.map((user) => <User user={user.username} key={user.id} />);
   return (
     <div className="users">
       <ul className="user-list">{userComponents}</ul>

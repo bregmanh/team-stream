@@ -19,8 +19,8 @@ const TextChat = (props) => {
     }
   }
 
-  const chatMessages = props.messages.map((message) => (
-    <Message message={message} yourID={props.yourID} />
+  const chatMessages = props.messages.map((message, index) => (
+    <Message key={index} message={message} yourID={props.yourID} />
   ));
 
   return (
@@ -29,7 +29,7 @@ const TextChat = (props) => {
         {chatMessages}
       </div>
 
-      <form class="message-form" onSubmit={props.sendMessage}>
+      <form className="message-form" onSubmit={props.sendMessage}>
         <textarea
           ref={textRef}
           value={props.message}
@@ -37,7 +37,7 @@ const TextChat = (props) => {
           onKeyDown={handleKeyDown}
           placeholder="Say something..."
         />
-        <button class="chat-button">Send</button>
+        <button className="chat-button">Send</button>
       </form>
     </div>
   );

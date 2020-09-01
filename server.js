@@ -352,7 +352,7 @@ toxicity.load(threshold).then((model) => {
           //converting to array of names from array of user objects
           let users = [];
           rows.map((row) => {
-            users.push(row.username);
+            users.push({username: row.username, id: row.id});
           });
           socket.emit("provide-userlist", users);
         });
@@ -366,7 +366,7 @@ toxicity.load(threshold).then((model) => {
         .then((rows) => {
           const user = rows[0];
           knex
-            .select("title", "thumbnail")
+            .select("title", "thumbnail", "id")
             .from("videos")
             .where("session_id", user.session_id)
             .orderBy("id", "asc")

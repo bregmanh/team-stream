@@ -8,14 +8,15 @@ const Queue = (props) => {
 
   useEffect(() => {
     props.socketRef.current.emit("fetch-queue-from-session", room);
-    props.socketRef.current.on("provide-queuelist", (users) => {
-      setQueueList(users);
+    props.socketRef.current.on("provide-queuelist", (queue) => {
+      setQueueList(queue);
     });
   }, []);
 
   const queueListComponents = queueList.map((queueItem) => (
-    <QueueItem item={queueItem} />
+    <QueueItem item={queueItem} key={queueItem.id}/>
   ));
+ 
   return (
     <div className="queue-list-container">
       <ul className="queue-list">{queueListComponents}</ul>

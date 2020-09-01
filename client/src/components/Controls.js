@@ -22,7 +22,7 @@ export default function Controls(props) {
         <input
           type="range"
           id="progress-bar"
-          class="progress-bar"
+          className="progress-bar"
           ref={scrollBar}
           onInput={(e) =>
             props.handleAction("scroll-video", {
@@ -57,7 +57,7 @@ export default function Controls(props) {
         )}
         <input
           type="range"
-          class="volume-bar"
+          className="volume-bar"
           onInput={(e) =>
             props.handleVolume("scroll-volume", {
               volumePercentage: e.target.value,

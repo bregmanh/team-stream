@@ -8,7 +8,7 @@ const SearchList = (props) => {
   props.videos.forEach((video) => {
     if (video.id.videoId) {
       searchListItems.push(
-        <SearchListItem socketRef={props.socketRef} video={video} />
+        <SearchListItem key={video.id.videoId} socketRef={props.socketRef} video={video} />
       );
     }
   });

@@ -1,0 +1,8 @@
+.personIcon{
+  color:#10959d;
+}
+
+.personIcon:hover {
+  color: rgb(23, 243, 255);
+  cursor: pointer;
+}

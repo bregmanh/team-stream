@@ -5,6 +5,8 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import "./CopyLink.css"
+
 
 const theme = createMuiTheme({
   overrides: {
@@ -31,6 +33,7 @@ export default function CopyLink(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     props.copyLink();
@@ -40,6 +43,7 @@ export default function CopyLink(props) {
     setAnchorEl(null);
   };
 
+
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
@@ -47,13 +51,13 @@ export default function CopyLink(props) {
     <div>
       <ThemeProvider theme={theme}>
         {props.icon && (
+          <div className="personIcon">
           <PersonAddIcon
             aria-describedby={id}
             onClick={handleClick}
             fontSize="large"
-            onMouseOver="color: 'rgb(23, 243, 255)'"
-            onMouseOut="color: '#10959D'"
           />
+          </div>
         )}
         {props.button && <Button onClick={handleClick}>Copy Link</Button>}
       </ThemeProvider>

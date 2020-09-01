@@ -10,7 +10,7 @@ import NewUser from "../components/NewUser";
 export default function ChatAside(props) {
   return (
     <div className={`chat-aside ${props.toggleState}`}>
-      <header class="aside-logo">TeamStream</header>
+      <header className="aside-logo">TeamStream</header>
       <div className="contents">
         {props.selection === "leave" && (
           <LeaveRoom
