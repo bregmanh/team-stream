@@ -10,11 +10,11 @@
 }
 
 .aside-logo {
-  font-family: 'Bad Script', cursive;
+  font-family: "Bad Script", cursive;
   font-size: 2.5vw;
   font-weight: bold;
   color: turquoise;
-  color:rgb(23, 243, 255);
+  color: rgb(23, 243, 255);
   padding: 1vh;
   outline-offset: -0.5vw;
   border-bottom: 1px solid grey;

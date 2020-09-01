@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import CreateRoom from "./routes/CreateRoom";
 import SessionClosed from "./routes/SessionClosed";
 import Room from "./routes/Room";
 import RoomList from "./routes/RoomList";

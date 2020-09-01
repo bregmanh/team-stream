@@ -1,5 +1,6 @@
 # TeamStream
-A modern client application using React on the front-end, and Node.js and PSQL with Knex on the back-end with socket.io to relay the information back and forth. 
+
+A modern client application using React on the front-end, and Node.js and PSQL with Knex on the back-end with socket.io to relay the information back and forth.
 
 TeamStream is an app that allows users to join or create rooms to watch youtube videos with others in sync and communicate over live chat. Rooms can either be private or public. Public rooms are accessible to everyone whereas private rooms can only be joined using an invite link.
 
@@ -39,14 +40,19 @@ The two illustrations above only depicit a small number of the funtionalities. F
 ## Setup
 
 1. **Install dependencies for both server and client**
+
 ```sh
 npm install
 ```
+
 2. **Start the server**
+
 ```sh
 npm run dev
 ```
+
 3. **Start the client**
+
 ```sh
 npm start
 ```

@@ -31,20 +31,19 @@
 }
 
 .chat-button {
-  background-color: #10959D;
+  background-color: #10959d;
   width: 100%;
   border: none;
   height: 4vh;
   border-radius: 10px;
-  color:rgb(43, 43, 43);
+  color: rgb(43, 43, 43);
   /* color: #3F444B; */
-  font-size: 1vw
+  font-size: 1vw;
 }
 
 .chat-button:hover {
   background-color: rgb(23, 243, 255);
   cursor: pointer;
-  
 }
 
 .chat-button:focus {
@@ -59,6 +58,4 @@
   button.chat-button {
     font-size: 1.7vw;
   }
-
-
 }

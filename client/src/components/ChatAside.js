@@ -9,28 +9,39 @@ import NewUser from "../components/NewUser";
 
 export default function ChatAside(props) {
   return (
-   <div className={`chat-aside ${props.toggleState}`}>
-     <header class="aside-logo">TeamStream</header>
-     <div className="contents">
-        {props.selection === "leave" && 
-          <LeaveRoom username={props.username} roomTitle={props.roomTitle} leaveRoom={props.leaveRoom}/>
-        }
-        {props.selection === "chat" && 
-          <TextChat message={props.message} setMessage={props.setMessage} yourID={props.yourID} messages={props.messages} sendMessage={props.sendMessage}/>
-        }
-         {props.selection === "users" && 
-          <Users room={props.room} socketRef={props.socketRef}/>
-        }
-         {props.selection === "newuser" && 
-          <NewUser copyLink={props.copyLink} />
-        }
-         {props.selection === "queue" && 
-          <Queue room={props.room} socketRef={props.socketRef}/>
-        }
-         {props.selection === "addqueue" && 
-          <Search socketRef={props.socketRef} addVideoToQueue={props.addVideoToQueue}/>
-        }
-     </div>
-   </div>
+    <div className={`chat-aside ${props.toggleState}`}>
+      <header class="aside-logo">TeamStream</header>
+      <div className="contents">
+        {props.selection === "leave" && (
+          <LeaveRoom
+            username={props.username}
+            roomTitle={props.roomTitle}
+            leaveRoom={props.leaveRoom}
+          />
+        )}
+        {props.selection === "chat" && (
+          <TextChat
+            message={props.message}
+            setMessage={props.setMessage}
+            yourID={props.yourID}
+            messages={props.messages}
+            sendMessage={props.sendMessage}
+          />
+        )}
+        {props.selection === "users" && (
+          <Users room={props.room} socketRef={props.socketRef} />
+        )}
+        {props.selection === "newuser" && <NewUser copyLink={props.copyLink} />}
+        {props.selection === "queue" && (
+          <Queue room={props.room} socketRef={props.socketRef} />
+        )}
+        {props.selection === "addqueue" && (
+          <Search
+            socketRef={props.socketRef}
+            addVideoToQueue={props.addVideoToQueue}
+          />
+        )}
+      </div>
+    </div>
   );
 }

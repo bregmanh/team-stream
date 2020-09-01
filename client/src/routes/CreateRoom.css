@@ -1,7 +1,7 @@
 .home-container {
   margin: 0;
   height: 100vh;
-  background-color: #3F444B;
+  background-color: #3f444b;
   /* background-image: url('/home-page-bg-image.jpg');
   background-repeat: no-repeat;
   background-size: 100vw 100vh; */
@@ -9,7 +9,7 @@
 
 .logo {
   font-size: 5rem;
-  color: #3AA6AD;
+  color: #3aa6ad;
   -webkit-text-stroke: 5px black;
   margin: 0;
   padding-top: 5vh;
@@ -20,7 +20,7 @@
 }
 
 .heading-green {
-  color: #3AA6AD;
+  color: #3aa6ad;
 }
 
 .room-container {
@@ -46,30 +46,31 @@
   flex-direction: column;
 }
 
-button, select {
+button,
+select {
   width: 20vw;
   font-size: 2rem;
   color: white;
-  background-color: #3AA6AD;
+  background-color: #3aa6ad;
   border: 2px white solid;
 }
 
-.text-area-label{
-  background-color: '#37474f';
-  color: '#eceff1';
+.text-area-label {
+  background-color: "#37474f";
+  color: "#eceff1";
 }
 
-.text-area-root{
-  background-color: '#37474f';
-  color: '#eceff1';
+.text-area-root {
+  background-color: "#37474f";
+  color: "#eceff1";
 }
-.text-field{
-  background-color: '#37474f';
-  color: '#eceff1';
+.text-field {
+  background-color: "#37474f";
+  color: "#eceff1";
 }
-.create-room-modal{
-color: white;
+.create-room-modal {
+  color: white;
 }
-.create-room-modal .MuiInputLabel-animated{
+.create-room-modal .MuiInputLabel-animated {
   color: white;
 }

@@ -1,5 +1,5 @@
 .new-user div {
-  color: #10959D;
+  color: #10959d;
 }
 
 .new-user div:hover {
@@ -9,7 +9,7 @@
 
 .new-user p {
   color: white;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 1.5vw;
 }
 
@@ -20,6 +20,6 @@
 @media only screen and (max-width: 1000px) {
   .new-user p {
     font-size: 2vw;
-    margin: 1vw
+    margin: 1vw;
   }
 }

@@ -9,18 +9,16 @@ import InviteFriendsModal from "./InviteFriendsModal";
 import VerticalNav from "../components/VerticalNav";
 import ChatAside from "../components/ChatAside";
 
-
-
 export default function Chat(props) {
   const [yourID, setYourID] = useState();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [redirect, setRedirect] = useState(null);
   const [videoProgress, setVideoProgress] = useState(0);
-  const [toggleState, setToggleState] = useState('');
-  const [asideSelection, setAsideSelection] = useState('chat');
+  const [toggleState, setToggleState] = useState("");
+  const [asideSelection, setAsideSelection] = useState("chat");
   const [inviteFriendsModal, setInviteFriendsModal] = useState(false);
-  const [canControl, setCanControl] = useState(true)
+  const [canControl, setCanControl] = useState(true);
   const [roomTitle, setRoomTitle] = useState(null);
   const youtubePlayer = useRef();
 
@@ -28,137 +26,127 @@ export default function Chat(props) {
   const bufferTime = 4.5;
   const room = props.room;
   const username = props.username;
-  const socketRef = props.socketRef
-
-
+  const socketRef = props.socketRef;
 
   useEffect(() => {
     if (socketRef.current) {
-      socketRef.current.emit('joinRoom', { username: props.username, room });
-      
-      socketRef.current.emit('fetch-room-title', props.room);
+      socketRef.current.emit("joinRoom", { username: props.username, room });
 
-      socketRef.current.on('provide-room-title', string => {
+      socketRef.current.emit("fetch-room-title", props.room);
+
+      socketRef.current.on("provide-room-title", (string) => {
         setRoomTitle(string);
-      })
+      });
 
-      socketRef.current.on("your id", id => {
+      socketRef.current.on("your id", (id) => {
         setYourID(id);
-      })
+      });
 
       socketRef.current.on("message", (message) => {
         const threshold = 0.9;
         receivedMessage(message);
-
-      })
+      });
 
       socketRef.current.on("videoAction", ({ action, hostInfo }) => {
-        if (action.type === 'scroll-video') {
-          const newTime = youtubePlayer.current.getDuration() * action.data.timePercentage / 100
-          youtubePlayer.current.seekTo(newTime)
-          setVideoProgress(action.data.timePercentage)
+        if (action.type === "scroll-video") {
+          const newTime =
+            (youtubePlayer.current.getDuration() * action.data.timePercentage) /
+            100;
+          youtubePlayer.current.seekTo(newTime);
+          setVideoProgress(action.data.timePercentage);
         }
         if (action.type === "play") {
           youtubePlayer.current.playVideo();
         } else if (action.type === "pause") {
-
           youtubePlayer.current.pauseVideo();
           youtubePlayer.current.seekTo(hostInfo.time, true);
         } else if (action.type === "nextVideo") {
-          youtubePlayer.current.nextVideo()
+          youtubePlayer.current.nextVideo();
         }
-      })
+      });
 
       socketRef.current.on("session closed", () => {
-        setRedirect('/rooms/closed');
-      })
-      
+        setRedirect("/rooms/closed");
+      });
+
       socketRef.current.on("inviteFriends", () => {
-        openModal()
-      })
+        openModal();
+      });
 
       socketRef.current.on("provideVideoInfo", (hostInfo) => {
         queue = hostInfo.queue;
         //if video is paused - not playing
-        if (!(hostInfo.play)) {
+        if (!hostInfo.play) {
           youtubePlayer.current.cuePlaylist({
             playlist: queue,
             index: hostInfo.index,
             startSeconds: hostInfo.time + bufferTime,
-          })
+          });
         } else {
           youtubePlayer.current.loadPlaylist({
             playlist: queue,
             index: hostInfo.index,
             startSeconds: hostInfo.time + bufferTime,
-          })
+          });
         }
-      })
+      });
 
-      socketRef.current.on("pingHostForInfo", info => {
-        let playerState = youtubePlayer.current.getPlayerState()
+      socketRef.current.on("pingHostForInfo", (info) => {
+        let playerState = youtubePlayer.current.getPlayerState();
         let videoInfo = {
           time: youtubePlayer.current.getCurrentTime(),
           play: playerState === 1,
           index: youtubePlayer.current.getPlaylistIndex(),
-        }
+        };
 
-        socketRef.current.emit("HostInfo", videoInfo)
-      })
+        socketRef.current.emit("HostInfo", videoInfo);
+      });
 
-      socketRef.current.on("updatedQueue", updatedQueue => {
-
+      socketRef.current.on("updatedQueue", (updatedQueue) => {
         queue = updatedQueue;
         // if playlist doesnt exist - means its first video so just load it
         if (!youtubePlayer.current.getPlaylist()) {
           youtubePlayer.current.loadPlaylist(queue);
         }
+      });
 
-      })
-
-      socketRef.current.emit("can-control")
+      socketRef.current.emit("can-control");
 
       socketRef.current.on("show-controls", (canControl) => {
-        setCanControl(canControl)
-      })
+        setCanControl(canControl);
+      });
     }
   }, []);
 
   // Data gives access to the video time when clicking scroll bar
   function handleAction(action, data) {
     if (socketRef.current) {
-      socketRef.current.emit('videoAction', { type: action, data })
+      socketRef.current.emit("videoAction", { type: action, data });
     }
   }
 
   function handleVolume(action, data) {
-    if (action === 'scroll-volume') {
-      youtubePlayer.current.setVolume(data.volumePercentage)
+    if (action === "scroll-volume") {
+      youtubePlayer.current.setVolume(data.volumePercentage);
     }
-    if (action === 'mute') {
-      youtubePlayer.current.mute()
+    if (action === "mute") {
+      youtubePlayer.current.mute();
     }
-    if (action === 'unmute') {
-      youtubePlayer.current.unMute()
+    if (action === "unmute") {
+      youtubePlayer.current.unMute();
     }
   }
 
-  // function handleVideoTime(data) {
-  //   if (socketRef.current) {
-  //     socketRef.current.emit('videoTime', data)
-  //   }
-  // }
-
   function receivedMessage(message) {
-    setMessages(oldMsgs => [...oldMsgs, message]);
-    if (document.getElementById('text-chat')) {
-      document.getElementById('text-chat').scrollTop = 552;
+    setMessages((oldMsgs) => [...oldMsgs, message]);
+    if (document.getElementById("text-chat")) {
+      document.getElementById("text-chat").scrollTop = 552;
     }
   }
 
   function leaveRoom() {
     socketRef.current.close();
-    setRedirect('/');
+    setRedirect("/");
   }
 
   function sendMessage(e) {
@@ -169,42 +157,38 @@ export default function Chat(props) {
     };
     setMessage("");
     socketRef.current.emit("send message", messageObject);
-    if (document.getElementById('text-chat')) {
-
-      document.getElementById('text-chat').scrollTop = 552;
+    if (document.getElementById("text-chat")) {
+      document.getElementById("text-chat").scrollTop = 552;
     }
-
   }
 
   useEffect(() => {
-    const tag = document.createElement('script');
-    tag.id="iframe"
+    const tag = document.createElement("script");
+    tag.id = "iframe";
     tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
+    var firstScriptTag = document.getElementsByTagName("script")[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     window.onYouTubeIframeAPIReady = loadVideoPlayer;
   }, []);
-    
+
   function loadVideoPlayer() {
-    const player = new window.YT.Player('player', {
-      height: '90%',
-      playerVars: { 'autoplay': 1, 'controls': 0, 'playlist': queue.join(',') },
+    const player = new window.YT.Player("player", {
+      height: "90%",
+      playerVars: { autoplay: 1, controls: 0, playlist: queue.join(",") },
       events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-      
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange,
+      },
     });
     youtubePlayer.current = player;
   }
 
   function onPlayerReady(event) {
-    socketRef.current.emit('requestVideoInfo', "");
+    socketRef.current.emit("requestVideoInfo", "");
   }
 
   function onPlayerStateChange(event) {
     if (event.data === 0 || event.data === -1) {
-
       let index = youtubePlayer.current.getPlaylistIndex();
 
       if (youtubePlayer.current.getPlaylist().length !== queue.length) {
@@ -215,19 +199,19 @@ export default function Chat(props) {
   }
 
   function toggleAside() {
-    if (toggleState === '') {
-      setToggleState('hidden');
+    if (toggleState === "") {
+      setToggleState("hidden");
     } else {
-      setToggleState('');
+      setToggleState("");
     }
-  };
+  }
 
   function selectAside(selection) {
     if (selection === asideSelection) {
       setAsideSelection("");
-      setToggleState('hidden');
+      setToggleState("hidden");
     } else if (!asideSelection) {
-      setToggleState('')
+      setToggleState("");
       setAsideSelection(selection);
     } else {
       setAsideSelection(selection);
@@ -235,13 +219,14 @@ export default function Chat(props) {
   }
 
   if (redirect) {
-    return <Redirect to={redirect} />
+    return <Redirect to={redirect} />;
   }
 
   function copyLink() {
-    navigator.clipboard.writeText(window.location.href).then(function () {
-    }, function () {
-    });
+    navigator.clipboard.writeText(window.location.href).then(
+      function () {},
+      function () {}
+    );
   }
 
   const openModal = () => {
@@ -254,16 +239,49 @@ export default function Chat(props) {
 
   return (
     <div className="chat-container">
-      <InviteFriendsModal open={inviteFriendsModal} closeModal={closeModal} copyLink={copyLink} />
+      <InviteFriendsModal
+        open={inviteFriendsModal}
+        closeModal={closeModal}
+        copyLink={copyLink}
+      />
       <div className="player-with-controls">
-        <div id="player" className={toggleState === "hidden" ? 'youtube-player-expanded' : 'youtube-player'} />
+        <div
+          id="player"
+          className={
+            toggleState === "hidden"
+              ? "youtube-player-expanded"
+              : "youtube-player"
+          }
+        />
         <div>
-          <Controls canControl={canControl} videoProgress={videoProgress} handleAction={handleAction} handleVolume={handleVolume}/>
+          <Controls
+            canControl={canControl}
+            videoProgress={videoProgress}
+            handleAction={handleAction}
+            handleVolume={handleVolume}
+          />
         </div>
       </div>
-      <ChatAside roomTitle={roomTitle} username={username} socketRef={socketRef} copyLink={copyLink} yourID={yourID} message={message} setMessage={setMessage} messages={messages} sendMessage={sendMessage} leaveRoom={leaveRoom} toggleState={toggleState} selection={asideSelection} room={room} />
-      <VerticalNav toggleAside={toggleAside} selectAside={selectAside} selection={asideSelection} />
+      <ChatAside
+        roomTitle={roomTitle}
+        username={username}
+        socketRef={socketRef}
+        copyLink={copyLink}
+        yourID={yourID}
+        message={message}
+        setMessage={setMessage}
+        messages={messages}
+        sendMessage={sendMessage}
+        leaveRoom={leaveRoom}
+        toggleState={toggleState}
+        selection={asideSelection}
+        room={room}
+      />
+      <VerticalNav
+        toggleAside={toggleAside}
+        selectAside={selectAside}
+        selection={asideSelection}
+      />
     </div>
-
-  )
+  );
 }

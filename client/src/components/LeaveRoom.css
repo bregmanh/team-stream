@@ -4,11 +4,11 @@
 
 .leave-room h1 {
   color: white;
-  font-family: 'Bad Script', cursive;
+  font-family: "Bad Script", cursive;
 }
 
 .leave-room p {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 1vw;
   color: white;
 }
@@ -18,16 +18,16 @@
   width: 60%;
   font-size: 1.5vw;
   border-radius: 15px;
-  color:#10959D;
-  border: #10959D 2px solid;
-  background:rgb(43, 43, 43);
+  color: #10959d;
+  border: #10959d 2px solid;
+  background: rgb(43, 43, 43);
 }
 
 .leave-button:hover {
-  color:rgb(23, 243, 255);
+  color: rgb(23, 243, 255);
   border: rgb(23, 243, 255) 2px solid;
   cursor: pointer;
-  background:rgb(66 66 66);
+  background: rgb(66 66 66);
 }
 
 .leave-room .alert {
@@ -38,7 +38,7 @@
 }
 
 @media only screen and (max-width: 1000px) {
-  .leave-room .alert{
+  .leave-room .alert {
     font-size: 1.5vw !important;
   }
 
@@ -49,5 +49,4 @@
   .leave-room p {
     font-size: 1.5vw;
   }
-
 }

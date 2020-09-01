@@ -1,41 +1,40 @@
-
- .message {
-	background-color: #a1a1a189;
+.message {
+  background-color: #a1a1a189;
   border-radius: 5px;
-	width: 75%;
-	font-size:0.9vw;
+  width: 75%;
+  font-size: 0.9vw;
 }
 
 .left {
-	margin: 1vh auto 0 0;
-	background:#10959D;
+  margin: 1vh auto 0 0;
+  background: #10959d;
 }
 .right {
-	margin: 1vh 0 0 auto;
-	background:rgb(23, 243, 255);
+  margin: 1vh 0 0 auto;
+  background: rgb(23, 243, 255);
 }
 .middle {
-	width: 100%;
-	margin: 1vh auto 0 auto;
+  width: 100%;
+  margin: 1vh auto 0 auto;
 }
 
 .message-header {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	font-weight: bold;
-	background: rgba(0, 0, 0, 0.242);
-	border-radius: 5px 5px 0 0;
-	padding: 2%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.242);
+  border-radius: 5px 5px 0 0;
+  padding: 2%;
 }
 
-.message-header p{
-	margin: 0;
+.message-header p {
+  margin: 0;
 }
 
 .message-text {
-	margin: 1vh auto;
-	font-weight: 500;
+  margin: 1vh auto;
+  font-weight: 500;
 }
 
 @media only screen and (max-width: 1000px) {

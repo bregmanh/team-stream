@@ -35,7 +35,8 @@
   padding: 0.5rem;
 }
 
-.room-info h2, h5 {
+.room-info h2,
+h5 {
   margin: 0;
   text-shadow: 2px 2px 4px #000000;
 }
@@ -50,7 +51,7 @@
   width: 20%;
   background-color: black;
   color: white;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-weight: bold;
   border: 2px solid white;
   border-radius: 1rem;
@@ -62,15 +63,14 @@
   border: 2px solid black;
   border-radius: 1rem;
   cursor: pointer;
-
 }
 
 .join-room:focus {
   outline: 0;
 }
 
-.join-room:active{
+.join-room:active {
   transform: scale(0.9);
   background-color: darken(button-bg, 5%);
-  box-shadow: 0 2px 25px #3AA6AD;
+  box-shadow: 0 2px 25px #3aa6ad;
 }

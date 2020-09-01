@@ -1,14 +1,14 @@
 .rooms-body {
-  background-color: #3F444B;
+  background-color: #3f444b;
   height: 100vh;
-  background: url('../images/bg-2.jpeg');
+  background: url("../images/bg-2.jpeg");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
 }
 
 .teamstream-back-home {
-  font-family: 'Bad Script', cursive;
+  font-family: "Bad Script", cursive;
   font-size: 5rem;
   margin: 0;
   color: white;
@@ -19,7 +19,7 @@
 }
 
 .rooms-list {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   text-decoration: none;
   height: 75%;
   overflow: auto;
@@ -32,13 +32,13 @@
 .empty-room {
   width: 30%;
   height: 40%;
-  background-color: #0D7C83;
+  background-color: #0d7c83;
   border-radius: 1rem;
 }
 
 .footer-info {
   color: white;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   display: flex;
   justify-content: center;
   margin: 0;

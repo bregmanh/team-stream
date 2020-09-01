@@ -16,7 +16,6 @@
   margin: auto;
 }
 
-
 .search-info p {
   font-weight: bold;
   font-size: 0.7vw;
@@ -25,8 +24,8 @@
 }
 
 .search-info button {
-  font-weight:bold;
-  background: #10959D;
+  font-weight: bold;
+  background: #10959d;
   border-radius: 10px;
   color: rgb(66 66 66);
   border: 1px solid rgb(66 66 66);
@@ -36,15 +35,15 @@
 }
 
 .search-info button:hover {
-  cursor:pointer;
+  cursor: pointer;
   background: rgb(23, 243, 255);
 }
 
-.search-info button:focus{
+.search-info button:focus {
   outline: none;
 }
 
-.search-info button:active{
+.search-info button:active {
   transform: scale(0.9);
 }
 
@@ -57,6 +56,6 @@
   }
 
   .search-info button {
-    font-size:1vw;
+    font-size: 1vw;
   }
 }

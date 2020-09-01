@@ -1,7 +1,7 @@
 import React from "react";
 import "./QueueItem.css";
 
-const QueueItem = props => {
+const QueueItem = (props) => {
   return (
     <li className="queue-li">
       <img className="queue-thumbnail-img" src={props.item.thumbnail}></img>
@@ -10,6 +10,6 @@ const QueueItem = props => {
       </div>
     </li>
   );
-}
+};
 
 export default QueueItem;

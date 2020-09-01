@@ -1,23 +1,23 @@
 import React from "react";
 import "./SearchListItem.css";
 
-const SearchListItem = props => {
+const SearchListItem = (props) => {
   const thumbnail = props.video.snippet.thumbnails.default.url;
   const title = props.video.snippet.title;
   const channel = props.video.snippet.channelTitle;
   const id = props.video.id.videoId;
 
   function addVideoToQueue(video) {
-    props.socketRef.current.emit('addVideo', video);
+    props.socketRef.current.emit("addVideo", video);
   }
 
   function handleClick(id) {
-   const video = {
-     title, 
-     id, 
-     thumbnail
-   }
-   addVideoToQueue(video);
+    const video = {
+      title,
+      id,
+      thumbnail,
+    };
+    addVideoToQueue(video);
   }
 
   return (
@@ -25,10 +25,12 @@ const SearchListItem = props => {
       <img className="search-thumbnail-img" src={thumbnail}></img>
       <div className="search-info">
         <p className="title">{title}</p>
-        <button className="add-to-playlist-btn" onClick={()=>handleClick(id)}>Add</button>
+        <button className="add-to-playlist-btn" onClick={() => handleClick(id)}>
+          Add
+        </button>
       </div>
     </li>
   );
-}
+};
 
 export default SearchListItem;
