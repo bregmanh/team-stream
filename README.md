@@ -47,7 +47,19 @@ npm install
 
 2. **Setup database**
    
+   With a database supported by Knex, please create a database named teamstream with superuser, then run the following command:
 
+```sh
+npx knex migrate:latest
+```
+
+3. **Download Youtube API Key**
+
+   a) Once logged into Google, please visit https://console.developers.google.com/cloud-resource-manager to create a project named teamstream
+
+   b) Select the Youtube Data API v3 from the list of APIs to enable and add to the project, and add credentials to call the API from a web server to access public data
+
+   c) Once Google creates the project, please copy and paste the API key to the .env.example file and rename the file to .env
 
 4. **Start the server**
 
